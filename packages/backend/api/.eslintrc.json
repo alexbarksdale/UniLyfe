@@ -1,0 +1,54 @@
+{
+    "env": {
+        "es6": true,
+        "node": true
+    },
+    "extends": [
+        "airbnb-base"
+    ],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "settings": {
+        "import/resolver": {
+          "node": {
+            "paths": ["src"],
+            "extensions": [".js", ".jsx", ".ts", ".tsx"]
+          }
+        }
+    },
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "rules": {
+        "no-unused-vars": "warn",
+        "import/prefer-default-export": "off",
+        "no-console": "warn",
+        "camelcase": "off",
+        "indent": "off",
+        "max-classes-per-file": "off",
+        "func-names": "off",
+        "import/extensions": "off",
+        "no-confusing-arrow": "off",
+        "no-param-reassign": "off",
+        "implicit-arrow-linebreak": "off",
+        "no-process-exit": "off",
+        "object-shorthand": "off",
+        "class-methods-use-this": "off",
+        "prefer-template": "warn",
+        "eol-last": "off",
+        "arrow-parens": "off",
+        "comma-dangle": "off",
+        "space-before-function-paren": "off",
+        "wrap-iife": "off",
+        "arrow-body-style": "off",
+        "object-curly-newline": "off"
+    }
+}
+
