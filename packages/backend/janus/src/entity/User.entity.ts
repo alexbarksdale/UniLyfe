@@ -10,6 +10,10 @@ export class UserEntity extends BaseEntity {
 
     @Field()
     @Column('text', { unique: true })
+    username!: string;
+
+    @Field()
+    @Column('text', { unique: true })
     email!: string;
 
     @Column('text')

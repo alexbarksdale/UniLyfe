@@ -1,6 +1,7 @@
 import { Resolver, Query, Mutation, Arg, Ctx } from 'type-graphql';
 import { hash, compare } from 'bcrypt';
 import { ApolloError } from 'apollo-server-express';
+import ShortUniqueId from 'short-unique-id';
 
 import { UserEntity } from '../entity/User.entity';
 import { AuthContext } from '../context/auth.context';
@@ -27,16 +28,21 @@ export class AuthResolver {
         const doesUserExist = await UserEntity.findOne({ where: { email } });
         if (doesUserExist) return handleError(AuthErrorTypes.USER_EXISTS);
 
-        const validUniEmail: UniEmail | undefined = uni_emails.find((uniEmail) =>
-            email.includes(uniEmail.domains[0])
-        );
+        const validUniEmail: UniEmail | undefined = uni_emails.find((uniEmail) => {
+            return email.includes(uniEmail.domains[0]);
+        });
+
         if (typeof validUniEmail === 'undefined') {
             return handleError(AuthErrorTypes.INVALID_UNI_EMAIL);
         }
 
         // Create a new user
         const user = UserEntity.create();
+        // Generate a unique id that acts as a user's username
+        const shortUid = new ShortUniqueId();
+
         user.email = email;
+        user.username = shortUid();
         user.password = await hash(password, 12);
 
         try {
