@@ -4,10 +4,11 @@ import { ApolloError } from 'apollo-server-express';
 
 import { UserEntity } from '../entity/User.entity';
 import { AuthContext } from '../context/auth.context';
-import { RegisterResponse, LoginResponse } from './types/auth.types';
+import { UniEmail, RegisterResponse, LoginResponse } from './types/auth.types';
 import { genAccessToken, genRefreshToken, sendRefreshToken } from '../utils/jwt.utils';
 import { handleError } from '../utils/errors.utils';
 import { AuthErrorTypes } from '../utils/types/error.types';
+import uni_emails from '../../assets/uni_emails.json';
 
 @Resolver()
 export class AuthResolver {
@@ -25,6 +26,13 @@ export class AuthResolver {
 
         const doesUserExist = await UserEntity.findOne({ where: { email } });
         if (doesUserExist) return handleError(AuthErrorTypes.USER_EXISTS);
+
+        const validUniEmail: UniEmail | undefined = uni_emails.find((uniEmail) =>
+            email.includes(uniEmail.domains[0])
+        );
+        if (typeof validUniEmail === 'undefined') {
+            return handleError(AuthErrorTypes.INVALID_UNI_EMAIL);
+        }
 
         // Create a new user
         const user = UserEntity.create();
