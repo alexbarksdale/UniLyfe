@@ -38,7 +38,7 @@ export class AuthResolver {
 
         // Create a new user
         const user = UserEntity.create();
-        // Generate a unique id that acts as a user's username
+        // Function to create a unique id that acts as a user's username
         const shortUid = new ShortUniqueId();
 
         user.email = email;
