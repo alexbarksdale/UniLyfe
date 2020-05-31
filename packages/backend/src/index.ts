@@ -13,7 +13,7 @@ import { router as refreshRouter } from './routers/refresh.router';
 
 (async () => {
     const app = express();
-    const PORT = process.env.PORT || 5000;
+    const PORT = process.env.PORT || 4000;
 
     app.use(
         cors({
@@ -39,9 +39,9 @@ import { router as refreshRouter } from './routers/refresh.router';
         context: ({ req, res }) => ({ req, res }),
     });
 
-    apolloServer.applyMiddleware({ path: '/auth', app, cors: false });
+    apolloServer.applyMiddleware({ path: '/api', app, cors: false });
 
     app.listen(PORT, () => {
-        logger.info(`Janus is running on port: ${PORT}`);
+        logger.info(`UniLyfe API is running on port: ${PORT}`);
     });
 })();

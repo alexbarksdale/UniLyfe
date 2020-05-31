@@ -6,17 +6,21 @@ import {
     Column,
     CreateDateColumn,
     UpdateDateColumn,
+    ManyToOne,
+    JoinColumn,
 } from 'typeorm';
+import { UserEntity } from './User.entity';
 
 @ObjectType()
 @Entity('posts')
-export class Post extends BaseEntity {
+export class PostEntity extends BaseEntity {
     @Field(() => Int)
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Field(() => String)
-    @Column('text')
+    @Field(() => UserEntity)
+    @ManyToOne(() => UserEntity, (user: UserEntity) => user.posts)
+    @JoinColumn()
     author!: string;
 
     @Field(() => String)
