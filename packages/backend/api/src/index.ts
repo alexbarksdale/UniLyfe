@@ -15,7 +15,7 @@ import { logger } from './utils/logger.utils';
         await createConnection();
         logger.info('Connected to the database.');
     } catch (err) {
-        logger.error('Failed to connect to the database!');
+        logger.error(`Failed to connect to the database: ${err}`);
     }
 
     const apolloServer = new ApolloServer({
@@ -27,6 +27,6 @@ import { logger } from './utils/logger.utils';
     apolloServer.applyMiddleware({ path: '/api', app });
 
     app.listen(PORT, () => {
-        logger.info(`UniLyfe is running on port: ${PORT}`);
+        logger.info(`UniLyfe API is running on port: ${PORT}`);
     });
 })();

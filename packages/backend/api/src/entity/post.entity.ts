@@ -1,4 +1,4 @@
-import { Field, Int } from 'type-graphql';
+import { Field, Int, ObjectType } from 'type-graphql';
 import {
     Entity,
     BaseEntity,
@@ -8,6 +8,7 @@ import {
     UpdateDateColumn,
 } from 'typeorm';
 
+@ObjectType()
 @Entity('posts')
 export class Post extends BaseEntity {
     @Field(() => Int)
@@ -36,14 +37,14 @@ export class Post extends BaseEntity {
 
     @Field(() => Date)
     @CreateDateColumn({
-        type: 'datetime',
+        type: 'timestamp',
         default: () => 'CURRENT_TIMESTAMP',
     })
     createdAt!: Date;
 
     @Field(() => Date)
     @UpdateDateColumn({
-        type: 'datetime',
+        type: 'timestamp',
         default: () => 'CURRENT_TIMESTAMP',
     })
     updatedAt!: Date;
