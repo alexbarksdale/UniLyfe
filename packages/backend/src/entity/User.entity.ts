@@ -29,6 +29,7 @@ export class UserEntity extends BaseEntity {
     @Column('text')
     password!: string;
 
+    @Field(() => PostEntity)
     @OneToMany(() => PostEntity, (post: PostEntity) => post.author, { cascade: true })
     posts!: Array<PostEntity>;
 
