@@ -21,7 +21,7 @@ export class PostEntity extends BaseEntity {
     @Field(() => UserEntity)
     @ManyToOne(() => UserEntity, (user: UserEntity) => user.posts)
     @JoinColumn()
-    author!: string;
+    author!: UserEntity;
 
     @Field(() => String)
     @Column('text')
@@ -32,11 +32,11 @@ export class PostEntity extends BaseEntity {
     content!: string;
 
     @Field(() => Int)
-    @Column('int')
+    @Column('int', { default: 0 })
     upVotes!: number;
 
     @Field(() => Int)
-    @Column('int')
+    @Column('int', { default: 0 })
     downVotes!: number;
 
     @Field(() => Date)
