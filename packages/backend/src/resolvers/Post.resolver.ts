@@ -49,8 +49,6 @@ export class PostResolver {
     async deletePost(@Arg('postId', () => Int) postId: number): Promise<Boolean> {
         if (!postId) throw new Error('You must provide a postId!');
 
-        // TODO: Look into if it's worth checking if post exists before attempting to delete
-
         try {
             await PostEntity.delete({ id: postId });
         } catch (err) {
@@ -67,8 +65,6 @@ export class PostResolver {
         @Arg('update', () => PostUpdateInput) update: PostUpdateInput
     ): Promise<Boolean> {
         if (!postId) throw new Error('You must provide a postId!');
-
-        // TODO: Look into if it's worth checking if post exists before attempting to update
 
         try {
             await PostEntity.update({ id: postId }, update);

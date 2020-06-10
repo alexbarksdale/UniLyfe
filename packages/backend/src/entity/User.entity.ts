@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 
 import { PostEntity } from './Post.entity';
+import { CommentEntity } from './Comment.entity';
 
 @ObjectType()
 @Entity('users')
@@ -18,11 +19,11 @@ export class UserEntity extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Field(() => String)
+    @Field()
     @Column('text', { unique: true })
     username!: string;
 
-    @Field(() => String)
+    @Field()
     @Column('text', { unique: true })
     email!: string;
 
@@ -32,6 +33,10 @@ export class UserEntity extends BaseEntity {
     @Field(() => PostEntity)
     @OneToMany(() => PostEntity, (post: PostEntity) => post.author, { cascade: true })
     posts!: Array<PostEntity>;
+
+    @Field(() => CommentEntity)
+    @OneToMany(() => CommentEntity, (comment: CommentEntity) => comment.author, { cascade: true })
+    comments!: Array<CommentEntity>;
 
     @Column('int', { default: 0 })
     tokenVersion!: number;

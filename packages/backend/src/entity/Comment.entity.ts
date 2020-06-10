@@ -6,8 +6,12 @@ import {
     Column,
     CreateDateColumn,
     UpdateDateColumn,
+    ManyToOne,
+    JoinColumn,
 } from 'typeorm';
+import { UserEntity } from './User.entity';
 
+// TODO: Like system?
 @Entity('comments')
 @ObjectType()
 export class CommentEntity extends BaseEntity {
@@ -15,13 +19,22 @@ export class CommentEntity extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Field()
-    @Column('text')
-    author!: string;
+    @Field(() => Int)
+    @Column('integer')
+    postId!: number;
+
+    @Field(() => UserEntity)
+    @ManyToOne(() => UserEntity, (user: UserEntity) => user.comments)
+    @JoinColumn()
+    author!: UserEntity;
 
     @Field()
     @Column('text')
     content!: string;
+
+    @Field(() => Int, { nullable: true })
+    @Column('integer', { nullable: true })
+    replyId!: number;
 
     @Field(() => Date)
     @CreateDateColumn({
