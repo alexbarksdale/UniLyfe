@@ -10,19 +10,18 @@ import { UserEntity } from '../entity/User.entity';
 @Resolver()
 export class CommentResolver {
     @Query(() => [CommentEntity])
-    async fetchComments() {
-        return CommentEntity.find({ relations: ['author'] });
+    async getPostComments(@Arg('postId') postId: number): Promise<CommentEntity[]> {
+        if (!postId) throw new Error('You must provide a postId!');
+        return CommentEntity.find({ where: { postId }, relations: ['author'] });
     }
 
-    // TODO: getPostComments
-
-    @Mutation(() => Boolean)
+    @Mutation(() => CommentEntity)
     async createComment(
         @Arg('postId') postId: number,
         @Arg('authorEmail') authorEmail: string,
         @Arg('content') content: string,
         @Arg('replyId', { nullable: true }) replyId: number
-    ) {
+    ): Promise<CommentEntity> {
         if (!postId || !authorEmail) throw new Error('You must provide a postId and authorEmail');
 
         const author = await UserEntity.findOne({ where: { email: authorEmail } });
@@ -44,7 +43,7 @@ export class CommentResolver {
             throw new Error('Unable to save comment!');
         }
 
-        return true;
+        return comment;
     }
 
     // TODO: deleteComment
