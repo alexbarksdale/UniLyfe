@@ -13,8 +13,9 @@ import uni_emails from '../../assets/uni_emails.json';
 
 @Resolver()
 export class AuthResolver {
+    // REMINDER: Remove this before production. This is only for testing.
     @Query(() => [UserEntity])
-    users() {
+    users(): Promise<UserEntity[]> {
         return UserEntity.find();
     }
 
@@ -81,7 +82,7 @@ export class AuthResolver {
     }
 
     @Mutation(() => Boolean)
-    logout(@Ctx() { res }: AuthContext) {
+    logout(@Ctx() { res }: AuthContext): boolean {
         res.clearCookie('triton');
         return true;
     }
