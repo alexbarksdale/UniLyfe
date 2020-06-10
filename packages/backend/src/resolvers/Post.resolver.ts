@@ -1,4 +1,3 @@
-import { createQueryBuilder } from 'typeorm';
 import { Resolver, Query, Mutation, Arg, Int } from 'type-graphql';
 
 import { PostEntity } from '../entity/Post.entity';
@@ -53,7 +52,7 @@ export class PostResolver {
         // TODO: Look into if it's worth checking if post exists before attempting to delete
 
         try {
-            await createQueryBuilder().delete().from(PostEntity).where({ id: postId }).execute();
+            await PostEntity.delete({ id: postId });
         } catch (err) {
             logger.error(`Failed to delete post with postId: ${postId}! Error: `, err);
             throw new Error('Failed to delete post!');
