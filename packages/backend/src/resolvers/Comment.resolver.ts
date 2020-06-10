@@ -47,5 +47,17 @@ export class CommentResolver {
         return comment;
     }
 
-    // TODO: deleteComment
+    @Mutation(() => Boolean)
+    async deleteComment(@Arg('commentId') commentId: number): Promise<boolean> {
+        if (!commentId) throw new Error('You must provide the commentId!');
+
+        try {
+            await CommentEntity.delete({ id: commentId });
+        } catch (err) {
+            logger.error('Unable to delete comment!', err);
+            throw new Error('Unable to delete comment!');
+        }
+
+        return true;
+    }
 }

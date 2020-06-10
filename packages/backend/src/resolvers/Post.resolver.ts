@@ -46,7 +46,7 @@ export class PostResolver {
     }
 
     @Mutation(() => Boolean)
-    async deletePost(@Arg('postId', () => Int) postId: number): Promise<Boolean> {
+    async deletePost(@Arg('postId', () => Int) postId: number): Promise<boolean> {
         if (!postId) throw new Error('You must provide a postId!');
 
         try {
@@ -63,7 +63,7 @@ export class PostResolver {
     async updatePost(
         @Arg('postId', () => Int) postId: number,
         @Arg('update', () => PostUpdateInput) update: PostUpdateInput
-    ): Promise<Boolean> {
+    ): Promise<boolean> {
         if (!postId) throw new Error('You must provide a postId!');
 
         try {
