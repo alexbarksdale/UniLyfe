@@ -46,20 +46,6 @@ export class PostResolver {
     }
 
     @Mutation(() => Boolean)
-    async deletePost(@Arg('postId', () => Int) postId: number): Promise<boolean> {
-        if (!postId) throw new Error('You must provide a postId!');
-
-        try {
-            await PostEntity.delete({ id: postId });
-        } catch (err) {
-            logger.error(`Failed to delete post with postId: ${postId}! Error: `, err);
-            throw new Error('Failed to delete post!');
-        }
-
-        return true;
-    }
-
-    @Mutation(() => Boolean)
     async updatePost(
         @Arg('postId', () => Int) postId: number,
         @Arg('update', () => PostUpdateInput) update: PostUpdateInput
@@ -71,6 +57,20 @@ export class PostResolver {
         } catch (err) {
             logger.error(`Failed to update post with postId: ${postId}! Error: `, err);
             throw new Error('Unable to update post!');
+        }
+
+        return true;
+    }
+
+    @Mutation(() => Boolean)
+    async deletePost(@Arg('postId', () => Int) postId: number): Promise<boolean> {
+        if (!postId) throw new Error('You must provide a postId!');
+
+        try {
+            await PostEntity.delete({ id: postId });
+        } catch (err) {
+            logger.error(`Failed to delete post with postId: ${postId}! Error: `, err);
+            throw new Error('Failed to delete post!');
         }
 
         return true;

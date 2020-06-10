@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Arg } from 'type-graphql';
+import { Resolver, Query, Mutation, Arg, Int } from 'type-graphql';
 
 import { logger } from '../utils/logger.utils';
 import { CommentEntity } from '../entity/Comment.entity';
@@ -11,17 +11,17 @@ import { UserEntity } from '../entity/User.entity';
 @Resolver()
 export class CommentResolver {
     @Query(() => [CommentEntity])
-    async getPostComments(@Arg('postId') postId: number): Promise<CommentEntity[]> {
+    async getPostComments(@Arg('postId', () => Int) postId: number): Promise<CommentEntity[]> {
         if (!postId) throw new Error('You must provide a postId!');
         return CommentEntity.find({ where: { postId }, relations: ['author'] });
     }
 
     @Mutation(() => CommentEntity)
     async createComment(
-        @Arg('postId') postId: number,
+        @Arg('postId', () => Int) postId: number,
         @Arg('authorEmail') authorEmail: string,
         @Arg('content') content: string,
-        @Arg('replyId', { nullable: true }) replyId: number
+        @Arg('replyId', () => Int, { nullable: true }) replyId: number
     ): Promise<CommentEntity> {
         if (!postId || !authorEmail) throw new Error('You must provide a postId and authorEmail');
 
@@ -48,7 +48,7 @@ export class CommentResolver {
     }
 
     @Mutation(() => Boolean)
-    async deleteComment(@Arg('commentId') commentId: number): Promise<boolean> {
+    async deleteComment(@Arg('commentId', () => Int) commentId: number): Promise<boolean> {
         if (!commentId) throw new Error('You must provide the commentId!');
 
         try {
