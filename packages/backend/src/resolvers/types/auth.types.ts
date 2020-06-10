@@ -1,4 +1,5 @@
 import { Field, ObjectType } from 'type-graphql';
+
 import { UserEntity } from '../../entity/User.entity';
 
 export type UniEmail = {
@@ -32,4 +33,3 @@ export class LoginResponse {
     @Field()
     accessToken!: string;
 }
-
