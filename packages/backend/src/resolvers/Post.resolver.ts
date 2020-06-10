@@ -1,19 +1,20 @@
 import { createQueryBuilder } from 'typeorm';
-import { Resolver, Query, Mutation, Arg } from 'type-graphql';
+import { Resolver, Query, Mutation, Arg, Int } from 'type-graphql';
 
 import { PostEntity } from '../entity/Post.entity';
 import { UserEntity } from '../entity/User.entity';
+import { PostUpdateInput } from './types/post.types';
 import { logger } from '../utils/logger.utils';
 
 // TODO: Secure the queries and mutations after testing
 @Resolver()
 export class PostResolver {
     @Query(() => PostEntity)
-    async getPost(@Arg('post_id') post_id: number): Promise<PostEntity> {
-        if (!post_id) throw new Error('You must provide a post_id!');
+    async getPost(@Arg('postId', () => Int) postId: number): Promise<PostEntity> {
+        if (!postId) throw new Error('You must provide a postId!');
 
-        const post = await PostEntity.findOne(post_id, { relations: ['author'] });
-        if (!post) throw new Error(`Unable to find post with post id: ${post_id}`);
+        const post = await PostEntity.findOne(postId, { relations: ['author'] });
+        if (!post) throw new Error(`Unable to find post with postId: ${postId}`);
 
         return post;
     }
@@ -38,7 +39,7 @@ export class PostResolver {
         try {
             await PostEntity.save(post);
         } catch (err) {
-            logger.error(`Unable to save post! Post content: ${post}\n Error: ${err}`);
+            logger.error('Unable to save post! Error: ', err);
             throw new Error(`Unable to save post! ${err}`);
         }
 
@@ -46,21 +47,37 @@ export class PostResolver {
     }
 
     @Mutation(() => Boolean)
-    async deletePost(@Arg('post_id') post_id: number) {
-        if (!post_id) throw new Error('You must provide a post_id!');
+    async deletePost(@Arg('postId', () => Int) postId: number): Promise<Boolean> {
+        if (!postId) throw new Error('You must provide a postId!');
+
+        // TODO: Look into if it's worth checking if post exists before attempting to delete
 
         try {
-            const deletedPost = await createQueryBuilder()
-                .delete()
-                .from(PostEntity)
-                .where({ id: post_id })
-                .execute();
-            if (deletedPost.affected) return true;
+            await createQueryBuilder().delete().from(PostEntity).where({ id: postId }).execute();
         } catch (err) {
-            logger.error(`Failed to delete post with post_id: ${post_id}! Error: ${err}`);
+            logger.error(`Failed to delete post with postId: ${postId}! Error: `, err);
             throw new Error('Failed to delete post!');
         }
 
-        return false;
+        return true;
+    }
+
+    @Mutation(() => Boolean)
+    async updatePost(
+        @Arg('postId', () => Int) postId: number,
+        @Arg('update', () => PostUpdateInput) update: PostUpdateInput
+    ): Promise<Boolean> {
+        if (!postId) throw new Error('You must provide a postId!');
+
+        // TODO: Look into if it's worth checking if post exists before attempting to update
+
+        try {
+            await PostEntity.update({ id: postId }, update);
+        } catch (err) {
+            logger.error(`Failed to update post with postId: ${postId}! Error: `, err);
+            throw new Error('Unable to update post!');
+        }
+
+        return true;
     }
 }
