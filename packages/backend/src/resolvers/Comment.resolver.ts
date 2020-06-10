@@ -48,6 +48,22 @@ export class CommentResolver {
     }
 
     @Mutation(() => Boolean)
+    async updateComment(
+        @Arg('commentId', () => Int) commentId: number,
+        @Arg('content') content: string
+    ) {
+        if (!commentId || !content) throw new Error('You must provide the commentId and content!');
+
+        try {
+            await CommentEntity.update({ id: commentId }, { content });
+        } catch (err) {
+            logger.error('Unable to update comment!', err);
+            throw new Error('Unable to update comment!');
+        }
+        return true;
+    }
+
+    @Mutation(() => Boolean)
     async deleteComment(@Arg('commentId', () => Int) commentId: number): Promise<boolean> {
         if (!commentId) throw new Error('You must provide the commentId!');
 
