@@ -11,12 +11,23 @@ import { handleError } from '../utils/errors.utils';
 import { AuthErrorTypes } from '../utils/types/error.types';
 import uni_emails from '../../assets/uni_emails.json';
 
+// TODO: Secure the queries and mutations after testing
 @Resolver()
 export class AuthResolver {
     // REMINDER: Remove this before production. This is only for testing.
     @Query(() => [UserEntity])
     users(): Promise<UserEntity[]> {
         return UserEntity.find();
+    }
+
+    @Query(() => UserEntity)
+    async getUser(@Arg('email') email: string): Promise<UserEntity> {
+        if (!email) throw new Error("You must provide the user's email!");
+
+        const user = await UserEntity.findOne({ where: { email } });
+        if (!user) throw new Error('Unable to find user!');
+
+        return user;
     }
 
     @Mutation(() => RegisterResponse)
