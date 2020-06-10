@@ -15,11 +15,11 @@ export class CommentEntity extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Field(() => String)
+    @Field()
     @Column('text')
     author!: string;
 
-    @Field(() => String)
+    @Field()
     @Column('text')
     content!: string;
 

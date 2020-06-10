@@ -23,11 +23,11 @@ export class PostEntity extends BaseEntity {
     @JoinColumn()
     author!: UserEntity;
 
-    @Field(() => String)
+    @Field()
     @Column('text')
     title!: string;
 
-    @Field(() => String)
+    @Field()
     @Column('text')
     content!: string;
 
