@@ -7,6 +7,8 @@ import { UserEntity } from '../entity/User.entity';
 export class PostResolver {
     @Query(() => PostEntity)
     async getPost(@Arg('post_id') post_id: number): Promise<PostEntity> {
+        if (!post_id) throw new Error('You must provide a post_id!');
+
         const post = await PostEntity.findOne(post_id, { relations: ['author'] });
         if (!post) throw new Error(`Unable to find post with post id: ${post_id}`);
 
