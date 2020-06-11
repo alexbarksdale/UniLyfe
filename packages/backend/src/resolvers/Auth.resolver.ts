@@ -6,9 +6,8 @@ import ShortUniqueId from 'short-unique-id';
 import { UserEntity } from '../entity/User.entity';
 import { ReqResContext } from '../context/reqres.context';
 import { UniEmail, RegisterResponse, LoginResponse } from './types/auth.types';
-import { genAccessToken, genRefreshToken, sendRefreshToken } from '../utils/jwt.utils';
-import { handleError } from '../utils/errors.utils';
-import { AuthErrorTypes } from '../utils/types/error.types';
+import { genAccessToken, genRefreshToken, sendRefreshToken } from '../utils/jwt.util';
+import { handleError, AuthError } from '../utils/errors.util';
 import uni_emails from '../../assets/uni_emails.json';
 
 // TODO: Secure the queries and mutations after testing
@@ -35,17 +34,17 @@ export class AuthResolver {
         @Arg('email') email: string,
         @Arg('password') password: string
     ): Promise<RegisterResponse | ApolloError> {
-        if (!email || !password) return handleError(AuthErrorTypes.MISSING_CREDENTIALS);
+        if (!email || !password) return handleError(AuthError.MISSING_CREDENTIALS);
 
         const doesUserExist = await UserEntity.findOne({ where: { email } });
-        if (doesUserExist) return handleError(AuthErrorTypes.USER_EXISTS);
+        if (doesUserExist) return handleError(AuthError.USER_EXISTS);
 
         const validUniEmail: UniEmail | undefined = uni_emails.find((uniEmail) => {
             return email.includes(uniEmail.domains[0]);
         });
 
         if (typeof validUniEmail === 'undefined') {
-            return handleError(AuthErrorTypes.INVALID_UNI_EMAIL);
+            return handleError(AuthError.INVALID_UNI_EMAIL);
         }
 
         // Create a new user
@@ -60,7 +59,7 @@ export class AuthResolver {
         try {
             await UserEntity.save(user);
         } catch (err) {
-            return handleError(AuthErrorTypes.REGISTRATION_FAIL);
+            return handleError(AuthError.REGISTRATION_FAIL);
         }
 
         return {
@@ -75,13 +74,13 @@ export class AuthResolver {
         @Arg('password') password: string,
         @Ctx() { res }: ReqResContext
     ): Promise<LoginResponse | ApolloError> {
-        if (!email || !password) return handleError(AuthErrorTypes.MISSING_CREDENTIALS);
+        if (!email || !password) return handleError(AuthError.MISSING_CREDENTIALS);
 
         const user = await UserEntity.findOne({ where: { email } });
-        if (!user) return handleError(AuthErrorTypes.INVALID_CREDENTIALS);
+        if (!user) return handleError(AuthError.INVALID_CREDENTIALS);
 
         const validPassword = await compare(password, user.password);
-        if (!validPassword) return handleError(AuthErrorTypes.INVALID_CREDENTIALS);
+        if (!validPassword) return handleError(AuthError.INVALID_CREDENTIALS);
 
         // User is authenticated
         sendRefreshToken(res, genRefreshToken(user));

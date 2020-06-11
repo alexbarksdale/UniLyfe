@@ -1,9 +1,11 @@
-import { Resolver, Query, Mutation, Arg, Int } from 'type-graphql';
+import { Resolver, Query, Mutation, Arg, Int, Ctx } from 'type-graphql';
 
 import { PostEntity } from '../entity/Post.entity';
 import { UserEntity } from '../entity/User.entity';
 import { PostUpdateInput } from './types/post.types';
-import { logger } from '../utils/logger.utils';
+import { ReqResContext } from '../context/reqres.context';
+import { logger } from '../utils/logger.util';
+import { checkAuthor, AuthorError } from '../utils/checkAuthor.util';
 
 // TODO: Secure the queries and mutations after testing
 @Resolver()
@@ -50,12 +52,16 @@ export class PostResolver {
     // TODO: Apply auth middleware
     async updatePost(
         @Arg('postId', () => Int) postId: number,
-        @Arg('update', () => PostUpdateInput) update: PostUpdateInput
+        @Arg('authorId', () => Int) authorId: number,
+        @Arg('update', () => PostUpdateInput) update: PostUpdateInput,
+        @Ctx() { req }: ReqResContext
     ): Promise<boolean> {
-        if (!postId) throw new Error('You must provide a postId!');
+        if (!postId || !authorId) throw new Error('You must provide a postId and authorId!');
+
+        const isAuthor = checkAuthor(req, authorId, AuthorError.UPDATE_ERROR);
 
         try {
-            await PostEntity.update({ id: postId }, update);
+            if (isAuthor) await PostEntity.update({ id: postId }, update);
         } catch (err) {
             logger.error(`Failed to update post with postId: ${postId}! Error: `, err);
             throw new Error('Unable to update post!');
@@ -68,17 +74,15 @@ export class PostResolver {
     // TODO: Apply auth middleware
     async deletePost(
         @Arg('postId', () => Int) postId: number,
-        @Arg('authorId') authorId: string
+        @Arg('authorId', () => Int) authorId: number,
+        @Ctx() { req }: ReqResContext
     ): Promise<boolean> {
         if (!postId || !authorId) throw new Error('You must provide a postId and authorId!');
 
-        // TODOs:
-        // get token from header
-        // decode jwt
-        // compare userIds and make sure it is the author
+        const isAuthor = checkAuthor(req, authorId, AuthorError.DELETE_ERROR);
 
         try {
-            await PostEntity.delete({ id: postId });
+            if (isAuthor) await PostEntity.delete({ id: postId });
         } catch (err) {
             logger.error(`Failed to delete post with postId: ${postId}! Error: `, err);
             throw new Error('Failed to delete post!');

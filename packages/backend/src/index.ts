@@ -8,7 +8,7 @@ import { createConnection } from 'typeorm';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
 
-import { logger } from './utils/logger.utils';
+import { logger } from './utils/logger.util';
 import { router as refreshRouter } from './routers/refresh.router';
 
 (async () => {

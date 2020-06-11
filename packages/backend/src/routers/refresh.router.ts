@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
 
 import { UserEntity } from '../entity/User.entity';
-import { genAccessToken, sendRefreshToken } from '../utils/jwt.utils';
+import { genAccessToken, sendRefreshToken } from '../utils/jwt.util';
 
 export const router = express.Router();
 

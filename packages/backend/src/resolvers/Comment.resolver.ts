@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Arg, Int } from 'type-graphql';
 
-import { logger } from '../utils/logger.utils';
+import { logger } from '../utils/logger.util';
 import { CommentEntity } from '../entity/Comment.entity';
 import { UserEntity } from '../entity/User.entity';
 
@@ -17,6 +17,7 @@ export class CommentResolver {
     }
 
     @Mutation(() => CommentEntity)
+    // TODO: Apply auth middleware
     async createComment(
         @Arg('postId', () => Int) postId: number,
         @Arg('authorEmail') authorEmail: string,
@@ -48,6 +49,7 @@ export class CommentResolver {
     }
 
     @Mutation(() => Boolean)
+    // TODO: Apply auth middleware
     async updateComment(
         @Arg('commentId', () => Int) commentId: number,
         @Arg('content') content: string
@@ -64,6 +66,7 @@ export class CommentResolver {
     }
 
     @Mutation(() => Boolean)
+    // TODO: Apply auth middleware
     async deleteComment(@Arg('commentId', () => Int) commentId: number): Promise<boolean> {
         if (!commentId) throw new Error('You must provide the commentId!');
 
