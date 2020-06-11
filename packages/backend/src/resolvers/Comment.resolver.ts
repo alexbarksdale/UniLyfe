@@ -1,8 +1,10 @@
-import { Resolver, Query, Mutation, Arg, Int } from 'type-graphql';
+import { Resolver, Query, Mutation, Arg, Int, Ctx } from 'type-graphql';
 
-import { logger } from '../utils/logger.util';
 import { CommentEntity } from '../entity/Comment.entity';
 import { UserEntity } from '../entity/User.entity';
+import { ReqResContext } from '../context/reqres.context';
+import { logger } from '../utils/logger.util';
+import { checkAuthor, AuthorError } from '../utils/checkAuthor.util';
 
 // Note to self: When interating over the comments, to find the replies take the id of the comment
 // and find any "key": value i.e: '"replies": (id)' with the matching id to the comment.
@@ -52,12 +54,18 @@ export class CommentResolver {
     // TODO: Apply auth middleware
     async updateComment(
         @Arg('commentId', () => Int) commentId: number,
-        @Arg('content') content: string
-    ) {
-        if (!commentId || !content) throw new Error('You must provide the commentId and content!');
+        @Arg('authorId', () => Int) authorId: number,
+        @Arg('content') content: string,
+        @Ctx() { req }: ReqResContext
+    ): Promise<boolean> {
+        if (!commentId || !content || !authorId) {
+            throw new Error('You must provide the commentId, authorId, and content!');
+        }
+
+        const isAuthor = checkAuthor(req, authorId, AuthorError.UPDATE_ERROR);
 
         try {
-            await CommentEntity.update({ id: commentId }, { content });
+            if (isAuthor) await CommentEntity.update({ id: commentId }, { content });
         } catch (err) {
             logger.error('Unable to update comment!', err);
             throw new Error('Unable to update comment!');
@@ -67,11 +75,19 @@ export class CommentResolver {
 
     @Mutation(() => Boolean)
     // TODO: Apply auth middleware
-    async deleteComment(@Arg('commentId', () => Int) commentId: number): Promise<boolean> {
-        if (!commentId) throw new Error('You must provide the commentId!');
+    async deleteComment(
+        @Arg('commentId', () => Int) commentId: number,
+        @Arg('authorId', () => Int) authorId: number,
+        @Ctx() { req }: ReqResContext
+    ): Promise<boolean> {
+        if (!commentId || !authorId) {
+            throw new Error('You must provide the commentId and authorId!');
+        }
+
+        const isAuthor = checkAuthor(req, authorId, AuthorError.DELETE_ERROR);
 
         try {
-            await CommentEntity.delete({ id: commentId });
+            if (isAuthor) await CommentEntity.delete({ id: commentId });
         } catch (err) {
             logger.error('Unable to delete comment!', err);
             throw new Error('Unable to delete comment!');
