@@ -19,6 +19,7 @@ export class PostResolver {
     }
 
     @Mutation(() => PostEntity)
+    // TODO: Apply auth middleware
     async createPost(
         @Arg('title') title: string,
         @Arg('content') content: string,
@@ -46,6 +47,7 @@ export class PostResolver {
     }
 
     @Mutation(() => Boolean)
+    // TODO: Apply auth middleware
     async updatePost(
         @Arg('postId', () => Int) postId: number,
         @Arg('update', () => PostUpdateInput) update: PostUpdateInput
@@ -63,8 +65,17 @@ export class PostResolver {
     }
 
     @Mutation(() => Boolean)
-    async deletePost(@Arg('postId', () => Int) postId: number): Promise<boolean> {
-        if (!postId) throw new Error('You must provide a postId!');
+    // TODO: Apply auth middleware
+    async deletePost(
+        @Arg('postId', () => Int) postId: number,
+        @Arg('authorId') authorId: string
+    ): Promise<boolean> {
+        if (!postId || !authorId) throw new Error('You must provide a postId and authorId!');
+
+        // TODOs:
+        // get token from header
+        // decode jwt
+        // compare userIds and make sure it is the author
 
         try {
             await PostEntity.delete({ id: postId });
