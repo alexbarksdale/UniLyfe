@@ -3286,6 +3286,7 @@
             "http://www.cmc.edu/"
         ],
         "name": "Central Methodist College",
+        "alpha_two_code": "US",
         "state_province": null,
         "domains": [
             "cmc.edu"
@@ -116567,7 +116568,7 @@
         ],
         "name": "Make School",
         "alpha_two_code": "US",
-        "state_province": "CA",
+        "state_province": "California",
         "domains": [
             "students.makeschool.com"
         ],
