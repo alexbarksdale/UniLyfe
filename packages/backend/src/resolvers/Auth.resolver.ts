@@ -8,7 +8,7 @@ import { Context } from '../context/context';
 import { UniEmail, RegisterResponse, LoginResponse } from './types/auth.types';
 import { genAccessToken, genRefreshToken, sendRefreshToken } from '../utils/jwt.util';
 import { handleError, AuthError } from '../utils/errors.util';
-import uni_emails from '../../assets/uni_emails.json';
+import uni_emails from '../assets/uni_emails.json';
 
 // TODO: Secure the queries and mutations after testing
 @Resolver()
