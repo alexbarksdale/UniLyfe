@@ -47,14 +47,15 @@ export class AuthResolver {
             return handleError(AuthError.INVALID_UNI_EMAIL);
         }
 
-        // Create a new user
-        const user = UserEntity.create();
         // Function to create a unique id that acts as a user's username
         const shortUid = new ShortUniqueId();
 
-        user.email = email;
-        user.username = shortUid();
-        user.password = await hash(password, 12);
+        // Create a new user
+        const user = UserEntity.create({
+            email,
+            username: shortUid(),
+            password: await hash(password, 12),
+        });
 
         try {
             await UserEntity.save(user);

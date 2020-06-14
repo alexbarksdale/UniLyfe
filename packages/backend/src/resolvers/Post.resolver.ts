@@ -29,14 +29,15 @@ export class PostResolver {
     ): Promise<PostEntity> {
         if (!title || !content || !email) throw new Error('Missing fields!');
 
-        const postAuthor = await UserEntity.findOne({ where: { email } });
-        if (!postAuthor) throw new Error('Unable to find author!');
+        const author = await UserEntity.findOne({ where: { email } });
+        if (!author) throw new Error('Unable to find author!');
 
         // Create new post
-        const post = PostEntity.create();
-        post.title = title;
-        post.content = content;
-        post.author = postAuthor;
+        const post = PostEntity.create({
+            title,
+            content,
+            author,
+        });
 
         try {
             await PostEntity.save(post);

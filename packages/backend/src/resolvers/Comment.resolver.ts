@@ -32,10 +32,11 @@ export class CommentResolver {
         if (!author) throw new Error('Unable to find author!');
 
         // Create comment
-        const comment = CommentEntity.create();
-        comment.postId = postId;
-        comment.author = author;
-        comment.content = content;
+        const comment = CommentEntity.create({
+            postId,
+            author,
+            content,
+        });
 
         // Check if comment is a reply to another comment
         if (replyId) comment.replyId = replyId;
