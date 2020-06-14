@@ -13,11 +13,10 @@ import { router as refreshRouter } from './routers/refresh.router';
 
 (async () => {
     const app = express();
-    const PORT = process.env.PORT || 4000;
 
     app.use(
         cors({
-            origin: 'YOUR_URL',
+            origin: 'http://localhost:3000',
             credentials: true,
         })
     );
@@ -41,6 +40,7 @@ import { router as refreshRouter } from './routers/refresh.router';
 
     apolloServer.applyMiddleware({ path: '/api', app, cors: false });
 
+    const PORT = process.env.PORT || 4000;
     app.listen(PORT, () => {
         logger.info(`UniLyfe API is running on port: ${PORT}`);
     });
