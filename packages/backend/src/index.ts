@@ -1,5 +1,4 @@
 import 'reflect-metadata';
-
 import 'dotenv/config';
 import path from 'path';
 import express from 'express';
@@ -17,7 +16,7 @@ import { router as refreshRouter } from './routers/refresh.router';
 
     app.use(
         cors({
-            origin: 'http://localhost:3000',
+            origin: process.env.DOMAIN_URL,
             credentials: true,
         })
     );
