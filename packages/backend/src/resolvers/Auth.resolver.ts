@@ -4,7 +4,7 @@ import { ApolloError } from 'apollo-server-express';
 import ShortUniqueId from 'short-unique-id';
 
 import { UserEntity } from '../entity/User.entity';
-import { ReqResContext } from '../context/reqres.context';
+import { Context } from '../context/context';
 import { UniEmail, RegisterResponse, LoginResponse } from './types/auth.types';
 import { genAccessToken, genRefreshToken, sendRefreshToken } from '../utils/jwt.util';
 import { handleError, AuthError } from '../utils/errors.util';
@@ -72,7 +72,7 @@ export class AuthResolver {
     async login(
         @Arg('email') email: string,
         @Arg('password') password: string,
-        @Ctx() { res }: ReqResContext
+        @Ctx() { res }: Context
     ): Promise<LoginResponse | ApolloError> {
         if (!email || !password) return handleError(AuthError.MISSING_CREDENTIALS);
 
@@ -92,7 +92,7 @@ export class AuthResolver {
     }
 
     @Mutation(() => Boolean)
-    logout(@Ctx() { res }: ReqResContext): boolean {
+    logout(@Ctx() { res }: Context): boolean {
         res.clearCookie('triton');
         return true;
     }

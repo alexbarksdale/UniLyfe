@@ -3,7 +3,7 @@ import { Resolver, Query, Mutation, Arg, Int, Ctx } from 'type-graphql';
 import { PostEntity } from '../entity/Post.entity';
 import { UserEntity } from '../entity/User.entity';
 import { PostUpdateInput } from './types/post.types';
-import { ReqResContext } from '../context/reqres.context';
+import { Context } from '../context/context';
 import { logger } from '../utils/logger.util';
 import { checkAuthor, AuthorError } from '../utils/checkAuthor.util';
 
@@ -54,7 +54,7 @@ export class PostResolver {
         @Arg('postId', () => Int) postId: number,
         @Arg('authorId', () => Int) authorId: number,
         @Arg('update', () => PostUpdateInput) update: PostUpdateInput,
-        @Ctx() { req }: ReqResContext
+        @Ctx() { req }: Context
     ): Promise<boolean> {
         if (!postId || !authorId) throw new Error('You must provide a postId and authorId!');
 
@@ -75,7 +75,7 @@ export class PostResolver {
     async deletePost(
         @Arg('postId', () => Int) postId: number,
         @Arg('authorId', () => Int) authorId: number,
-        @Ctx() { req }: ReqResContext
+        @Ctx() { req }: Context
     ): Promise<boolean> {
         if (!postId || !authorId) throw new Error('You must provide a postId and authorId!');
 

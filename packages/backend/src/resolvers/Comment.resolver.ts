@@ -2,7 +2,7 @@ import { Resolver, Query, Mutation, Arg, Int, Ctx } from 'type-graphql';
 
 import { CommentEntity } from '../entity/Comment.entity';
 import { UserEntity } from '../entity/User.entity';
-import { ReqResContext } from '../context/reqres.context';
+import { Context } from '../context/context';
 import { logger } from '../utils/logger.util';
 import { checkAuthor, AuthorError } from '../utils/checkAuthor.util';
 
@@ -56,7 +56,7 @@ export class CommentResolver {
         @Arg('commentId', () => Int) commentId: number,
         @Arg('authorId', () => Int) authorId: number,
         @Arg('content') content: string,
-        @Ctx() { req }: ReqResContext
+        @Ctx() { req }: Context
     ): Promise<boolean> {
         if (!commentId || !content || !authorId) {
             throw new Error('You must provide the commentId, authorId, and content!');
@@ -78,7 +78,7 @@ export class CommentResolver {
     async deleteComment(
         @Arg('commentId', () => Int) commentId: number,
         @Arg('authorId', () => Int) authorId: number,
-        @Ctx() { req }: ReqResContext
+        @Ctx() { req }: Context
     ): Promise<boolean> {
         if (!commentId || !authorId) {
             throw new Error('You must provide the commentId and authorId!');

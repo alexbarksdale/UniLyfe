@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-export interface ReqResContext {
+export type Context = {
     req: Request;
     res: Response;
 
@@ -8,4 +8,5 @@ export interface ReqResContext {
         userId: string;
         userEmail: string;
     };
-}
+};
+
