@@ -11,8 +11,6 @@ const SearchContainer = styled.div`
     margin-right: 13px;
     background-color: ${(props) => props.theme.gray200};
 
-    form {
-    }
     span {
         margin: 10px 0px 0px 14px;
         position: absolute;
@@ -21,7 +19,7 @@ const SearchContainer = styled.div`
 
 const SearchInput = styled.input`
     color: #3d3d3d;
-    font-size: 16px;
+    font-size: 15px;
     margin-left: 30px;
     padding: 10px;
     border: none;
@@ -33,19 +31,19 @@ const SearchInput = styled.input`
         outline: none;
     }
     &::placeholder {
-        color: ${(props) => props.theme.gray400};
-        font-size: 16px;
+        font-size: 15px;
+        color: ${(props) => props.theme.gray450};
     }
 `;
 
 const SearchIcon = styled(FaSearch)`
     font-size: 15px;
-    color: ${(props) => props.theme.gray400};
+    color: ${(props) => props.theme.gray450};
 `;
 
 const SearchResultIcon = styled(FaChevronRight)`
-    color: ${(props) => props.theme.gray400};
     margin-right: 14px;
+    color: ${(props) => props.theme.gray450};
 `;
 
 const SearchListContainer = styled.ul`
@@ -59,17 +57,17 @@ const SearchListContainer = styled.ul`
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     background-color: ${(props) => props.theme.gray200};
+
     form {
         width: 285px;
     }
-
     li {
         margin-top: 9px;
-
         a {
             color: #3d3d3d;
             display: flex;
             align-items: center;
+            font-size: 16px;
             width: auto;
             padding: 7px;
             border-radius: 8px;

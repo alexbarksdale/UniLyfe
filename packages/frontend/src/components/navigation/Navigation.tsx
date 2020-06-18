@@ -1,16 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { FaChevronDown } from 'react-icons/fa';
 
 import { Container } from '../../utils/globalStyles.util';
 import { SearchBar } from '../searchbar/SearchBar';
+import { UserDropdown } from './dropdown/UserDropdown';
 
 type StyleProps = {
     fontSize?: number;
 };
 
-const NavbarContainer = styled.div`
+const NavContainer = styled.div`
     display: flex;
     align-items: center;
     height: 54px;
@@ -32,11 +32,11 @@ const NavLeft = styled.ul`
     flex: 1;
     display: flex;
     align-items: center;
-    padding-left: 45px;
+    margin-left: 45px;
     list-style: none;
 
     li {
-        padding-right: 15px;
+        margin-right: 15px;
     }
 `;
 
@@ -55,34 +55,9 @@ const NavRight = styled.div`
     display: flex;
 `;
 
-const Dropdown = styled.div`
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-
-    span {
-        font-size: 14px;
-        display: flex;
-        margin-left: 7px;
-        color: ${(props) => props.theme.gray400};
-    }
-
-    &:hover {
-        opacity: 0.8;
-    }
-`;
-
-const UserImg = styled.img`
-    height: 32px;
-    width: 32px;
-    border: 0;
-    border-radius: 8px;
-    background-color: red;
-`;
-
 export function Navigation(): JSX.Element {
     return (
-        <NavbarContainer>
+        <NavContainer>
             <Container>
                 <Navbar>
                     <NavTitle>
@@ -100,15 +75,10 @@ export function Navigation(): JSX.Element {
                     </NavLeft>
                     <SearchBar corpus={['test']} />
                     <NavRight>
-                        <Dropdown>
-                            <UserImg src='https://avatars3.githubusercontent.com/u/30381624?s=400&u=20ad9862d76407105a4bf2569dc41659c4de3706&v=4' />
-                            <span>
-                                <FaChevronDown />
-                            </span>
-                        </Dropdown>
+                        <UserDropdown />
                     </NavRight>
                 </Navbar>
             </Container>
-        </NavbarContainer>
+        </NavContainer>
     );
 }

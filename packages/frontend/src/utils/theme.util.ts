@@ -28,7 +28,7 @@ const size = {
     laptopM: '1442px',
 };
 
-// Media queries for making things responsive
+// Media queries
 export const device = {
     mobileXS: `(max-width: ${size.mobileXS})`,
     mobileS: `(max-width: ${size.mobileS})`,

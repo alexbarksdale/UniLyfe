@@ -40,9 +40,6 @@ export const GlobalStyle = createGlobalStyle`
     }
 `;
 
-// #########################
-// RESPONSIVE PROPERTIES
-// #########################
 export const Container = styled.div`
     width: 1375px;
     margin: 0px auto;
