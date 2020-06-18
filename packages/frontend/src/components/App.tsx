@@ -6,6 +6,7 @@ import history from '../utils/history.util';
 import { BaseRouter } from '../routers/base.router';
 import { theme } from '../utils/theme.util';
 import { GlobalStyle } from '../utils/globalStyles.util';
+import { Navigation } from './navbar/Navigation';
 
 export function App(): JSX.Element {
     return (
@@ -13,6 +14,7 @@ export function App(): JSX.Element {
             <ThemeProvider theme={theme}>
                 <GlobalStyle />
                 <BaseRouter />
+                <Navigation />
             </ThemeProvider>
         </Router>
     );
