@@ -93,7 +93,7 @@ const ListItem = styled(Link)`
 `;
 
 export function ForumDropdown(): JSX.Element {
-    const [dropdown, setDropdown] = useState(true);
+    const [dropdown, setDropdown] = useState(false);
 
     const node = useRef<HTMLDivElement>(null);
     const handleClick = (e: any) => {

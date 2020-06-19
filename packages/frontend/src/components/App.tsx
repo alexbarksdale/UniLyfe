@@ -7,16 +7,14 @@ import { BaseRouter } from '../routers/base.router';
 import { theme } from '../utils/theme.util';
 import { GlobalStyle } from '../utils/globalStyles.util';
 import { Navigation } from './navigation/Navigation';
-import { ForumNavigation } from './navigation/ForumNavigation';
 
 export function App(): JSX.Element {
     return (
         <Router history={history}>
             <ThemeProvider theme={theme}>
                 <GlobalStyle />
-                <BaseRouter />
                 <Navigation />
-                <ForumNavigation />
+                <BaseRouter />
             </ThemeProvider>
         </Router>
     );

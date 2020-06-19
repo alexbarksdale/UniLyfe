@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Container } from '../../utils/globalStyles.util';
 import { SearchBar } from '../searchbar/SearchBar';
 import { UserDropdown } from './dropdown/UserDropdown';
+import { ForumNavigation } from './ForumNavigation';
 
 type StyleProps = {
     fontSize?: number;
@@ -57,28 +58,31 @@ const NavRight = styled.div`
 
 export function Navigation(): JSX.Element {
     return (
-        <NavContainer>
-            <Container>
-                <Navbar>
-                    <NavTitle>
-                        <StyledLink to='/' fontSize={28}>
-                            UniLyfe
-                        </StyledLink>
-                    </NavTitle>
-                    <NavLeft>
-                        <li>
-                            <StyledLink to='/home'>Home</StyledLink>
-                        </li>
-                        <li>
-                            <StyledLink to='/popular'>Popular</StyledLink>
-                        </li>
-                    </NavLeft>
-                    <SearchBar corpus={['test']} />
-                    <NavRight>
-                        <UserDropdown />
-                    </NavRight>
-                </Navbar>
-            </Container>
-        </NavContainer>
+        <>
+            <NavContainer>
+                <Container>
+                    <Navbar>
+                        <NavTitle>
+                            <StyledLink to='/' fontSize={28}>
+                                UniLyfe
+                            </StyledLink>
+                        </NavTitle>
+                        <NavLeft>
+                            <li>
+                                <StyledLink to='/home'>Home</StyledLink>
+                            </li>
+                            <li>
+                                <StyledLink to='/popular'>Popular</StyledLink>
+                            </li>
+                        </NavLeft>
+                        <SearchBar corpus={['test']} />
+                        <NavRight>
+                            <UserDropdown />
+                        </NavRight>
+                    </Navbar>
+                </Container>
+            </NavContainer>
+            <ForumNavigation />
+        </>
     );
 }
