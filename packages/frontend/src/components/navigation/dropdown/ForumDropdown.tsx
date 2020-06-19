@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { FaChevronDown } from 'react-icons/fa';
+import { FaChevronDown, FaRegStar } from 'react-icons/fa';
 
 type StyleProps = {
     dropdown: boolean;
@@ -25,6 +25,10 @@ const SelectBtn = styled.button`
     box-shadow: 0px 11px 13px 0px rgba(0, 0, 0, 0.11);
     transition: none !important;
     background-color: ${(props: StyleProps) => (props.dropdown ? '#fff' : '#97a3ff')};
+
+    &:hover {
+        background-color: ${(props: StyleProps) => (props.dropdown ? '#fff' : '#8d99f6')};
+    }
 `;
 
 const ActiveItem = styled.span`
@@ -50,11 +54,25 @@ const SelectList = styled.ul`
     background-color: ${(props) => props.theme.white};
 
     li {
+        display: flex;
+        align-items: center;
         border-radius: 8px;
-        padding: 8px;
+        padding: 6px;
 
         &:hover {
             background-color: ${(props) => props.theme.gray300};
+        }
+
+        button {
+            cursor: pointer;
+            font-size: 15.5px;
+            background-color: transparent;
+            margin-left: 12px;
+
+            &:hover {
+                color: ${(props) => props.theme.primary};
+                transition: none !important;
+            }
         }
     }
 `;
@@ -77,20 +95,37 @@ const ListItem = styled(Link)`
 export function ForumDropdown(): JSX.Element {
     const [dropdown, setDropdown] = useState(true);
 
+    const node = useRef<HTMLDivElement>(null);
+    const handleClick = (e: any) => {
+        // Returns true if whatever you're clicking is inside the “node” ref.
+        if (node.current!.contains(e.target)) return;
+        setDropdown(false);
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClick);
+        return () => document.removeEventListener('mousedown', handleClick);
+    }, []);
+
     return (
-        <>
+        <div ref={node}>
             <SelectBtn onClick={() => setDropdown(!dropdown)} dropdown={dropdown}>
-                <ActiveItem>General</ActiveItem>
+                <ActiveItem>Filler Text</ActiveItem>
                 <StyledIcon dropdown={dropdown} />
             </SelectBtn>
             {dropdown && (
                 <SelectList>
-                    <ListLabel>Communities</ListLabel>
+                    <ListLabel>Discussions</ListLabel>
                     <ListItem to='/'>
-                        <li>Student Life</li>
+                        <li>
+                            Filler Text
+                            <button type='button'>
+                                <FaRegStar />
+                            </button>
+                        </li>
                     </ListItem>
                 </SelectList>
             )}
-        </>
+        </div>
     );
 }

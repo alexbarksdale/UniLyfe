@@ -45,7 +45,6 @@ const FilterBtn = styled.button`
 `;
 
 // This component was inspired by: Hansa Sahu
-// NOTE: Probably going to switch to buttons for filter controls
 export function ForumNavigation(): JSX.Element {
     return (
         <Container>
