@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaFire, FaCertificate } from 'react-icons/fa';
 
@@ -19,22 +18,29 @@ const NavList = styled.ul`
     display: flex;
     align-items: center;
     list-style: none;
-
-    li {
-        margin-right: 15px;
-    }
 `;
 
-const StyledLink = styled(Link)`
+const FilterBtn = styled.button`
     display: flex;
     align-items: center;
     text-decoration: none;
+
     font-size: 15px;
     color: ${(props) => props.theme.white};
 
+    cursor: pointer;
+    padding: 6px 9px;
+    border-radius: 8px;
+    background-color: transparent;
+
     svg {
+        font-size: 13px;
         opacity: 0.6;
-        margin-right: 4px;
+        margin-right: 5px;
+    }
+
+    &:hover {
+        background-color: #ffffff38;
     }
 `;
 
@@ -49,20 +55,20 @@ export function ForumNavigation(): JSX.Element {
                         <ForumDropdown />
                     </li>
                     <li>
-                        <StyledLink to='/'>
+                        <FilterBtn>
                             <span>
                                 <FaFire />
                             </span>
                             Hot
-                        </StyledLink>
+                        </FilterBtn>
                     </li>
                     <li>
-                        <StyledLink to='/'>
+                        <FilterBtn>
                             <span>
                                 <FaCertificate />
                             </span>
                             New
-                        </StyledLink>
+                        </FilterBtn>
                     </li>
                 </NavList>
             </NavContainer>

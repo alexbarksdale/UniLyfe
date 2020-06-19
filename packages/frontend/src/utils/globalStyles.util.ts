@@ -34,7 +34,7 @@ export const GlobalStyle = createGlobalStyle`
         transition: all 0.3s ease 0s;
     }
 
-    button{
+    button {
         border-top: none;
         border: none;
     }
