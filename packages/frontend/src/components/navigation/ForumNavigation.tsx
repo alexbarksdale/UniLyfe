@@ -6,6 +6,10 @@ import { ForumDropdown } from './dropdown/ForumDropdown';
 import { Container } from '../../utils/globalStyles.util';
 
 const NavContainer = styled.div`
+    position: fixed;
+    width: inherit;
+    margin-top: 34px;
+
     display: flex;
     justify-content: center;
     height: 45px;

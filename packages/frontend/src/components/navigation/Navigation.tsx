@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Container } from '../../utils/globalStyles.util';
-import { SearchBar } from '../searchbar/SearchBar';
+import { SearchBar } from '../search-bar/SearchBar';
 import { UserDropdown } from './dropdown/UserDropdown';
 import { ForumNavigation } from './ForumNavigation';
 
@@ -12,10 +12,15 @@ type StyleProps = {
 };
 
 const NavContainer = styled.div`
+    position: fixed;
+    width: 100%;
+    margin-top: -20px;
+
     display: flex;
     align-items: center;
     height: 54px;
     box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.18);
+    background-color: ${(props) => props.theme.white};
 `;
 
 const Navbar = styled.div`
