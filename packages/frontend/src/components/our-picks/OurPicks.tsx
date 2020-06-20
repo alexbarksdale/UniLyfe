@@ -64,7 +64,7 @@ const PostHeader = styled.div`
     }
 
     &:hover {
-        opacity: 0.8;
+        background-color: ${(props) => props.theme.gray200};
     }
 `;
 const PostContent = styled.div`
