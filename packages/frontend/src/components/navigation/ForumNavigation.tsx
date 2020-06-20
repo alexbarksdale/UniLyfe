@@ -8,7 +8,7 @@ import { Container } from '../../utils/globalStyles.util';
 const NavContainer = styled.div`
     position: fixed;
     width: inherit;
-    margin-top: 34px;
+    margin-top: 54px;
 
     display: flex;
     justify-content: center;
@@ -52,29 +52,31 @@ const FilterBtn = styled.button`
 export function ForumNavigation(): JSX.Element {
     return (
         <Container>
-            <NavContainer>
-                <NavList>
-                    <li>
-                        <ForumDropdown />
-                    </li>
-                    <li>
-                        <FilterBtn>
-                            <span>
-                                <FaFire />
-                            </span>
-                            Hot
-                        </FilterBtn>
-                    </li>
-                    <li>
-                        <FilterBtn>
-                            <span>
-                                <FaCertificate />
-                            </span>
-                            New
-                        </FilterBtn>
-                    </li>
-                </NavList>
-            </NavContainer>
+            <div style={{ paddingBottom: '114px', width: 'inherit' }}>
+                <NavContainer>
+                    <NavList>
+                        <li>
+                            <ForumDropdown />
+                        </li>
+                        <li>
+                            <FilterBtn>
+                                <span>
+                                    <FaFire />
+                                </span>
+                                Hot
+                            </FilterBtn>
+                        </li>
+                        <li>
+                            <FilterBtn>
+                                <span>
+                                    <FaCertificate />
+                                </span>
+                                New
+                            </FilterBtn>
+                        </li>
+                    </NavList>
+                </NavContainer>
+            </div>
         </Container>
     );
 }

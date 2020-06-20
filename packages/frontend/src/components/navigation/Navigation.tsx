@@ -14,7 +14,6 @@ type StyleProps = {
 const NavContainer = styled.div`
     position: fixed;
     width: 100%;
-    margin-top: -20px;
 
     display: flex;
     align-items: center;
@@ -74,7 +73,7 @@ export function Navigation(): JSX.Element {
                         </NavTitle>
                         <NavLeft>
                             <li>
-                                <StyledLink to='/home'>Home</StyledLink>
+                                <StyledLink to='/'>Home</StyledLink>
                             </li>
                             <li>
                                 <StyledLink to='/popular'>Popular</StyledLink>
