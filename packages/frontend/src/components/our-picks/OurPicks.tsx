@@ -3,9 +3,13 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaCommentAlt } from 'react-icons/fa';
 
-type StyleProps = {
-    small?: boolean;
-};
+import {
+    PostHeader,
+    PostContent,
+    CategoryLink,
+    PostInfoBar,
+    UserLink,
+} from '../../utils/postStyles.util';
 
 const PicksContainer = styled.div`
     display: grid;
@@ -29,102 +33,43 @@ const MainItem = styled.div`
     }
 `;
 
-const SmallContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-`;
-
 const SecondItem = styled.div`
     display: flex;
-    height: 152px;
+    height: 124px;
     grid-area: Second;
     margin-bottom: 16px;
 `;
 const ThirdItem = styled.div`
     display: flex;
-    height: 152px;
+    height: 124px;
     grid-area: Third;
-`;
-
-const PostHeader = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 115px;
-    padding: 15px;
-    border-radius: 8px;
-    background-color: ${(props) => props.theme.gray300};
-    margin-right: ${(props: StyleProps) => (props.small ? '15px' : undefined)};
-    width: ${(props: StyleProps) => (props.small ? '113px' : undefined)};
-    margin-bottom: ${(props: StyleProps) => (props.small ? undefined : '15px')};
-    svg {
-        color: ${(props) => props.theme.gray500};
-        font-size: 45px;
-    }
-
-    &:hover {
-        background-color: ${(props) => props.theme.gray200};
-    }
-`;
-const PostContent = styled.div`
-    display: flex;
-    flex-direction: column;
-
-    a {
-        text-decoration: none;
-        &:hover {
-            opacity: 0.8;
-        }
-    }
-
-    h1 {
-        font-size: 21px;
-        color: ${(props) => props.theme.gray800};
-    }
-
-    p {
-        color: ${(props) => props.theme.gray500};
-        margin-bottom: 11px;
-    }
-`;
-
-const PostInfoBar = styled.div`
-    display: flex;
-    font-size: 14px;
-
-    p {
-        color: ${(props) => props.theme.gray400};
-    }
-`;
-
-const CategoryLink = styled(Link)`
-    font-weight: 500;
-    color: ${(props) => props.theme.primary};
-    margin-bottom: 5px;
-    text-decoration: none;
-
-    &:hover {
-        opacity: 0.8;
-        text-decoration: underline;
-    }
-`;
-
-const UserLink = styled(Link)`
-    flex: 1;
-    text-decoration: none;
-    color: ${(props) => props.theme.gray600};
-
-    &:hover {
-        opacity: 0.8;
-        text-decoration: underline;
-    }
 `;
 
 export function OurPicks(): JSX.Element {
     return (
         <PicksContainer>
             <MainItem>
+                <Link to='/'>
+                    <PostHeader big>
+                        <FaCommentAlt />
+                    </PostHeader>
+                </Link>
+                <PostContent>
+                    <CategoryLink to='/'>Category</CategoryLink>
+                    <Link to='/'>
+                        <h1>Filler title</h1>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                            do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        </p>
+                    </Link>
+                    <PostInfoBar>
+                        <UserLink to='/'>XXX | User</UserLink>
+                        <p>June 20, 2020 0:00 AM</p>
+                    </PostInfoBar>
+                </PostContent>
+            </MainItem>
+            <SecondItem>
                 <Link to='/'>
                     <PostHeader>
                         <FaCommentAlt />
@@ -139,59 +84,32 @@ export function OurPicks(): JSX.Element {
                             do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                         </p>
                     </Link>
-                </PostContent>
-                <PostInfoBar>
-                    <UserLink to='/'>XXX | User</UserLink>
-                    <p>June 20, 2020 0:00 AM</p>
-                </PostInfoBar>
-            </MainItem>
-            <SecondItem>
-                <Link to='/'>
-                    <PostHeader small>
-                        <FaCommentAlt />
-                    </PostHeader>
-                </Link>
-                <SmallContainer>
-                    <PostContent>
-                        <CategoryLink to='/'>Category</CategoryLink>
-                        <Link to='/'>
-                            <h1>Filler title</h1>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                sed do eiusmod tempor incididunt ut labore et dolore magna
-                                aliqua.
-                            </p>
-                        </Link>
-                    </PostContent>
                     <PostInfoBar>
                         <UserLink to='/'>XXX | User</UserLink>
                         <p>June 20, 2020 0:00 AM</p>
                     </PostInfoBar>
-                </SmallContainer>
+                </PostContent>
             </SecondItem>
             <ThirdItem>
                 <Link to='/'>
-                    <PostHeader small>
+                    <PostHeader>
                         <FaCommentAlt />
                     </PostHeader>
                 </Link>
-                <SmallContainer>
-                    <PostContent>
-                        <CategoryLink to='/'>Category</CategoryLink>
-                        <Link to='/'>
-                            <h1>Filler title</h1>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                sed do eiusmod tempor incididunt ut labore et dolore magna
-                                aliqua.
-                            </p>
-                        </Link>
-                    </PostContent>
+                <PostContent>
+                    <CategoryLink to='/'>Category</CategoryLink>
+                    <Link to='/'>
+                        <h1>Filler title</h1>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                            do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        </p>
+                    </Link>
                     <PostInfoBar>
                         <UserLink to='/'>XXX | User</UserLink>
                         <p>June 20, 2020 0:00 AM</p>
                     </PostInfoBar>
-                </SmallContainer>
+                </PostContent>
             </ThirdItem>
         </PicksContainer>
     );
