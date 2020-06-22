@@ -55,3 +55,10 @@ export const Container = styled.div`
         width: 90%;
     }
 `;
+
+export const CategoryTitle = styled.h2`
+    font-size: 20px;
+    font-weight: 600;
+    color: ${(props) => props.theme.gray800};
+    margin-bottom: 10px;
+`;

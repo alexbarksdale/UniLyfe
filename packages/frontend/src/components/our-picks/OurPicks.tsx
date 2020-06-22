@@ -10,6 +10,7 @@ import {
     PostInfoBar,
     UserLink,
 } from '../../utils/postStyles.util';
+import { CategoryTitle } from '../../utils/globalStyles.util';
 
 const PicksContainer = styled.div`
     display: grid;
@@ -47,70 +48,76 @@ const ThirdItem = styled.div`
 
 export function OurPicks(): JSX.Element {
     return (
-        <PicksContainer>
-            <MainItem>
-                <Link to='/'>
-                    <PostHeader big>
-                        <FaCommentAlt />
-                    </PostHeader>
-                </Link>
-                <PostContent>
-                    <CategoryLink to='/'>Category</CategoryLink>
+        <>
+            <CategoryTitle>Our Picks</CategoryTitle>
+            <PicksContainer>
+                <MainItem>
                     <Link to='/'>
-                        <h1>Filler title</h1>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                            do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                        </p>
+                        <PostHeader big>
+                            <FaCommentAlt />
+                        </PostHeader>
                     </Link>
-                    <PostInfoBar>
-                        <UserLink to='/'>XXX | User</UserLink>
-                        <p>June 20, 2020 0:00 AM</p>
-                    </PostInfoBar>
-                </PostContent>
-            </MainItem>
-            <SecondItem>
-                <Link to='/'>
-                    <PostHeader>
-                        <FaCommentAlt />
-                    </PostHeader>
-                </Link>
-                <PostContent>
-                    <CategoryLink to='/'>Category</CategoryLink>
+                    <PostContent>
+                        <CategoryLink to='/'>Category</CategoryLink>
+                        <Link to='/'>
+                            <h1>Filler title</h1>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                                sed do eiusmod tempor incididunt ut labore et dolore magna
+                                aliqua.
+                            </p>
+                        </Link>
+                        <PostInfoBar>
+                            <UserLink to='/'>XXX | User</UserLink>
+                            <p>June 20, 2020 0:00 AM</p>
+                        </PostInfoBar>
+                    </PostContent>
+                </MainItem>
+                <SecondItem>
                     <Link to='/'>
-                        <h1>Filler title</h1>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                            do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                        </p>
+                        <PostHeader>
+                            <FaCommentAlt />
+                        </PostHeader>
                     </Link>
-                    <PostInfoBar>
-                        <UserLink to='/'>XXX | User</UserLink>
-                        <p>June 20, 2020 0:00 AM</p>
-                    </PostInfoBar>
-                </PostContent>
-            </SecondItem>
-            <ThirdItem>
-                <Link to='/'>
-                    <PostHeader>
-                        <FaCommentAlt />
-                    </PostHeader>
-                </Link>
-                <PostContent>
-                    <CategoryLink to='/'>Category</CategoryLink>
+                    <PostContent>
+                        <CategoryLink to='/'>Category</CategoryLink>
+                        <Link to='/'>
+                            <h1>Filler title</h1>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                                sed do eiusmod tempor incididunt ut labore et dolore magna
+                                aliqua.
+                            </p>
+                        </Link>
+                        <PostInfoBar>
+                            <UserLink to='/'>XXX | User</UserLink>
+                            <p>June 20, 2020 0:00 AM</p>
+                        </PostInfoBar>
+                    </PostContent>
+                </SecondItem>
+                <ThirdItem>
                     <Link to='/'>
-                        <h1>Filler title</h1>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                            do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                        </p>
+                        <PostHeader>
+                            <FaCommentAlt />
+                        </PostHeader>
                     </Link>
-                    <PostInfoBar>
-                        <UserLink to='/'>XXX | User</UserLink>
-                        <p>June 20, 2020 0:00 AM</p>
-                    </PostInfoBar>
-                </PostContent>
-            </ThirdItem>
-        </PicksContainer>
+                    <PostContent>
+                        <CategoryLink to='/'>Category</CategoryLink>
+                        <Link to='/'>
+                            <h1>Filler title</h1>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                                sed do eiusmod tempor incididunt ut labore et dolore magna
+                                aliqua.
+                            </p>
+                        </Link>
+                        <PostInfoBar>
+                            <UserLink to='/'>XXX | User</UserLink>
+                            <p>June 20, 2020 0:00 AM</p>
+                        </PostInfoBar>
+                    </PostContent>
+                </ThirdItem>
+            </PicksContainer>
+        </>
     );
 }

@@ -61,6 +61,7 @@ export const PostInfoBar = styled.div`
 export const CategoryLink = styled(Link)`
     font-weight: 500;
     color: ${(props) => props.theme.primary};
+    grid-gap: 15px;
     margin-bottom: 5px;
     text-decoration: none;
 
