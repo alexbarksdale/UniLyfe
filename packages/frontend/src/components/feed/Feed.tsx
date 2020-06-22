@@ -1,20 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { MainFeed } from './main-feed/MainFeed';
-import { NewsFeed } from './fixed-feed/NewsFeed';
+import { MainFeed } from './MainFeed';
+import { FixedFeed } from './fixed-feed/FixedFeed';
 
 const FeedContainer = styled.div`
     display: grid;
-    grid-template-columns: 2fr 1fr;
     grid-gap: 15px;
+    grid-template-columns: 2fr 1fr;
 `;
 
 export function Feed(): JSX.Element {
     return (
         <FeedContainer>
             <MainFeed />
-            <NewsFeed />
+            <FixedFeed />
         </FeedContainer>
     );
 }

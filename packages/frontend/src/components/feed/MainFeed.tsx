@@ -9,13 +9,11 @@ import {
     CategoryLink,
     PostInfoBar,
     UserLink,
-} from '../../../utils/postStyles.util';
-import { CategoryTitle } from '../../../utils/globalStyles.util';
+} from '../../utils/postStyles.util';
+import { CategoryTitle } from '../../utils/globalStyles.util';
 
 const FeedContainer = styled.div`
-    display: flex;
     flex-direction: column;
-    background-color: red;
 
     div {
         display: flex;
