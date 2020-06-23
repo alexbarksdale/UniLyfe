@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { FaCommentAlt } from 'react-icons/fa';
+import { FaCommentAlt, FaRegThumbsUp, FaRegCommentAlt, FaRegEye } from 'react-icons/fa';
 
 import {
     PostHeader,
@@ -17,6 +17,35 @@ const FeedContainer = styled.div`
 
     div {
         display: flex;
+    }
+`;
+
+const PostStats = styled.ul`
+    display: flex;
+    flex: 1;
+
+    li {
+        display: flex;
+        margin-right: 9px;
+
+        a,
+        button {
+            display: flex;
+            font-size: 14px;
+            color: ${(props) => props.theme.gray600};
+            transition: 0s;
+            background-color: transparent;
+
+            svg {
+                font-size: 13px;
+                margin-right: 4px;
+            }
+
+            &:hover {
+                color: ${(props) => props.theme.gray450};
+                transition: 0s;
+            }
+        }
     }
 `;
 
@@ -43,6 +72,27 @@ export function MainFeed(): JSX.Element {
                         </Link>
                         <PostInfoBar>
                             <UserLink to='/'>XXX | User</UserLink>
+                            <span>•</span>
+                            <PostStats>
+                                <li>
+                                    <button type='button'>
+                                        <FaRegThumbsUp />
+                                        100
+                                    </button>
+                                </li>
+                                <li>
+                                    <Link to='/'>
+                                        <FaRegCommentAlt />
+                                        100
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to='/'>
+                                        <FaRegEye />
+                                        100
+                                    </Link>
+                                </li>
+                            </PostStats>
                             <p>June 20, 2020 0:00 AM</p>
                         </PostInfoBar>
                     </PostContent>

@@ -68,7 +68,9 @@ export function OurPicks(): JSX.Element {
                             </p>
                         </Link>
                         <PostInfoBar>
-                            <UserLink to='/'>XXX | User</UserLink>
+                            <UserLink to='/' big>
+                                XXX | User
+                            </UserLink>
                             <p>June 20, 2020 0:00 AM</p>
                         </PostInfoBar>
                     </PostContent>
@@ -90,7 +92,9 @@ export function OurPicks(): JSX.Element {
                             </p>
                         </Link>
                         <PostInfoBar>
-                            <UserLink to='/'>XXX | User</UserLink>
+                            <UserLink to='/' big>
+                                XXX | User
+                            </UserLink>
                             <p>June 20, 2020 0:00 AM</p>
                         </PostInfoBar>
                     </PostContent>
@@ -112,7 +116,9 @@ export function OurPicks(): JSX.Element {
                             </p>
                         </Link>
                         <PostInfoBar>
-                            <UserLink to='/'>XXX | User</UserLink>
+                            <UserLink to='/' big>
+                                XXX | User
+                            </UserLink>
                             <p>June 20, 2020 0:00 AM</p>
                         </PostInfoBar>
                     </PostContent>

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 type StyleProps = {
-    big?: boolean;
+    big?: boolean; // Used to position elements in 'Our Picks'
 };
 
 export const PostHeader = styled.div`
@@ -50,11 +50,16 @@ export const PostContent = styled.div`
 
 export const PostInfoBar = styled.div`
     display: flex;
+    align-items: center;
     font-size: 14px;
     margin-top: 11px;
 
     p {
         color: ${(props) => props.theme.gray400};
+    }
+
+    span {
+        margin: 0px 8px;
     }
 `;
 
@@ -72,7 +77,7 @@ export const CategoryLink = styled(Link)`
 `;
 
 export const UserLink = styled(Link)`
-    flex: 1;
+    flex: ${(props: StyleProps) => (props.big ? 1 : 'none')};
     text-decoration: none;
     color: ${(props) => props.theme.gray600};
 
