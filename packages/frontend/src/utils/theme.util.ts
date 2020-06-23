@@ -21,7 +21,7 @@ export const theme = {
 const size = {
     mobileXS: '392px',
     mobileS: '488px',
-    mobileL: '580px',
+    mobileL: '590px',
     tabletM: '786px',
     tabletL: '960px',
     laptopS: '1172px',

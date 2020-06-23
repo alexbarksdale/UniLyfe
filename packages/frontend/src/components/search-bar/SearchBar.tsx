@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { FaSearch, FaChevronRight } from 'react-icons/fa';
 
 import { TrieTree } from '../../assets/trietree';
+import { device } from '../../utils/theme.util';
 
 // **** SEARCH BAR STYLES ****
 const SearchContainer = styled.div`
@@ -14,6 +15,14 @@ const SearchContainer = styled.div`
     span {
         margin: 10px 0px 0px 14px;
         position: absolute;
+    }
+
+    form {
+        width: 100%;
+    }
+
+    @media ${device.mobileL} {
+        margin: 10px 30px 10px 0px;
     }
 `;
 
@@ -33,6 +42,10 @@ const SearchInput = styled.input`
     &::placeholder {
         font-size: 15px;
         color: ${(props) => props.theme.gray450};
+    }
+
+    @media ${device.mobileL} {
+        width: 93%;
     }
 `;
 
@@ -58,11 +71,9 @@ const SearchListContainer = styled.ul`
     border-bottom-right-radius: 8px;
     background-color: ${(props) => props.theme.gray200};
 
-    form {
-        width: 285px;
-    }
     li {
         margin-top: 9px;
+
         a {
             color: #3d3d3d;
             display: flex;
@@ -81,6 +92,11 @@ const SearchListContainer = styled.ul`
             }
         }
     }
+
+    @media ${device.mobileL} {
+        width: unset;
+        position: relative;
+    }
 `;
 
 const ListingDivider = styled.div`
@@ -89,6 +105,11 @@ const ListingDivider = styled.div`
     width: 214px;
     position: absolute;
     background-color: ${(props) => props.theme.gray300};
+
+    @media ${device.mobileL} {
+        position: relative;
+        width: unset;
+    }
 `;
 // **** END SEARCH BAR STYLES ****
 
