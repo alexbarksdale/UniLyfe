@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { FaBars } from 'react-icons/fa';
+import { FaBars, FaTimes } from 'react-icons/fa';
 
 import { Container } from '../../utils/globalStyles.util';
 import { device } from '../../utils/theme.util';
@@ -11,6 +11,7 @@ import { ForumNavigation } from './ForumNavigation';
 
 type StyleProps = {
     fontSize?: number;
+    dropdown?: boolean | number;
 };
 
 const NavContainer = styled.div`
@@ -42,7 +43,7 @@ const LargeDisplay = styled.div`
     width: 100%;
 
     @media ${device.mobileL} {
-        display: flex;
+        display: ${(props: StyleProps) => (props.dropdown ? 'flex' : 'none')};
         flex-direction: column;
         padding-bottom: 15px;
     }
@@ -56,10 +57,20 @@ const TitleContainer = styled.div`
 `;
 
 const ResonsiveDropdown = styled.button`
-    display: flex;
+    display: none;
+    cursor: pointer;
     font-size: 24px;
     color: ${(props) => props.theme.gray800};
+    outline: none;
     background-color: transparent;
+
+    &:hover {
+        opacity: 0.8;
+    }
+
+    @media ${device.mobileL} {
+        display: flex;
+    }
 `;
 
 const NavTitle = styled.h1`
@@ -106,9 +117,22 @@ const NavRight = styled.div`
 `;
 
 export function Navigation(): JSX.Element {
+    const node = useRef<HTMLDivElement>(null);
+    const [dropdown, setDropdown] = useState(false);
+
+    const handleClick = (e: any) => {
+        if (node.current!.contains(e.target)) return;
+        setDropdown(false);
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClick);
+        return () => document.removeEventListener('mousedown', handleClick);
+    }, []);
+
     return (
         <>
-            <NavContainer>
+            <NavContainer ref={node}>
                 <Container>
                     <Navbar>
                         <TitleContainer>
@@ -117,11 +141,11 @@ export function Navigation(): JSX.Element {
                                     UniLyfe
                                 </StyledLink>
                             </NavTitle>
-                            <ResonsiveDropdown>
-                                <FaBars />
+                            <ResonsiveDropdown onClick={() => setDropdown(!dropdown)}>
+                                {dropdown ? <FaTimes /> : <FaBars />}
                             </ResonsiveDropdown>
                         </TitleContainer>
-                        <LargeDisplay>
+                        <LargeDisplay dropdown={dropdown ? 1 : 0}>
                             <NavLeft>
                                 <li>
                                     <StyledLink to='/'>Home</StyledLink>

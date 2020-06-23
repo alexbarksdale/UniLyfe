@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { FaChevronDown, FaRegStar } from 'react-icons/fa';
 
 type StyleProps = {
-    dropdown: boolean;
+    dropdown: boolean | number;
 };
 
 const SelectBtn = styled.button`
@@ -111,7 +111,7 @@ export function ForumDropdown(): JSX.Element {
         <div ref={node}>
             <SelectBtn onClick={() => setDropdown(!dropdown)} dropdown={dropdown}>
                 <ActiveItem>Filler Text</ActiveItem>
-                <StyledIcon dropdown={dropdown} />
+                <StyledIcon dropdown={dropdown ? 1 : 0} />
             </SelectBtn>
             {dropdown && (
                 <SelectList>
