@@ -8,6 +8,10 @@ const FeedContainer = styled.div`
     display: grid;
     grid-gap: 15px;
     grid-template-columns: 2fr 1fr;
+
+    @media (max-width: 902px) {
+        grid-template-columns: 1fr;
+    }
 `;
 
 export function Feed(): JSX.Element {

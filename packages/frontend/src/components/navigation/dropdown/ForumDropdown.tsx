@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaChevronDown, FaRegStar } from 'react-icons/fa';
 
+import { device } from '../../../utils/theme.util';
+
 type StyleProps = {
     dropdown: boolean | number;
 };
@@ -28,6 +30,14 @@ const SelectBtn = styled.button`
 
     &:hover {
         background-color: ${(props: StyleProps) => (props.dropdown ? '#fff' : '#8d99f6')};
+    }
+
+    @media ${device.mobileXS} {
+        min-width: 148px;
+    }
+
+    @media (max-width: 340px) {
+        min-width: 129px;
     }
 `;
 
@@ -74,6 +84,14 @@ const SelectList = styled.ul`
                 transition: none !important;
             }
         }
+    }
+
+    @media ${device.mobileXS} {
+        width: 132px;
+    }
+
+    @media (max-width: 340px) {
+        width: 113px;
     }
 `;
 

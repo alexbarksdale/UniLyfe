@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { device } from './theme.util';
 
 type StyleProps = {
     big?: boolean; // Used to position elements in 'Our Picks'
+    responsive?: boolean;
 };
 
 export const PostHeader = styled.div`
@@ -23,6 +25,14 @@ export const PostHeader = styled.div`
 
     &:hover {
         background-color: ${(props) => props.theme.gray200};
+    }
+
+    @media ${device.mobileL} {
+        display: ${(props) => (props.responsive ? 'none !important' : 'flex')};
+    }
+
+    @media ${device.mobileXS} {
+        display: ${(props) => (props.big ? 'flex' : 'none')};
     }
 `;
 export const PostContent = styled.div`
@@ -60,6 +70,35 @@ export const PostInfoBar = styled.div`
 
     span {
         margin: 0px 8px;
+    }
+`;
+
+export const PostStats = styled.ul`
+    display: flex;
+    flex: 1;
+
+    li {
+        display: flex;
+        margin-right: 9px;
+
+        a,
+        button {
+            display: flex;
+            font-size: 14px;
+            color: ${(props) => props.theme.gray600};
+            transition: 0s;
+            background-color: transparent;
+
+            svg {
+                font-size: 13px;
+                margin-right: 4px;
+            }
+
+            &:hover {
+                color: ${(props) => props.theme.gray450};
+                transition: 0s;
+            }
+        }
     }
 `;
 

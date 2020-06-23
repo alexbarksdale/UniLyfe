@@ -8,6 +8,7 @@ import {
     PostContent,
     CategoryLink,
     PostInfoBar,
+    PostStats,
     UserLink,
 } from '../../utils/postStyles.util';
 import { CategoryTitle } from '../../utils/globalStyles.util';
@@ -20,35 +21,6 @@ const FeedContainer = styled.div`
     }
 `;
 
-const PostStats = styled.ul`
-    display: flex;
-    flex: 1;
-
-    li {
-        display: flex;
-        margin-right: 9px;
-
-        a,
-        button {
-            display: flex;
-            font-size: 14px;
-            color: ${(props) => props.theme.gray600};
-            transition: 0s;
-            background-color: transparent;
-
-            svg {
-                font-size: 13px;
-                margin-right: 4px;
-            }
-
-            &:hover {
-                color: ${(props) => props.theme.gray450};
-                transition: 0s;
-            }
-        }
-    }
-`;
-
 export function MainFeed(): JSX.Element {
     return (
         <>
@@ -56,7 +28,7 @@ export function MainFeed(): JSX.Element {
                 <CategoryTitle>Uni Feed</CategoryTitle>
                 <div>
                     <Link to='/'>
-                        <PostHeader>
+                        <PostHeader responsive>
                             <FaCommentAlt />
                         </PostHeader>
                     </Link>
@@ -93,7 +65,7 @@ export function MainFeed(): JSX.Element {
                                     </Link>
                                 </li>
                             </PostStats>
-                            <p>June 20, 2020 0:00 AM</p>
+                            <p>June 20, 2020</p>
                         </PostInfoBar>
                     </PostContent>
                 </div>
