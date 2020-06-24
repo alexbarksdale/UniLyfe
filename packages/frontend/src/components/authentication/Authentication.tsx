@@ -14,7 +14,7 @@ const AuthContent = styled.div`
 
     padding: 26px 19px;
     width: 370px;
-    margin: 20px;
+    margin: 65px 20px 65px 20px;
     border-radius: 8px;
     box-shadow: 0px 0px 56px 0px rgba(0, 0, 0, 0.18);
     background-color: ${(props) => props.theme.white};

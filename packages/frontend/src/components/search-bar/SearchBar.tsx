@@ -18,7 +18,11 @@ const SearchContainer = styled.div`
     }
 
     form {
-        width: 100%;
+        width: 214px;
+
+        @media ${device.tabletS} {
+            width: 100%;
+        }
     }
 
     @media ${device.tabletS} {
@@ -46,7 +50,7 @@ const SearchInput = styled.input`
         color: ${(props) => props.theme.gray450};
     }
 
-    @media ${device.mobileL} {
+    @media ${device.tabletS} {
         width: 93%;
     }
 `;
@@ -81,6 +85,7 @@ const SearchListContainer = styled.ul`
             display: flex;
             align-items: center;
             font-size: 16px;
+            font-weight: 500;
             width: auto;
             padding: 7px;
             border-radius: 8px;
@@ -95,7 +100,7 @@ const SearchListContainer = styled.ul`
         }
     }
 
-    @media ${device.mobileL} {
+    @media ${device.tabletS} {
         width: unset;
         position: relative;
     }
@@ -108,7 +113,7 @@ const ListingDivider = styled.div`
     position: absolute;
     background-color: ${(props) => props.theme.gray300};
 
-    @media ${device.mobileL} {
+    @media ${device.tabletS} {
         position: relative;
         width: unset;
     }
