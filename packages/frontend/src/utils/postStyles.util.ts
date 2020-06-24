@@ -49,11 +49,13 @@ export const PostContent = styled.div`
 
     h1 {
         font-size: 19px;
+        font-weight: 600;
         color: ${(props) => props.theme.gray800};
     }
 
     p {
         font-size: 14px;
+        font-weight: 500;
         color: ${(props) => props.theme.gray500};
     }
 `;
@@ -65,6 +67,7 @@ export const PostInfoBar = styled.div`
     margin-top: 11px;
 
     p {
+        font-weight: 500;
         color: ${(props) => props.theme.gray400};
     }
 
@@ -116,8 +119,9 @@ export const CategoryLink = styled(Link)`
 `;
 
 export const UserLink = styled(Link)`
-    flex: ${(props: StyleProps) => (props.big ? 1 : 'none')};
+    font-weight: 500;
     text-decoration: none;
+    flex: ${(props: StyleProps) => (props.big ? 1 : 'none')};
     color: ${(props) => props.theme.gray600};
 
     &:hover {

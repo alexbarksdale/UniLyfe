@@ -30,6 +30,7 @@ const FilterBtn = styled.button`
     text-decoration: none;
 
     font-size: 15px;
+    font-weight: 500;
     color: ${(props) => props.theme.white};
 
     cursor: pointer;

@@ -43,6 +43,8 @@ const SelectBtn = styled.button`
 
 const ActiveItem = styled.span`
     display: flex;
+    font-weight: 500;
+    letter-spacing: 0.4px;
     flex-grow: 1;
     transition: none !important;
 `;
@@ -77,7 +79,7 @@ const SelectList = styled.ul`
             cursor: pointer;
             font-size: 15.5px;
             background-color: transparent;
-            margin-left: 12px;
+            margin-left: 7px;
 
             &:hover {
                 color: ${(props) => props.theme.primary};
@@ -108,6 +110,8 @@ const ListItem = styled(Link)`
     text-decoration: none;
     color: ${(props) => props.theme.gray800};
     width: 100%;
+    letter-spacing: 0.4px;
+    font-weight: 500;
 `;
 
 export function ForumDropdown(): JSX.Element {

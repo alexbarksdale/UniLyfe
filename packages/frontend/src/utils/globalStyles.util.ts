@@ -3,33 +3,36 @@ import { device } from './theme.util';
 
 export const GlobalStyle = createGlobalStyle`
     @font-face {
-        font-family: 'SofiaPro';
-        src: url('/fonts/SofiaProMedium.woff2') format('woff2'),
-        url('/fonts/SofiaProMedium.woff') format('woff');
+        font-family: 'ProximaNova';
+        src: url('/fonts/ProximaNova-Semibold.woff2') format('woff2'),
+        url('/fonts/ProximaNova-Semibold.woff') format('woff');
         font-weight: 500;
         font-style: normal;
-    }
-
-   @font-face {
-        font-family: 'SofiaPro';
-        src: url('/fonts/SofaProBold.woff2') format('woff2'),
-            url('/fonts/SofaProBold.woff') format('woff');
-        font-weight: 600;
-        font-style: normal;
+        font-display: swap;
     }
 
     @font-face {
-        font-family: 'SofiaPro';
-        src: url('/fonts/SofiaProBold.woff2') format('woff2'),
-            url('/fonts/SofiaProBold.woff') format('woff');
+        font-family: 'ProximaNova';
+        src: url('/fonts/ProximaNova-Bold.woff2') format('woff2'),
+        url('/fonts/ProximaNova-Bold.woff') format('woff');
+        font-weight: 600;
+        font-style: normal;
+        font-display: swap;
+    }
+
+    @font-face {
+        font-family: 'ProximaNova';
+        src: url('/fonts/ProximaNova-Extrabld.woff2') format('woff2'),
+        url('/fonts/ProximaNova-Extrabld.woff') format('woff');
         font-weight: 900;
         font-style: normal;
+        font-display: swap;
     }
 
     * {
         margin: 0;
         padding: 0;
-        font-family: 'SofiaPro', Arial, Helvetica, sans-serif !important;
+        font-family: 'ProximaNova', Arial, Helvetica, sans-serif !important;
         transition: all 0.3s ease 0s;
     }
 

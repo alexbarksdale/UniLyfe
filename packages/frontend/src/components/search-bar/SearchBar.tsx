@@ -21,13 +21,14 @@ const SearchContainer = styled.div`
         width: 100%;
     }
 
-    @media ${device.mobileL} {
+    @media ${device.tabletS} {
         margin: 10px 30px 10px 0px;
     }
 `;
 
 const SearchInput = styled.input`
     color: #3d3d3d;
+    font-weight: 500;
     font-size: 15px;
     margin-left: 30px;
     padding: 10px;
@@ -40,6 +41,7 @@ const SearchInput = styled.input`
         outline: none;
     }
     &::placeholder {
+        font-weight: 500;
         font-size: 15px;
         color: ${(props) => props.theme.gray450};
     }

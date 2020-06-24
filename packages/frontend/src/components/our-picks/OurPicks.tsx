@@ -40,6 +40,7 @@ const SecondItem = styled.div`
     grid-area: Second;
     margin-bottom: 16px;
 `;
+
 const ThirdItem = styled.div`
     display: flex;
     height: 124px;

@@ -6,7 +6,7 @@ import { FaBars, FaTimes } from 'react-icons/fa';
 import { Container } from '../../utils/globalStyles.util';
 import { device } from '../../utils/theme.util';
 import { SearchBar } from '../search-bar/SearchBar';
-import { UserDropdown } from './dropdown/UserDropdown';
+/* import { UserDropdown } from './dropdown/UserDropdown'; */
 import { ForumNavigation } from './ForumNavigation';
 
 type StyleProps = {
@@ -25,7 +25,7 @@ const NavContainer = styled.div`
     box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.18);
     background-color: ${(props) => props.theme.white};
 
-    @media ${device.mobileL} {
+    @media ${device.tabletS} {
         height: unset;
     }
 `;
@@ -33,7 +33,7 @@ const NavContainer = styled.div`
 const Navbar = styled.div`
     display: flex;
 
-    @media ${device.mobileL} {
+    @media ${device.tabletS} {
         flex-direction: column;
     }
 `;
@@ -42,7 +42,7 @@ const LargeDisplay = styled.div`
     display: flex;
     width: 100%;
 
-    @media ${device.mobileL} {
+    @media ${device.tabletS} {
         display: ${(props: StyleProps) => (props.dropdown ? 'flex' : 'none')};
         flex-direction: column;
         padding-bottom: 15px;
@@ -51,7 +51,7 @@ const LargeDisplay = styled.div`
 
 const TitleContainer = styled.div`
     display: flex;
-    @media ${device.mobileL} {
+    @media ${device.tabletS} {
         margin: 15px 0px;
     }
 `;
@@ -68,7 +68,7 @@ const ResonsiveDropdown = styled.button`
         opacity: 0.8;
     }
 
-    @media ${device.mobileL} {
+    @media ${device.tabletS} {
         display: flex;
     }
 `;
@@ -92,7 +92,7 @@ const NavLeft = styled.ul`
         margin-right: 15px;
     }
 
-    @media ${device.mobileL} {
+    @media ${device.tabletS} {
         margin: unset;
     }
 `;
@@ -108,11 +108,17 @@ const StyledLink = styled(Link)`
     }
 `;
 
-const NavRight = styled.div`
+const NavRight = styled.ul`
     display: flex;
+    align-items: center;
+    list-style: none;
 
-    @media ${device.mobileL} {
-        flex-direction: column;
+    li {
+        margin-right: 15px;
+    }
+
+    @media ${device.tabletS} {
+        align-items: unset;
     }
 `;
 
@@ -154,9 +160,15 @@ export function Navigation(): JSX.Element {
                                     <StyledLink to='/popular'>Popular</StyledLink>
                                 </li>
                             </NavLeft>
+                            <SearchBar corpus={['test']} />
                             <NavRight>
-                                <SearchBar corpus={['test']} />
-                                <UserDropdown />
+                                <li>
+                                    <StyledLink to='/login'>Log In</StyledLink>
+                                </li>
+                                <li>
+                                    <StyledLink to='/signup'>Sign Up</StyledLink>
+                                </li>
+                                {/* <UserDropdown /> */}
                             </NavRight>
                         </LargeDisplay>
                     </Navbar>
