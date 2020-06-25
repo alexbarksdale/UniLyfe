@@ -9,7 +9,7 @@ import {
     CategoryLink,
     PostInfoBar,
     UserLink,
-} from '../../utils/postStyles.util';
+} from '../shared-styles/post.styles';
 import { CategoryTitle } from '../../utils/globalStyles.util';
 
 const PicksContainer = styled.div`

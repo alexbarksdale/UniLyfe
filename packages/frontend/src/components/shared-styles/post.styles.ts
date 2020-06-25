@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { device } from './theme.util';
+import { device } from '../../utils/theme.util';
 
 type StyleProps = {
     big?: boolean; // Used to position elements in 'Our Picks'
@@ -35,6 +35,7 @@ export const PostHeader = styled.div`
         display: ${(props) => (props.big ? 'flex' : 'none')};
     }
 `;
+
 export const PostContent = styled.div`
     display: flex;
     flex-direction: column;

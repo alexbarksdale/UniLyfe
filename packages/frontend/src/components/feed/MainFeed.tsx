@@ -10,7 +10,7 @@ import {
     PostInfoBar,
     PostStats,
     UserLink,
-} from '../../utils/postStyles.util';
+} from '../shared-styles/post.styles';
 import { CategoryTitle } from '../../utils/globalStyles.util';
 
 const FeedContainer = styled.div`

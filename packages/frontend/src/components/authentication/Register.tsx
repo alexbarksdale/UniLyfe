@@ -1,14 +1,31 @@
 import React from 'react';
-import styled from 'styled-components';
 
-const RegisterContainer = styled.div`
-    background-color: red;
-`;
+import { AuthForm, AuthInput } from '../shared-styles/auth.styles';
 
 export function Register(): JSX.Element {
     return (
-        <RegisterContainer>
-            <h1>Hello</h1>
-        </RegisterContainer>
+        <AuthForm>
+            <label htmlFor='email'>
+                Enter your university email
+                <AuthInput id='email' type='email' placeholder='Enter your email' />
+            </label>
+            <label htmlFor='password'>
+                Enter your password
+                <AuthInput
+                    id='password'
+                    type='password'
+                    placeholder='Enter your password'
+                />
+            </label>
+            <label htmlFor='confirm-password'>
+                Confirm your password
+                <AuthInput
+                    id='confirm-password'
+                    type='password'
+                    placeholder='Confirm your password'
+                />
+            </label>
+            <button type='submit'>Sign Up</button>
+        </AuthForm>
     );
 }
