@@ -11,7 +11,7 @@ export function BaseRouter(): JSX.Element {
             <Navigation />
             <Switch>
                 <Route exact path='/' component={Home} />
-                <Route exact path='/login' component={Authentication} />
+                <Route exact path='/login' render={() => <Authentication typeLogin />} />
                 <Route exact path='/signup' component={Authentication} />
                 <Route path='/' render={() => <div>404 - TODO</div>} />
             </Switch>

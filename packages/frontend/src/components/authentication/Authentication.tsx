@@ -2,7 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { Login } from './Login';
 import { Register } from './Register';
+
+type AppProps = {
+    typeLogin?: boolean;
+};
 
 const AuthContainer = styled.div`
     display: flex;
@@ -87,20 +92,30 @@ const ExistingAccount = styled.p`
     }
 `;
 
-export function Authentication(): JSX.Element {
+export function Authentication({ typeLogin }: AppProps): JSX.Element {
+    const heading = typeLogin ? 'Welcome back!' : 'Create an account';
+    const subHeading = typeLogin
+        ? 'Login to create posts and interact with the community'
+        : 'Join a community of anonymous verified students.';
+    const existingAccount = typeLogin
+        ? "Don't have an account?"
+        : 'Already have an account?';
+
     return (
         <AuthContainer>
             <AuthContent>
                 <AuthHeader>
-                    <h2>Create an account</h2>
-                    <p>Join a community of anonymous verified students.</p>
+                    <h2>{heading}</h2>
+                    <p>{subHeading}</p>
                 </AuthHeader>
 
-                <Register />
+                {typeLogin ? <Login /> : <Register />}
 
                 <ExistingAccount>
-                    Already have an account?
-                    <Link to='/signup'>Log In</Link>
+                    {existingAccount}
+                    <Link to={typeLogin ? '/signup' : '/login'}>
+                        {typeLogin ? 'Sign Up' : 'Log In'}
+                    </Link>
                 </ExistingAccount>
             </AuthContent>
         </AuthContainer>
