@@ -16,8 +16,33 @@ const AuthContent = styled.div`
     width: 370px;
     margin: 65px 20px 65px 20px;
     border-radius: 8px;
-    box-shadow: 0px 0px 56px 0px rgba(0, 0, 0, 0.18);
+    box-shadow: 0px 0px 65px 0px rgba(0, 0, 0, 0.23);
+    animation: blink 3s linear infinite;
     background-color: ${(props) => props.theme.white};
+
+    @keyframes blink {
+        0% {
+            box-shadow: 0px 0px 65px 0px rgba(0, 0, 0, 0.23);
+        }
+        50% {
+            box-shadow: 0px 0px 65px 0px rgba(0, 0, 0, 0.08);
+        }
+        100% {
+            box-shadow: 0px 0px 65px 0px rgba(0, 0, 0, 0.23);
+        }
+    }
+
+    @-webkit-keyframes blink {
+        0% {
+            box-shadow: 0px 0px 65px 0px rgba(0, 0, 0, 0.23);
+        }
+        50% {
+            box-shadow: 0px 0px 65px 0px rgba(0, 0, 0, 0.08);
+        }
+        100% {
+            box-shadow: 0px 0px 65px 0px rgba(0, 0, 0, 0.23);
+        }
+    }
 `;
 
 const AuthHeader = styled.div`
@@ -53,7 +78,7 @@ const AuthForm = styled.form`
         font-size: 14px;
         font-weight: 600;
         letter-spacing: 0.3px;
-        color: ${(props) => props.theme.gray800};
+        color: ${(props) => props.theme.gray500};
     }
 
     button {
