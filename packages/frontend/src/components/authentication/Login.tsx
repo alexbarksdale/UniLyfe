@@ -7,7 +7,7 @@ import { AuthForm, AuthInput, AuthLabel } from '../shared-styles/auth.styles';
 const validationSchema = yup.object().shape({
     email: yup
         .string()
-        .email('You must use a valid university email.')
+        .email('You must enter valid university email.')
         .required('Email is required.'),
     password: yup.string().required('Password is required.'),
 });
@@ -18,9 +18,8 @@ const TextField = ({ placeholder, label, ...props }: any) => {
 
     return (
         <AuthLabel error={err} htmlFor={field.name}>
-            {label}
+            {err ? meta.error : label}
             <AuthInput {...field} {...props} placeholder={placeholder} />
-            <h1>{err}</h1>
         </AuthLabel>
     );
 };
@@ -41,23 +40,21 @@ export function Login(): JSX.Element {
                 setSubmitting(false);
             }}
         >
-            {({ values, errors, handleSubmit }) => (
+            {({ handleSubmit }) => (
                 <AuthForm onSubmit={handleSubmit}>
                     <TextField
                         name='email'
                         id='email'
                         type='email'
                         placeholder='Enter your email'
-                        label={errors.email ?? 'Enter your email'}
-                        value={values.email}
+                        label='Enter your email'
                     />
                     <TextField
                         name='password'
                         id='password'
                         type='password'
                         placeholder='Enter your password'
-                        label={errors.password ?? 'Enter your password'}
-                        value={values.password}
+                        label='Enter your password'
                     />
                     <button type='submit'>Login</button>
                 </AuthForm>

@@ -22,7 +22,7 @@ const validationSchema = yup.object().shape({
         .required('Password is required.'),
     confirmPassword: yup
         .string()
-        .oneOf([yup.ref('password')], 'Passwords must match')
+        .oneOf([yup.ref('password')], 'Passwords must match.')
         .required('You must confirm your password.'),
 });
 
@@ -32,9 +32,8 @@ const TextField = ({ placeholder, label, ...props }: any) => {
 
     return (
         <AuthLabel error={err} htmlFor={field.name}>
-            {label}
+            {err ? meta.error : label}
             <AuthInput {...field} {...props} placeholder={placeholder} />
-            <h1>{err}</h1>
         </AuthLabel>
     );
 };
@@ -46,37 +45,34 @@ export function Register(): JSX.Element {
         <Formik
             initialValues={initValues}
             validationSchema={validationSchema}
-            onSubmit={(values, actions) => {
-                actions.setSubmitting(true);
+            onSubmit={(values, { setSubmitting }) => {
+                setSubmitting(true);
                 console.log('Submit values: ', values);
-                actions.setSubmitting(false);
+                setSubmitting(false);
             }}
         >
-            {({ values, errors, handleSubmit }) => (
+            {({ handleSubmit }) => (
                 <AuthForm onSubmit={handleSubmit}>
                     <TextField
                         name='email'
                         id='email'
                         type='email'
                         placeholder='Enter your email'
-                        label={errors.email ?? 'Enter your university email'}
-                        value={values.email}
+                        label='Enter your university email'
                     />
                     <TextField
                         name='password'
                         id='password'
                         type='password'
                         placeholder='Enter your password'
-                        label={errors.password ?? 'Enter your password'}
-                        value={values.password}
+                        label='Enter your password'
                     />
                     <TextField
                         name='confirmPassword'
                         id='confirmPassword'
                         type='password'
                         placeholder='Confirm your password'
-                        label={errors.confirmPassword ?? 'Confirm your password'}
-                        value={values.confirmPassword}
+                        label='Confirm your password'
                     />
                     <button type='submit'>Sign Up</button>
                 </AuthForm>

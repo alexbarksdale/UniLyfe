@@ -95,7 +95,7 @@ const ExistingAccount = styled.p`
 export function Authentication({ typeLogin }: AppProps): JSX.Element {
     const heading = typeLogin ? 'Welcome back!' : 'Create an account';
     const subHeading = typeLogin
-        ? 'Login to create posts and interact with the community.'
+        ? 'Log in to create posts and interact with the community.'
         : 'Join a community of anonymous verified students.';
     const existingAccount = typeLogin
         ? "Don't have an account?"
