@@ -1,18 +1,16 @@
 import styled from 'styled-components';
 
+import { Theme } from '../../utils/theme.util';
+
+type StyleProps = {
+    error?: boolean | undefined | string;
+    theme: Theme;
+    children?: any[];
+};
+
 export const AuthForm = styled.form`
     display: flex;
     flex-direction: column;
-
-    label {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        font-size: 14px;
-        font-weight: 600;
-        letter-spacing: 0.3px;
-        color: ${(props) => props.theme.gray500};
-    }
 
     button {
         font-size: 16px;
@@ -53,4 +51,15 @@ export const AuthInput = styled.input`
     &::placeholder {
         color: ${(props) => props.theme.gray450};
     }
+`;
+
+export const AuthLabel = styled.label`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: ${(props: StyleProps) =>
+        props.error ? props.theme.error : props.theme.gray500};
 `;

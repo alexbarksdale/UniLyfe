@@ -1,3 +1,21 @@
+export type Theme = {
+    primary: string;
+    darkPrimary: string;
+    white: string;
+    shadow: string;
+    gray200: string;
+    gray300: string;
+    gray350: string;
+    gray400: string;
+    gray450: string;
+    gray500: string;
+    gray600: string;
+    gray800: string;
+    divider: string;
+    error: string;
+    success: string;
+};
+
 // Theme color for the sites
 export const theme = {
     primary: '#6b7cff',
