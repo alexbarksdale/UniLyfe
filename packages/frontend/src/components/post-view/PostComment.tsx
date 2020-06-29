@@ -1,0 +1,94 @@
+import React from 'react';
+import styled from 'styled-components';
+import { Formik, Field } from 'formik';
+
+const CommentContainer = styled.div`
+    margin-top: 15px;
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    h3 {
+        font-size: 17px;
+        font-weight: 600;
+        color: ${(props) => props.theme.gray800};
+    }
+
+    textarea {
+        resize: none;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        box-sizing: border-box;
+
+        font-weight: 500;
+        font-size: 15px;
+
+        height: 150px;
+        width: 100%;
+        padding: 10px;
+        margin-top: 8px;
+        outline: none;
+        background-color: ${(props) => props.theme.gray300};
+        transition: all 0.3s ease 0s;
+
+        &:focus,
+        &:hover {
+            border: 1px solid ${(props) => props.theme.gray350};
+        }
+    }
+
+    button {
+        display: flex;
+        align-self: flex-end;
+        margin-top: 9px;
+        padding: 8px;
+
+        font-size: 15px;
+        font-weight: 500;
+        color: ${(props) => props.theme.white};
+        border-radius: 8px;
+        background-color: ${(props) => props.theme.primary};
+        outline: none;
+        transition: all 0.3s ease 0s;
+
+        &:hover {
+            background-color: ${(props) => props.theme.darkPrimary};
+        }
+    }
+`;
+
+type FormValues = {
+    comment: string;
+};
+
+// TODO: Add required values like author id later
+export function PostComment(): JSX.Element {
+    const initValues: FormValues = { comment: '' };
+
+    return (
+        <CommentContainer>
+            <h3>Add a new comment</h3>
+            <Formik
+                initialValues={initValues}
+                onSubmit={(values, { setSubmitting }) => {
+                    setSubmitting(true);
+                    console.log(values);
+                    setSubmitting(false);
+                }}
+            >
+                {({ handleSubmit }) => (
+                    <form onSubmit={handleSubmit}>
+                        <Field
+                            name='comment'
+                            component='textarea'
+                            placeholder='Write your response...'
+                        />
+                        <button type='submit'>Comment</button>
+                    </form>
+                )}
+            </Formik>
+        </CommentContainer>
+    );
+}
