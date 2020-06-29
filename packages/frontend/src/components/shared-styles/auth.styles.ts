@@ -6,11 +6,15 @@ type StyleProps = {
     error?: boolean | undefined | string;
     theme: Theme;
     children?: any[];
+    isSubmitting?: boolean;
 };
 
 export const AuthForm = styled.form`
     display: flex;
     flex-direction: column;
+
+    pointer-events: ${(props: StyleProps) => (props.isSubmitting ? 'none' : 'unset')};
+    opacity: ${(props: StyleProps) => (props.isSubmitting ? '.4' : '1')};
 
     button {
         font-size: 16px;

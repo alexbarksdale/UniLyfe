@@ -51,8 +51,8 @@ export function Register(): JSX.Element {
                 setSubmitting(false);
             }}
         >
-            {({ handleSubmit }) => (
-                <AuthForm onSubmit={handleSubmit}>
+            {({ handleSubmit, isSubmitting }) => (
+                <AuthForm onSubmit={handleSubmit} isSubmitting={isSubmitting}>
                     <TextField
                         name='email'
                         id='email'
