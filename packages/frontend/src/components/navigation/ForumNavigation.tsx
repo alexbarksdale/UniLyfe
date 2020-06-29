@@ -37,6 +37,7 @@ const FilterBtn = styled.button`
     padding: 6px 9px;
     border-radius: 8px;
     background-color: transparent;
+    transition: all 0.3s ease 0s;
 
     svg {
         font-size: 13px;

@@ -33,7 +33,6 @@ export const GlobalStyle = createGlobalStyle`
         margin: 0;
         padding: 0;
         font-family: 'ProximaNova', Arial, Helvetica, sans-serif !important;
-        transition: all 0.3s ease 0s;
     }
 
     button {
@@ -65,4 +64,14 @@ export const CategoryTitle = styled.h2`
     font-weight: 600;
     color: ${(props) => props.theme.gray800};
     margin-bottom: 10px;
+`;
+
+export const TwoOneGrid = styled.div`
+    display: grid;
+    grid-gap: 15px;
+    grid-template-columns: 2fr 1fr;
+
+    @media (max-width: 902px) {
+        grid-template-columns: 1fr;
+    }
 `;

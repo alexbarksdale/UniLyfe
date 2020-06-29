@@ -63,6 +63,7 @@ const ResonsiveDropdown = styled.button`
     color: ${(props) => props.theme.gray800};
     outline: none;
     background-color: transparent;
+    transition: all 0.3s ease 0s;
 
     &:hover {
         opacity: 0.8;
@@ -102,6 +103,7 @@ const StyledLink = styled(Link)`
     font-weight: 600;
     color: ${(props) => props.theme.gray600};
     text-decoration: none;
+    transition: all 0.3s ease 0s;
 
     &:hover {
         opacity: 0.8;

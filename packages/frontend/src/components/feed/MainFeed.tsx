@@ -27,7 +27,7 @@ export function MainFeed(): JSX.Element {
             <FeedContainer>
                 <CategoryTitle>Uni Feed</CategoryTitle>
                 <div>
-                    <Link to='/'>
+                    <Link to='/post'>
                         <PostHeader responsive>
                             <FaCommentAlt />
                         </PostHeader>

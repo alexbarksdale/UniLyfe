@@ -5,6 +5,7 @@ import { device } from '../../utils/theme.util';
 type StyleProps = {
     big?: boolean; // Used to position elements in 'Our Picks'
     responsive?: boolean;
+    postView?: boolean;
 };
 
 export const PostHeader = styled.div`
@@ -18,6 +19,8 @@ export const PostHeader = styled.div`
     margin-right: ${(props: StyleProps) => (props.big ? undefined : '15px')};
     width: ${(props: StyleProps) => (props.big ? undefined : '94px')};
     margin-bottom: ${(props: StyleProps) => (props.big ? '15px' : undefined)};
+    transition: all 0.3s ease 0s;
+
     svg {
         color: ${(props) => props.theme.gray500};
         font-size: 45px;
@@ -43,6 +46,7 @@ export const PostContent = styled.div`
 
     a {
         text-decoration: none;
+        transition: all 0.3s ease 0s;
         &:hover {
             opacity: 0.8;
         }
@@ -86,21 +90,22 @@ export const PostStats = styled.ul`
         margin-right: 9px;
 
         a,
+        span,
         button {
             display: flex;
-            font-size: 14px;
+            font-size: ${(props: StyleProps) => (props.postView ? '16px' : '14px')};
+            font-weight: 500;
             color: ${(props) => props.theme.gray600};
-            transition: 0s;
             background-color: transparent;
+            transition: all 0.3s ease 0s;
 
             svg {
-                font-size: 13px;
+                font-size: ${(props: StyleProps) => (props.postView ? '14px' : '13px')};
                 margin-right: 4px;
             }
 
             &:hover {
                 color: ${(props) => props.theme.gray450};
-                transition: 0s;
             }
         }
     }

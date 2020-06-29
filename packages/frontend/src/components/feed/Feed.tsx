@@ -1,24 +1,14 @@
 import React from 'react';
-import styled from 'styled-components';
 
 import { MainFeed } from './MainFeed';
 import { FixedFeed } from './fixed-feed/FixedFeed';
-
-const FeedContainer = styled.div`
-    display: grid;
-    grid-gap: 15px;
-    grid-template-columns: 2fr 1fr;
-
-    @media (max-width: 902px) {
-        grid-template-columns: 1fr;
-    }
-`;
+import { TwoOneGrid } from '../shared-styles/global.styles';
 
 export function Feed(): JSX.Element {
     return (
-        <FeedContainer>
+        <TwoOneGrid>
             <MainFeed />
             <FixedFeed />
-        </FeedContainer>
+        </TwoOneGrid>
     );
 }

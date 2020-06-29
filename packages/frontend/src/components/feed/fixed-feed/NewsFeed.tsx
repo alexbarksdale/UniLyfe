@@ -24,6 +24,7 @@ const NewsContent = styled.ul`
 
         a {
             text-decoration: none;
+            transition: all 0.3s ease 0s;
         }
     }
 `;
@@ -31,6 +32,7 @@ const NewsContent = styled.ul`
 const NewsCard = styled.div`
     border-radius: 8px;
     background-color: ${(props) => props.theme.white};
+    transition: all 0.3s ease 0s;
 
     img {
         height: 88px;
