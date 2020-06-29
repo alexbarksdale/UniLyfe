@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { FaFire, FaCertificate } from 'react-icons/fa';
 
 import { ForumDropdown } from './dropdown/ForumDropdown';
-import { Container } from '../../utils/globalStyles.util';
+import { Container } from '../shared-styles/global.styles';
 
 const NavContainer = styled.div`
     position: fixed;

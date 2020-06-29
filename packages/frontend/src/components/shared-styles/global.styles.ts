@@ -1,5 +1,5 @@
 import styled, { createGlobalStyle } from 'styled-components';
-import { device } from './theme.util';
+import { device } from '../../utils/theme.util';
 
 export const GlobalStyle = createGlobalStyle`
     @font-face {

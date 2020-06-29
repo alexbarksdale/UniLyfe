@@ -7,7 +7,7 @@ import { AuthForm, AuthInput, AuthLabel } from '../shared-styles/auth.styles';
 const validationSchema = yup.object().shape({
     email: yup
         .string()
-        .email('You must enter valid university email.')
+        .email('You must enter a valid university email.')
         .required('Email is required.'),
     password: yup.string().required('Password is required.'),
 });

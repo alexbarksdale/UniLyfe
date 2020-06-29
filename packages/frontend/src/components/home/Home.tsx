@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Container } from '../../utils/globalStyles.util';
+import { Container } from '../shared-styles/global.styles';
 import { OurPicks } from '../our-picks/OurPicks';
 import { Feed } from '../feed/Feed';
 

@@ -10,7 +10,7 @@ import {
     PostInfoBar,
     UserLink,
 } from '../shared-styles/post.styles';
-import { CategoryTitle } from '../../utils/globalStyles.util';
+import { CategoryTitle } from '../shared-styles/global.styles';
 
 const PicksContainer = styled.div`
     display: grid;

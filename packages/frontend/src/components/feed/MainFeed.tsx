@@ -11,7 +11,7 @@ import {
     PostStats,
     UserLink,
 } from '../shared-styles/post.styles';
-import { CategoryTitle } from '../../utils/globalStyles.util';
+import { CategoryTitle } from '../shared-styles/global.styles';
 
 const FeedContainer = styled.div`
     flex-direction: column;

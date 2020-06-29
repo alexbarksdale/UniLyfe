@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { CategoryTitle } from '../../../utils/globalStyles.util';
+import { CategoryTitle } from '../../shared-styles/global.styles';
 
 const NewsContainer = styled.div``;
 
@@ -58,7 +58,7 @@ const NewsCard = styled.div`
 
 const SubHeader = styled.div`
     display: flex;
-    align-items: center;
+    align-items: baseline;
     margin: 8px 0px;
 
     p {
@@ -77,7 +77,6 @@ const SubHeader = styled.div`
     }
 
     h4 {
-        display: flex;
         font-size: 13px;
         font-weight: 500;
         color: ${(props) => props.theme.gray450};

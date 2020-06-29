@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaBars, FaTimes } from 'react-icons/fa';
 
-import { Container } from '../../utils/globalStyles.util';
+import { Container } from '../shared-styles/global.styles';
 import { device } from '../../utils/theme.util';
 import { SearchBar } from '../search-bar/SearchBar';
 /* import { UserDropdown } from './dropdown/UserDropdown'; */
