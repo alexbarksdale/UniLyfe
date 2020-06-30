@@ -26,6 +26,7 @@ const PostDescription = styled.p`
     line-height: 20px;
     letter-spacing: 0.4px;
     color: ${(props) => props.theme.gray600};
+    margin-bottom: 15px;
 `;
 
 const Divider = styled.hr`
@@ -52,7 +53,6 @@ export function PostDetails(): JSX.Element {
                 sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
                 mollit anim id est laborum.
             </PostDescription>
-            <Divider />
             <PostStats postView>
                 <li>
                     <button type='button'>
@@ -67,6 +67,7 @@ export function PostDetails(): JSX.Element {
                     </span>
                 </li>
             </PostStats>
+            <Divider />
         </PostDetailContainer>
     );
 }

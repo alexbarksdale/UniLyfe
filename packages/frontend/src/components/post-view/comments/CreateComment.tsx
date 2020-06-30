@@ -25,17 +25,17 @@ const CommentContainer = styled.div`
         font-weight: 500;
         font-size: 15px;
 
-        height: 150px;
+        height: 100px;
         width: 100%;
         padding: 10px;
         margin-top: 8px;
         outline: none;
-        background-color: ${(props) => props.theme.gray300};
+        background-color: ${(props) => props.theme.gray200};
         transition: all 0.3s ease 0s;
 
-        &:focus,
-        &:hover {
-            border: 1px solid ${(props) => props.theme.gray350};
+        &:focus {
+            height: 150px;
+            border: 1px solid ${(props) => props.theme.gray300};
         }
     }
 
@@ -59,17 +59,21 @@ const CommentContainer = styled.div`
     }
 `;
 
+type AppProps = {
+    isReply?: boolean;
+};
+
 type FormValues = {
     comment: string;
 };
 
 // TODO: Add required values like author id later
-export function PostComment(): JSX.Element {
+export function CreateComment({ isReply }: AppProps): JSX.Element {
     const initValues: FormValues = { comment: '' };
 
     return (
         <CommentContainer>
-            <h3>Add a new comment</h3>
+            {isReply ?? <h3>Add a new comment</h3>}
             <Formik
                 initialValues={initValues}
                 onSubmit={(values, { setSubmitting }) => {
@@ -85,7 +89,7 @@ export function PostComment(): JSX.Element {
                             component='textarea'
                             placeholder='Write your response...'
                         />
-                        <button type='submit'>Comment</button>
+                        <button type='submit'>{isReply ? 'Reply' : 'Comment'}</button>
                     </form>
                 )}
             </Formik>

@@ -6,7 +6,8 @@ import { FaAngleLeft } from 'react-icons/fa';
 import { Container, TwoOneGrid } from '../shared-styles/global.styles';
 import { FixedFeed } from '../feed/fixed-feed/FixedFeed';
 import { PostDetails } from './PostDetails';
-import { PostComment } from './PostComment';
+import { CreateComment } from './comments/CreateComment';
+import { PostComments } from './PostComments';
 
 const BackButton = styled.button`
     font-size: 16px;
@@ -26,6 +27,7 @@ const BackButton = styled.button`
     }
 `;
 
+// TODO: Don't show PostComment if not auth
 export function PostView(): JSX.Element {
     return (
         <Container>
@@ -39,7 +41,8 @@ export function PostView(): JSX.Element {
                     </BackButton>
 
                     <PostDetails />
-                    <PostComment />
+                    <CreateComment />
+                    <PostComments />
                 </div>
                 <FixedFeed />
             </TwoOneGrid>
