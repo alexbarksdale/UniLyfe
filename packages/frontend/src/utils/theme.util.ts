@@ -1,6 +1,6 @@
 export type Theme = {
-    theme: Theme;
     primary: string;
+    lightPrimary: string;
     darkPrimary: string;
     white: string;
     shadow: string;
@@ -18,8 +18,9 @@ export type Theme = {
 };
 
 // Theme color for the sites
-export const theme = {
+export const theme: Theme = {
     primary: '#6b7cff',
+    lightPrimary: '#97a3ff',
     darkPrimary: '#5f71f9',
     white: '#fff',
     shadow: '#e4e4e4',

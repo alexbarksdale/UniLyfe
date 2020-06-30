@@ -96,6 +96,7 @@ export const PostStats = styled.ul`
             font-size: ${(props: StyleProps) => (props.postView ? '16px' : '14px')};
             font-weight: 500;
             color: ${(props) => props.theme.gray600};
+            outline: none;
             background-color: transparent;
             transition: all 0.3s ease 0s;
 

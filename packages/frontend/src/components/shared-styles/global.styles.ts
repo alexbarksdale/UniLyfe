@@ -1,5 +1,5 @@
 import styled, { createGlobalStyle } from 'styled-components';
-import { Theme, device } from '../../utils/theme.util';
+import { device } from '../../utils/theme.util';
 
 export const GlobalStyle = createGlobalStyle`
     @font-face {
@@ -86,7 +86,7 @@ export const CardContainer = `
     border-radius: 8px;
     box-shadow: 0px 0px 65px 0px rgba(0, 0, 0, 0.23);
     animation: blink 3s linear infinite;
-    background-color: ${(props: Theme) => props.theme.white};
+    background-color: #fff;
 
     @keyframes blink {
         0% {

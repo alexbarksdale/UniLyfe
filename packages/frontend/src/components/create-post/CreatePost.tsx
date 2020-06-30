@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { FaCommentAlt, FaImage } from 'react-icons/fa';
 
 import { CardContainer } from '../shared-styles/global.styles';
 import { Theme } from '../../utils/theme.util';
@@ -50,6 +51,8 @@ const Selection = styled.ul`
 `;
 
 const SelectionBtn = styled.button`
+    display: flex;
+    align-items: center;
     font-size: 16px;
     font-weight: 500;
     padding: 7px 13px;
@@ -59,6 +62,11 @@ const SelectionBtn = styled.button`
     color: ${({ active, theme }: StyleProps) => (active ? theme.primary : theme.gray350)};
     border-bottom: 2px solid
         ${({ active, theme }: StyleProps) => (active ? theme.primary : theme.gray350)};
+
+    svg {
+        font-size: 14px;
+        margin-right: 7px;
+    }
 `;
 
 const Disabled = styled.div`
@@ -82,6 +90,7 @@ export function CreatePost(): JSX.Element {
                             active={active}
                             onClick={() => setActive(true)}
                         >
+                            <FaCommentAlt />
                             Text
                         </SelectionBtn>
                     </li>
@@ -92,6 +101,7 @@ export function CreatePost(): JSX.Element {
                                 active={!active}
                                 onClick={() => setActive(false)}
                             >
+                                <FaImage />
                                 Image
                             </SelectionBtn>
                         </Disabled>

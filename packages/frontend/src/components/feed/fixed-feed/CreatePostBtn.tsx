@@ -11,12 +11,12 @@ const CreateBtn = styled.button`
     width: 100%;
     color: ${(props) => props.theme.white};
     letter-spacing: 0.7px;
-    background-color: ${(props) => props.theme.primary};
+    background-color: ${(props) => props.theme.lightPrimary};
     transition: all 0.3s ease 0s;
 
     &:hover {
         color: ${(props) => props.theme.white};
-        background-color: ${(props) => props.theme.darkPrimary};
+        background-color: ${(props) => props.theme.primary};
     }
 `;
 
