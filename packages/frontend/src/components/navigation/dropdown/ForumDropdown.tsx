@@ -25,7 +25,6 @@ const SelectBtn = styled.button`
     padding: 6px 9px;
     outline: none;
     box-shadow: 0px 11px 13px 0px rgba(0, 0, 0, 0.11);
-    transition: none !important;
     background-color: ${(props: StyleProps) => (props.dropdown ? '#fff' : '#97a3ff')};
 
     &:hover {
@@ -46,12 +45,10 @@ const ActiveItem = styled.span`
     font-weight: 500;
     letter-spacing: 0.4px;
     flex-grow: 1;
-    transition: none !important;
 `;
 
 const StyledIcon = styled(FaChevronDown)`
     transform: rotate(${(props: StyleProps) => (props.dropdown ? 180 : 0)}deg);
-    transition: none !important;
 `;
 
 const SelectList = styled.ul`
@@ -70,6 +67,7 @@ const SelectList = styled.ul`
         align-items: center;
         border-radius: 8px;
         padding: 6px;
+        transition: all 0.3s ease 0s;
 
         &:hover {
             background-color: ${(props) => props.theme.gray300};
@@ -80,10 +78,10 @@ const SelectList = styled.ul`
             font-size: 15.5px;
             background-color: transparent;
             margin-left: 7px;
+            transition: all 0.3s ease 0s;
 
             &:hover {
                 color: ${(props) => props.theme.primary};
-                transition: none !important;
             }
         }
     }

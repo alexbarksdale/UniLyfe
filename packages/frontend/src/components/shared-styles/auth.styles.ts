@@ -27,6 +27,7 @@ export const AuthForm = styled.form`
         color: ${(props) => props.theme.gray500};
         box-shadow: 0px 3px 0px 0px ${(props) => props.theme.gray350};
         background-color: ${(props) => props.theme.gray300};
+        transition: all 0.3s ease 0s;
 
         &:hover,
         &:focus {
@@ -47,6 +48,7 @@ export const AuthInput = styled.input`
     border-radius: 8px;
     color: ${(props) => props.theme.gray800};
     background-color: ${(props) => props.theme.gray300};
+    transition: all 0.3s ease 0s;
 
     &:focus {
         border: 1.6px solid ${(props) => props.theme.primary};

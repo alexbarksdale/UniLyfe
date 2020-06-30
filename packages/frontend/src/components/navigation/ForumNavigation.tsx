@@ -33,6 +33,7 @@ const FilterBtn = styled.button`
     font-weight: 500;
     color: ${(props) => props.theme.white};
 
+    outline: none;
     cursor: pointer;
     padding: 6px 9px;
     border-radius: 8px;
