@@ -20,7 +20,7 @@ const CreateBtn = styled.button`
     }
 `;
 
-export function CreatePost(): JSX.Element {
+export function CreatePostBtn(): JSX.Element {
     return (
         <Link to='/create'>
             <CreateBtn>Create Post</CreateBtn>

@@ -1,4 +1,5 @@
 export type Theme = {
+    theme: Theme;
     primary: string;
     darkPrimary: string;
     white: string;

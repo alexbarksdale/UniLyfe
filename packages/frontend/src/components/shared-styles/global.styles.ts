@@ -1,5 +1,5 @@
 import styled, { createGlobalStyle } from 'styled-components';
-import { device } from '../../utils/theme.util';
+import { Theme, device } from '../../utils/theme.util';
 
 export const GlobalStyle = createGlobalStyle`
     @font-face {
@@ -73,5 +73,42 @@ export const TwoOneGrid = styled.div`
 
     @media (max-width: 902px) {
         grid-template-columns: 1fr;
+    }
+`;
+
+export const CardContainer = `
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    padding: 26px 19px;
+    margin: 65px 20px 65px 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 65px 0px rgba(0, 0, 0, 0.23);
+    animation: blink 3s linear infinite;
+    background-color: ${(props: Theme) => props.theme.white};
+
+    @keyframes blink {
+        0% {
+            box-shadow: 0px 0px 65px 0px rgba(0, 0, 0, 0.23);
+        }
+        50% {
+            box-shadow: 0px 0px 65px 0px rgba(0, 0, 0, 0.08);
+        }
+        100% {
+            box-shadow: 0px 0px 65px 0px rgba(0, 0, 0, 0.23);
+        }
+    }
+
+    @-webkit-keyframes blink {
+        0% {
+            box-shadow: 0px 0px 65px 0px rgba(0, 0, 0, 0.23);
+        }
+        50% {
+            box-shadow: 0px 0px 65px 0px rgba(0, 0, 0, 0.08);
+        }
+        100% {
+            box-shadow: 0px 0px 65px 0px rgba(0, 0, 0, 0.23);
+        }
     }
 `;

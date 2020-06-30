@@ -9,7 +9,7 @@ type StyleProps = {
     isSubmitting?: boolean;
 };
 
-export const AuthForm = styled.form`
+export const Form = styled.form`
     display: flex;
     flex-direction: column;
 
@@ -37,7 +37,7 @@ export const AuthForm = styled.form`
     }
 `;
 
-export const AuthInput = styled.input`
+export const Input = styled.input`
     padding: 10px 13px;
     flex-grow: 1;
     font-weight: 500;
@@ -59,7 +59,7 @@ export const AuthInput = styled.input`
     }
 `;
 
-export const AuthLabel = styled.label`
+export const Label = styled.label`
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -68,4 +68,40 @@ export const AuthLabel = styled.label`
     letter-spacing: 0.3px;
     color: ${(props: StyleProps) =>
         props.error ? props.theme.error : props.theme.gray500};
+`;
+
+export const Select = styled.select`
+    color: ${(props) => props.theme.gray500};
+    appearance: none;
+    border-radius: 8px;
+    background: #eee
+        url('http://blog.idevelopweb.site/wp-content/uploads/2016/05/nw_selarw.png')
+        no-repeat scroll 97.5% center;
+
+    &:focus {
+        color: ${(props) => props.theme.gray800};
+    }
+`;
+
+export const TextArea = styled.textarea`
+    resize: none;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    box-sizing: border-box;
+
+    font-weight: 500;
+    font-size: 15px;
+
+    height: 100px;
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    outline: none;
+    background-color: ${(props) => props.theme.gray200};
+    transition: all 0.3s ease 0s;
+
+    &:focus {
+        height: 150px;
+        border: 1px solid ${(props) => props.theme.gray300};
+    }
 `;

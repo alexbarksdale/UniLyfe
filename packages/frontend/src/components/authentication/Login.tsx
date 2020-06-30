@@ -2,7 +2,7 @@ import React from 'react';
 import { Formik, useField } from 'formik';
 import * as yup from 'yup';
 
-import { AuthForm, AuthInput, AuthLabel } from '../shared-styles/auth.styles';
+import { Form, Input, Label } from '../shared-styles/form.styles';
 
 const validationSchema = yup.object().shape({
     email: yup
@@ -17,10 +17,10 @@ const TextField = ({ placeholder, label, ...props }: any) => {
     const err = meta.error && meta.touched;
 
     return (
-        <AuthLabel error={err} htmlFor={field.name}>
+        <Label error={err} htmlFor={field.name}>
             {err ? meta.error : label}
-            <AuthInput {...field} {...props} placeholder={placeholder} />
-        </AuthLabel>
+            <Input {...field} {...props} placeholder={placeholder} />
+        </Label>
     );
 };
 
@@ -41,7 +41,7 @@ export function Login(): JSX.Element {
             }}
         >
             {({ handleSubmit, isSubmitting }) => (
-                <AuthForm onSubmit={handleSubmit} isSubmitting={isSubmitting}>
+                <Form onSubmit={handleSubmit} isSubmitting={isSubmitting}>
                     <TextField
                         name='email'
                         id='email'
@@ -57,7 +57,7 @@ export function Login(): JSX.Element {
                         label='Enter your password'
                     />
                     <button type='submit'>Login</button>
-                </AuthForm>
+                </Form>
             )}
         </Formik>
     );
