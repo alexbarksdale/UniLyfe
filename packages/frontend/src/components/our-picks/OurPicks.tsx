@@ -54,7 +54,7 @@ export function OurPicks(): JSX.Element {
             <PicksContainer>
                 <MainItem>
                     <Link to='/'>
-                        <PostHeader big>
+                        <PostHeader big='true'>
                             <FaCommentAlt />
                         </PostHeader>
                     </Link>
@@ -69,7 +69,7 @@ export function OurPicks(): JSX.Element {
                             </p>
                         </Link>
                         <PostInfoBar>
-                            <UserLink to='/' big>
+                            <UserLink to='/' big='true'>
                                 XXX | User
                             </UserLink>
                             <p>June 20, 2020</p>
@@ -93,7 +93,7 @@ export function OurPicks(): JSX.Element {
                             </p>
                         </Link>
                         <PostInfoBar>
-                            <UserLink to='/' big>
+                            <UserLink to='/' big='true'>
                                 XXX | User
                             </UserLink>
                             <p>June 20, 2020</p>
@@ -117,7 +117,7 @@ export function OurPicks(): JSX.Element {
                             </p>
                         </Link>
                         <PostInfoBar>
-                            <UserLink to='/' big>
+                            <UserLink to='/' big='true'>
                                 XXX | User
                             </UserLink>
                             <p>June 20, 2020</p>

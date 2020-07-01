@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { ApolloProvider } from '@apollo/react-hooks';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import reduxThunk from 'redux-thunk';
 
+import { client } from './apollo/client';
 import { App } from './components/App';
 import { reducers } from './store/reducers/main.reducers';
 
@@ -12,8 +14,10 @@ const composeEnhancers =
 const store = createStore(reducers, composeEnhancers(applyMiddleware(reduxThunk)));
 
 ReactDOM.render(
-    <Provider store={store}>
-        <App />
-    </Provider>,
+    <ApolloProvider client={client}>
+        <Provider store={store}>
+            <App />
+        </Provider>
+    </ApolloProvider>,
     document.querySelector('#root')
 );

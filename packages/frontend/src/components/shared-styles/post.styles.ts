@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { device } from '../../utils/theme.util';
 
 type StyleProps = {
-    big?: boolean; // Used to position elements in 'Our Picks'
+    big?: boolean | string; // Used to position elements in 'Our Picks'
     responsive?: boolean;
     postView?: boolean;
 };
