@@ -35,7 +35,9 @@ export class UserEntity extends BaseEntity {
     posts!: Array<PostEntity>;
 
     @Field(() => CommentEntity)
-    @OneToMany(() => CommentEntity, (comment: CommentEntity) => comment.author, { cascade: true })
+    @OneToMany(() => CommentEntity, (comment: CommentEntity) => comment.author, {
+        cascade: true,
+    })
     comments!: Array<CommentEntity>;
 
     @Column('int', { default: 0 })

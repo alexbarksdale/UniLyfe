@@ -2,13 +2,13 @@ import express, { Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
 
 import { UserEntity } from '../entity/User.entity';
-import { genAccessToken, sendRefreshToken } from '../utils/jwt.util';
+import { genAccessToken, genRefreshToken, sendRefreshToken } from '../utils/jwt.util';
 
 export const router = express.Router();
 
 router.post('/auth/refresh', async (req: Request, res: Response) => {
     const token = req.cookies.trident;
-    if (!token) res.send({ authenticated: false, accessToken: '' });
+    if (!token) return res.send({ authenticated: false, accessToken: '' });
 
     let payload: any;
     try {
@@ -27,7 +27,7 @@ router.post('/auth/refresh', async (req: Request, res: Response) => {
     }
 
     // User exists, sending tokens
-    sendRefreshToken(res, genAccessToken(user));
+    sendRefreshToken(res, genRefreshToken(user));
     return res.send({ authenticated: true, accessToken: genAccessToken(user) });
 });
 
