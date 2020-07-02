@@ -5,8 +5,8 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import reduxThunk from 'redux-thunk';
 
-import { client } from './apollo/client';
 import { App } from './components/App';
+import { client } from './apollo/client';
 import { reducers } from './store/reducers/main.reducers';
 
 const composeEnhancers =

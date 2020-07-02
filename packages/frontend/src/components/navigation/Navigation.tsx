@@ -6,8 +6,9 @@ import { FaBars, FaTimes } from 'react-icons/fa';
 import { Container } from '../shared-styles/global.styles';
 import { device } from '../../utils/theme.util';
 import { SearchBar } from '../search-bar/SearchBar';
-/* import { UserDropdown } from './dropdown/UserDropdown'; */
+import { UserDropdown } from './dropdown/UserDropdown';
 import { ForumNavigation } from './ForumNavigation';
+import { useMeQuery } from '../../generated/graphql';
 
 type StyleProps = {
     fontSize?: number;
@@ -125,6 +126,9 @@ const NavRight = styled.ul`
 `;
 
 export function Navigation(): JSX.Element {
+    const { data } = useMeQuery();
+    console.log('DATA: ', data);
+
     const node = useRef<HTMLDivElement>(null);
     const [dropdown, setDropdown] = useState(false);
 
@@ -170,7 +174,7 @@ export function Navigation(): JSX.Element {
                                 <li>
                                     <StyledLink to='/signup'>Sign Up</StyledLink>
                                 </li>
-                                {/* <UserDropdown /> */}
+                                <UserDropdown />
                             </NavRight>
                         </LargeDisplay>
                     </Navbar>

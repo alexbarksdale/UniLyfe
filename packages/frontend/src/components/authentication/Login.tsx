@@ -1,9 +1,10 @@
 import React from 'react';
 import { Formik, useField } from 'formik';
 import * as yup from 'yup';
+import { History } from 'history';
 
 import { Form, Input, Label } from '../shared-styles/form.styles';
-import { useLoginMutation } from '../../generated/graphql';
+import { useLoginMutation, MeDocument, MeQuery } from '../../generated/graphql';
 import { setToken } from '../../utils/accessToken.util';
 
 const validationSchema = yup.object().shape({
@@ -26,10 +27,19 @@ const TextField = ({ placeholder, label, ...props }: any) => {
     );
 };
 
-export function Login(): JSX.Element {
+type AppProps = {
+    history: History;
+};
+
+type FormValues = {
+    email: string;
+    password: string;
+};
+
+export function Login({ history }: AppProps): JSX.Element {
     const [login] = useLoginMutation();
 
-    const initValues = {
+    const initValues: FormValues = {
         email: '',
         password: '',
     };
@@ -42,20 +52,31 @@ export function Login(): JSX.Element {
                 setSubmitting(true);
 
                 try {
-                    const res = await login({
+                    const { data } = await login({
                         variables: {
                             email: values.email,
                             password: values.password,
                         },
+                        update: (store, { data }): void | null => {
+                            if (data) {
+                                store.writeQuery<MeQuery>({
+                                    query: MeDocument,
+                                    data: {
+                                        me: data.login.user,
+                                    },
+                                });
+                            }
+                            return null;
+                        },
                     });
 
-                    if (res.data && res.data.login.accessToken) {
-                        console.log(res.data.login.accessToken);
+                    if (data && data.login.accessToken) {
                         setSubmitting(false);
-                        setToken(res.data.login.accessToken);
+                        setToken(data.login.accessToken);
+                        history.push('/');
                     }
                 } catch (err) {
-                    console.log(err);
+                    console.log('Unable to login', err);
                 }
 
                 // TODO: Handle error

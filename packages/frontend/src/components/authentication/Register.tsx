@@ -1,15 +1,10 @@
 import React from 'react';
 import { Formik, useField } from 'formik';
 import * as yup from 'yup';
+import { History } from 'history';
 
 import { Form, Input, Label } from '../shared-styles/form.styles';
 import { useRegisterMutation } from '../../generated/graphql';
-
-type FormValues = {
-    email: string;
-    password: string;
-    confirmPassword: string;
-};
 
 const validationSchema = yup.object().shape({
     email: yup
@@ -39,8 +34,18 @@ const TextField = ({ placeholder, label, ...props }: any) => {
     );
 };
 
+type FormValues = {
+    email: string;
+    password: string;
+    confirmPassword: string;
+};
+
+type AppProps = {
+    history: History;
+};
+
 // TODO: Showcase register success stuff
-export function Register(): JSX.Element {
+export function Register({ history }: AppProps): JSX.Element {
     const [register] = useRegisterMutation();
     const initValues: FormValues = { email: '', password: '', confirmPassword: '' };
 
@@ -50,13 +55,17 @@ export function Register(): JSX.Element {
             validationSchema={validationSchema}
             onSubmit={async (values, { setSubmitting }) => {
                 setSubmitting(true);
-                const res = await register({
+                const { data } = await register({
                     variables: {
                         email: values.email,
                         password: values.password,
                     },
                 });
-                if (res.data && res.data.register.registerSuccess) setSubmitting(false);
+
+                if (data && data.register.registerSuccess) {
+                    setSubmitting(false);
+                    history.push('/login');
+                }
                 // TODO: Handle error
             }}
         >

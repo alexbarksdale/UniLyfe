@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { History } from 'history';
 
 import { Login } from './Login';
 import { Register } from './Register';
@@ -8,6 +9,7 @@ import { CardContainer } from '../shared-styles/global.styles';
 
 type AppProps = {
     typeLogin?: boolean;
+    history: History;
 };
 
 const AuthContainer = styled.div`
@@ -60,7 +62,8 @@ const ExistingAccount = styled.p`
     }
 `;
 
-export function Authentication({ typeLogin }: AppProps): JSX.Element {
+// @ts-ignore
+export function Authentication({ typeLogin, history }: AppProps): JSX.Element {
     const heading = typeLogin ? 'Welcome back!' : 'Create an account';
     const subHeading = typeLogin
         ? 'Log in to create posts and interact with the community.'
@@ -77,7 +80,7 @@ export function Authentication({ typeLogin }: AppProps): JSX.Element {
                     <p>{subHeading}</p>
                 </AuthHeader>
 
-                {typeLogin ? <Login /> : <Register />}
+                {typeLogin ? <Login history={history} /> : <Register history={history} />}
 
                 <ExistingAccount>
                     {existingAccount}
