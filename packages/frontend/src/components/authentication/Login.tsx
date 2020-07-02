@@ -3,6 +3,8 @@ import { Formik, useField } from 'formik';
 import * as yup from 'yup';
 
 import { Form, Input, Label } from '../shared-styles/form.styles';
+import { useLoginMutation } from '../../generated/graphql';
+import { setToken } from '../../utils/accessToken.util';
 
 const validationSchema = yup.object().shape({
     email: yup
@@ -25,6 +27,8 @@ const TextField = ({ placeholder, label, ...props }: any) => {
 };
 
 export function Login(): JSX.Element {
+    const [login] = useLoginMutation();
+
     const initValues = {
         email: '',
         password: '',
@@ -34,10 +38,27 @@ export function Login(): JSX.Element {
         <Formik
             initialValues={initValues}
             validationSchema={validationSchema}
-            onSubmit={(values, { setSubmitting }) => {
+            onSubmit={async (values, { setSubmitting }) => {
                 setSubmitting(true);
-                console.log('Submit values: ', values);
-                setSubmitting(false);
+
+                try {
+                    const res = await login({
+                        variables: {
+                            email: values.email,
+                            password: values.password,
+                        },
+                    });
+
+                    if (res.data && res.data.login.accessToken) {
+                        console.log(res.data.login.accessToken);
+                        setSubmitting(false);
+                        setToken(res.data.login.accessToken);
+                    }
+                } catch (err) {
+                    console.log(err);
+                }
+
+                // TODO: Handle error
             }}
         >
             {({ handleSubmit, isSubmitting }) => (
