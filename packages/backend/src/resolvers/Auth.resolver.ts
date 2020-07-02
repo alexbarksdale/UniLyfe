@@ -2,6 +2,7 @@ import { Resolver, Query, Mutation, Arg, Ctx } from 'type-graphql';
 import { hash, compare } from 'bcrypt';
 import { ApolloError } from 'apollo-server-express';
 import ShortUniqueId from 'short-unique-id';
+import { verify } from 'jsonwebtoken';
 
 import { UserEntity } from '../entity/User.entity';
 import { Context } from '../context/context';
@@ -19,12 +20,18 @@ export class AuthResolver {
         return UserEntity.find();
     }
 
-    @Query(() => UserEntity)
-    async getUser(@Arg('email') email: string): Promise<UserEntity> {
-        if (!email) throw new Error("You must provide the user's email!");
+    @Query(() => UserEntity, { nullable: true })
+    async me(@Ctx() { req }: Context): Promise<UserEntity | ApolloError | null> {
+        const authorized = req.headers.authorization;
+        if (!authorized) return null;
 
-        const user = await UserEntity.findOne({ where: { email } });
-        if (!user) throw new Error('Unable to find user!');
+        const token = authorized.split(' ')[1];
+        if (!token) return handleError(AuthError.MISSING_TOKEN);
+
+        const payload: any = verify(token, process.env.ACCESS_TOKEN_SECRET!);
+
+        const user = await UserEntity.findOne({ where: { id: payload.userId } });
+        if (!user) return null;
 
         return user;
     }

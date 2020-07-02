@@ -27,7 +27,7 @@ export class RegisterResponse {
     description: "Provides the user's information as well as a JWT access token.",
 })
 export class LoginResponse {
-    @Field()
+    @Field(() => UserEntity)
     user!: UserEntity;
 
     @Field()
