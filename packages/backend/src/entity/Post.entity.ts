@@ -33,11 +33,11 @@ export class PostEntity extends BaseEntity {
 
     @Field(() => Int)
     @Column('int', { default: 0 })
-    upVotes!: number;
+    likes!: number;
 
     @Field(() => Int)
     @Column('int', { default: 0 })
-    downVotes!: number;
+    views!: number;
 
     @Field(() => Date)
     @CreateDateColumn({

@@ -9,8 +9,8 @@ export class PostUpdateInput {
     content?: string;
 
     @Field(() => Int, { nullable: true })
-    upVotes?: number;
+    likes?: number;
 
     @Field(() => Int, { nullable: true })
-    downVotes?: number;
+    views?: number;
 }

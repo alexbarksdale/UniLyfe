@@ -13,14 +13,18 @@ export class PostResolver {
     @Query(() => [PostEntity])
     // TODO: Apply auth middleware
     async getPosts(): Promise<PostEntity[]> {
-        const posts = await PostEntity.find({
-            relations: ['author'],
-            order: {
-                upVotes: 'DESC',
-            },
-        });
-        if (!posts) throw new Error('There are no posts available.');
-
+        let posts: PostEntity[];
+        try {
+            posts = await PostEntity.find({
+                relations: ['author'],
+                order: {
+                    likes: 'DESC',
+                },
+            });
+        } catch (err) {
+            logger.error('Unable to query posts', err);
+            throw new Error('Unable to query posts');
+        }
         return posts;
     }
 
@@ -72,8 +76,9 @@ export class PostResolver {
         @Arg('update', () => PostUpdateInput) update: PostUpdateInput,
         @Ctx() { req }: Context
     ): Promise<boolean> {
-        if (!postId || !authorId)
+        if (!postId || !authorId) {
             throw new Error('You must provide a postId and authorId!');
+        }
 
         const isAuthor = checkAuthor(req, authorId, AuthorError.UPDATE_ERROR);
 
@@ -94,8 +99,9 @@ export class PostResolver {
         @Arg('authorId', () => Int) authorId: number,
         @Ctx() { req }: Context
     ): Promise<boolean> {
-        if (!postId || !authorId)
+        if (!postId || !authorId) {
             throw new Error('You must provide a postId and authorId!');
+        }
 
         const isAuthor = checkAuthor(req, authorId, AuthorError.DELETE_ERROR);
 
