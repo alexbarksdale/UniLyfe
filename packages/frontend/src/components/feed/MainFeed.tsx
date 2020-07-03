@@ -12,6 +12,7 @@ import {
     UserLink,
 } from '../shared-styles/post.styles';
 import { CategoryTitle } from '../shared-styles/global.styles';
+import { CreatePostBtn } from './fixed-feed/CreatePostBtn';
 
 const FeedContainer = styled.div`
     flex-direction: column;
@@ -21,10 +22,21 @@ const FeedContainer = styled.div`
     }
 `;
 
+const ResponsiveContent = styled.div`
+    display: none !important;
+
+    @media (max-width: 902px) {
+        display: flex !important;
+    }
+`;
+
 export function MainFeed(): JSX.Element {
     return (
         <>
             <FeedContainer>
+                <ResponsiveContent>
+                    <CreatePostBtn />
+                </ResponsiveContent>
                 <CategoryTitle>Uni Feed</CategoryTitle>
                 <div>
                     <Link to='/post'>

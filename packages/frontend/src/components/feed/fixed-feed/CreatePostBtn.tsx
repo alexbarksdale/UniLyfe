@@ -18,6 +18,10 @@ const CreateBtn = styled.button`
         color: ${(props) => props.theme.white};
         background-color: ${(props) => props.theme.primary};
     }
+
+    @media (max-width: 902px) {
+        padding: 13px 25px;
+    }
 `;
 
 export function CreatePostBtn(): JSX.Element {
