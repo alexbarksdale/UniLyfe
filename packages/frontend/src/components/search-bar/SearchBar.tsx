@@ -9,7 +9,7 @@ import { device } from '../../utils/theme.util';
 const SearchContainer = styled.div`
     display: flex;
     border-radius: 8px;
-    margin-right: 13px;
+    margin-right: 25px;
     background-color: ${(props) => props.theme.gray200};
 
     span {

@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaChevronDown, FaUserAlt, FaCog, FaSignOutAlt } from 'react-icons/fa';
 
+import { useLogoutMutation } from '../../../generated/graphql';
 import { device } from '../../../utils/theme.util';
 import { setToken } from '../../../utils/accessToken.util';
-import { useLogoutMutation } from '../../../generated/graphql';
+import defaultAvatar from '../../../assets/images/default-avatar.png';
 
 type StyleProps = {
     dropdown: number;
@@ -35,7 +36,7 @@ const UserImg = styled.img`
     width: 32px;
     border: 0;
     border-radius: 8px;
-    background-color: red;
+    background-color: ${(props) => props.theme.gray300};
 `;
 
 const StyledIcon = styled(FaChevronDown)`
@@ -128,7 +129,7 @@ export function UserDropdown(): JSX.Element {
     return (
         <Dropdown ref={node}>
             <UserProfileBtn onClick={() => setDropdown(!dropdown)}>
-                <UserImg src='https://avatars3.githubusercontent.com/u/30381624?s=400&u=20ad9862d76407105a4bf2569dc41659c4de3706&v=4' />
+                <UserImg src={defaultAvatar} />
                 <span>
                     <StyledIcon dropdown={dropdown ? 1 : 0} />
                 </span>
