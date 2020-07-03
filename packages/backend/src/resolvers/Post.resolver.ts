@@ -10,7 +10,22 @@ import { checkAuthor, AuthorError } from '../utils/checkAuthor.util';
 // TODO: Secure the queries and mutations after testing
 @Resolver()
 export class PostResolver {
+    @Query(() => [PostEntity])
+    // TODO: Apply auth middleware
+    async getPosts(): Promise<PostEntity[]> {
+        const posts = await PostEntity.find({
+            relations: ['author'],
+            order: {
+                upVotes: 'DESC',
+            },
+        });
+        if (!posts) throw new Error('There are no posts available.');
+
+        return posts;
+    }
+
     @Query(() => PostEntity)
+    // TODO: Apply auth middleware
     async getPost(@Arg('postId', () => Int) postId: number): Promise<PostEntity> {
         if (!postId) throw new Error('You must provide a postId!');
 
@@ -57,7 +72,8 @@ export class PostResolver {
         @Arg('update', () => PostUpdateInput) update: PostUpdateInput,
         @Ctx() { req }: Context
     ): Promise<boolean> {
-        if (!postId || !authorId) throw new Error('You must provide a postId and authorId!');
+        if (!postId || !authorId)
+            throw new Error('You must provide a postId and authorId!');
 
         const isAuthor = checkAuthor(req, authorId, AuthorError.UPDATE_ERROR);
 
@@ -78,7 +94,8 @@ export class PostResolver {
         @Arg('authorId', () => Int) authorId: number,
         @Ctx() { req }: Context
     ): Promise<boolean> {
-        if (!postId || !authorId) throw new Error('You must provide a postId and authorId!');
+        if (!postId || !authorId)
+            throw new Error('You must provide a postId and authorId!');
 
         const isAuthor = checkAuthor(req, authorId, AuthorError.DELETE_ERROR);
 
