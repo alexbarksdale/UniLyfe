@@ -168,12 +168,12 @@ export function Navigation(): JSX.Element {
                             </NavLeft>
                             <SearchBar corpus={['test']} />
                             <NavRight>
-                                <li>
-                                    <StyledLink to='/login'>Log In</StyledLink>
-                                </li>
-                                <li>
-                                    <StyledLink to='/signup'>Sign Up</StyledLink>
-                                </li>
+                                {/* <li> */}
+                                {/*     <StyledLink to='/login'>Log In</StyledLink> */}
+                                {/* </li> */}
+                                {/* <li> */}
+                                {/*     <StyledLink to='/signup'>Sign Up</StyledLink> */}
+                                {/* </li> */}
                                 <UserDropdown />
                             </NavRight>
                         </LargeDisplay>
