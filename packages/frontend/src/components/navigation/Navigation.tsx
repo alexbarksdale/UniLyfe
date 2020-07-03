@@ -125,9 +125,8 @@ const NavRight = styled.ul`
     }
 `;
 
-export function Navigation(): JSX.Element {
-    const { data } = useMeQuery();
-    console.log('DATA: ', data);
+export function Navigation(): JSX.Element | null {
+    const { data, loading } = useMeQuery();
 
     const node = useRef<HTMLDivElement>(null);
     const [dropdown, setDropdown] = useState(false);
@@ -141,6 +140,8 @@ export function Navigation(): JSX.Element {
         document.addEventListener('mousedown', handleClick);
         return () => document.removeEventListener('mousedown', handleClick);
     }, []);
+
+    if (loading) return null;
 
     return (
         <>
@@ -168,13 +169,18 @@ export function Navigation(): JSX.Element {
                             </NavLeft>
                             <SearchBar corpus={['test']} />
                             <NavRight>
-                                {/* <li> */}
-                                {/*     <StyledLink to='/login'>Log In</StyledLink> */}
-                                {/* </li> */}
-                                {/* <li> */}
-                                {/*     <StyledLink to='/signup'>Sign Up</StyledLink> */}
-                                {/* </li> */}
-                                <UserDropdown />
+                                {data && data.me ? (
+                                    <UserDropdown />
+                                ) : (
+                                    <>
+                                        <li>
+                                            <StyledLink to='/login'>Log In</StyledLink>
+                                        </li>
+                                        <li>
+                                            <StyledLink to='/signup'>Sign Up</StyledLink>
+                                        </li>
+                                    </>
+                                )}
                             </NavRight>
                         </LargeDisplay>
                     </Navbar>

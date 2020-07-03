@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { FaChevronDown, FaUserAlt, FaCog, FaSignOutAlt } from 'react-icons/fa';
 
 import { device } from '../../../utils/theme.util';
+import { setToken } from '../../../utils/accessToken.util';
+import { useLogoutMutation } from '../../../generated/graphql';
 
 type StyleProps = {
     dropdown: number;
@@ -109,7 +111,9 @@ const StyledLink = styled(Link)`
 
 export function UserDropdown(): JSX.Element {
     const node = useRef<HTMLDivElement>(null);
-    const [dropdown, setDropdown] = useState(true);
+    const [dropdown, setDropdown] = useState(false);
+
+    const [logout, { client }] = useLogoutMutation();
 
     const handleClick = (e: any) => {
         if (node.current!.contains(e.target)) return;
@@ -145,7 +149,14 @@ export function UserDropdown(): JSX.Element {
                         </li>
                     </StyledLink>
                     <ItemDivider />
-                    <StyledLink to='/login'>
+                    <StyledLink
+                        to='/login'
+                        onClick={async () => {
+                            await logout();
+                            setToken('');
+                            await client!.resetStore();
+                        }}
+                    >
                         <li>
                             <FaSignOutAlt />
                             Log Out
