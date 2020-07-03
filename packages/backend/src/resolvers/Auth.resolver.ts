@@ -101,7 +101,7 @@ export class AuthResolver {
 
     @Mutation(() => Boolean)
     logout(@Ctx() { res }: Context): boolean {
-        res.clearCookie('triton');
+        res.clearCookie('trident', { path: '/auth/refresh' });
         return true;
     }
 }
