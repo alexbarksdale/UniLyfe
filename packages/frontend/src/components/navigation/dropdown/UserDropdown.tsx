@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { FaChevronDown, FaUserAlt, FaCog, FaSignOutAlt } from 'react-icons/fa';
+import { FaChevronDown, FaCog, FaSignOutAlt } from 'react-icons/fa';
 
 import { useLogoutMutation } from '../../../generated/graphql';
 import { device } from '../../../utils/theme.util';
@@ -104,13 +104,27 @@ const StyledLink = styled(Link)`
     border-radius: 8px;
     transition: all 0.3s ease 0s;
 
+    li {
+        display: flex;
+        align-items: center;
+
+        p {
+            font-size: 12px;
+            color: ${(props) => props.theme.gray450};
+        }
+    }
+
     &:hover {
         color: ${(props) => props.theme.gray800};
         background-color: ${(props) => props.theme.gray200};
     }
 `;
 
-export function UserDropdown(): JSX.Element {
+type AppProps = {
+    username: string;
+};
+
+export function UserDropdown({ username }: AppProps): JSX.Element {
     const node = useRef<HTMLDivElement>(null);
     const [dropdown, setDropdown] = useState(false);
 
@@ -138,8 +152,15 @@ export function UserDropdown(): JSX.Element {
                 <ProfileList onClick={() => setDropdown(!dropdown)}>
                     <StyledLink to='/'>
                         <li>
-                            <FaUserAlt />
-                            Profile
+                            <UserImg
+                                src={defaultAvatar}
+                                alt='Avatar'
+                                style={{ marginRight: '8px' }}
+                            />
+                            <div>
+                                <p>Hello,</p>
+                                {username}
+                            </div>
                         </li>
                     </StyledLink>
                     <ItemDivider />

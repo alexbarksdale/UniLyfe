@@ -170,7 +170,7 @@ export function Navigation(): JSX.Element | null {
                             <SearchBar corpus={['test']} />
                             <NavRight>
                                 {data && data.me ? (
-                                    <UserDropdown />
+                                    <UserDropdown username={data.me.username} />
                                 ) : (
                                     <>
                                         <li>
