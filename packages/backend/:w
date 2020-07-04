@@ -1,6 +1,7 @@
 import { Resolver, Query, Mutation, Arg } from 'type-graphql';
 import { CategoryEntity } from '../entity/Category.entity';
 import { logger } from '../utils/logger.util';
+import { PostEntity } from '../entity/Post.entity';
 
 @Resolver()
 export class CategoryResolver {
@@ -9,21 +10,13 @@ export class CategoryResolver {
         return CategoryEntity.find({ relations: ['posts'] });
     }
 
-    @Query(() => [CategoryEntity])
+    @Query(() => [PostEntity])
     async getCategoryPosts(@Arg('categoryName') categoryName: string) {
         if (!categoryName) throw new Error('You must provide a category name');
 
-        const categoryExist = await CategoryEntity.findOne({
+        const posts = CategoryEntity.find({
             where: { name: categoryName },
         });
-        if (!categoryExist) throw new Error('Unable to find category!');
-
-        const posts = await CategoryEntity.find({
-            where: { name: categoryName },
-            relations: ['posts'],
-        });
-
-        return posts;
     }
 
     @Mutation(() => Boolean)
