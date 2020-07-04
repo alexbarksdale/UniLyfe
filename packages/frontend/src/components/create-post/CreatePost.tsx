@@ -70,7 +70,6 @@ const SelectionBtn = styled.button`
 `;
 
 const Disabled = styled.div`
-    opacity: 0.5;
     pointer-events: none;
 `;
 

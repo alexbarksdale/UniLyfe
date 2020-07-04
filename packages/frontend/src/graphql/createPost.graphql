@@ -1,5 +1,5 @@
-query GetPosts {
-    getPosts {
+mutation CreatePost($email: String!, $title: String!, $content: String!) {
+    createPost(email: $email, title: $title, content: $content) {
         id
         title
         content

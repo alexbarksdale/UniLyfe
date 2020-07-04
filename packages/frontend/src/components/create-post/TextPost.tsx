@@ -2,6 +2,12 @@ import React from 'react';
 import { Formik, useField } from 'formik';
 import * as yup from 'yup';
 
+import {
+    useCreatePostMutation,
+    useMeQuery,
+    GetPostsQuery,
+    GetPostsDocument,
+} from '../../generated/graphql';
 import { Form, Input, Label, Select, TextArea } from '../shared-styles/form.styles';
 
 type initialValues = {
@@ -28,17 +34,52 @@ const TextField = ({ placeholder, label, ...props }: any) => {
     );
 };
 
-export function TextPost(): JSX.Element {
+export function TextPost(): JSX.Element | null {
+    const { data, loading } = useMeQuery();
+    const [createPost] = useCreatePostMutation();
+
+    if (loading) return null;
+
     const initValues: initialValues = { discussion: '', title: '', body: '' };
 
     return (
         <Formik
             initialValues={initValues}
             validationSchema={validationSchema}
-            onSubmit={(values, { setSubmitting }) => {
+            onSubmit={async (values, { setSubmitting }) => {
                 setSubmitting(true);
-                console.log(values);
-                setSubmitting(false);
+                if (data && data.me) {
+                    const res = await createPost({
+                        variables: {
+                            email: data.me.email,
+                            title: values.title,
+                            content: values.body,
+                        },
+                        // @param {data} is what we get back after createPost
+                        update: (store, { data }) => {
+                            // Reads from the cache
+                            const postData = store.readQuery<GetPostsQuery>({
+                                query: GetPostsDocument,
+                            });
+
+                            // We shouldn't mutate the current store directly (similar to Redux)
+                            // so we're creating a new array and adding on the new post
+                            if (postData && data) {
+                                store.writeQuery<GetPostsQuery>({
+                                    query: GetPostsDocument,
+                                    data: {
+                                        getPosts: [...postData.getPosts, data.createPost],
+                                    },
+                                });
+                            }
+                        },
+                    });
+
+                    if (res && !res.errors) {
+                        setSubmitting(false);
+                        // TODO: Handle success
+                    }
+                }
             }}
         >
             {({ handleSubmit, isSubmitting }) => (

@@ -88,7 +88,7 @@ const ProfileList = styled.ul`
 `;
 
 const ItemDivider = styled.div`
-    margin: 2px 0px;
+    margin: 5px 0px;
     border-bottom: 2px solid ${(props) => props.theme.divider};
 `;
 
@@ -99,7 +99,6 @@ const StyledLink = styled(Link)`
     font-weight: 600;
     letter-spacing: 0.5px;
     padding: 11px 0px;
-    margin: 7px 0px;
     text-decoration: none;
     border-radius: 8px;
     transition: all 0.3s ease 0s;
