@@ -10,16 +10,18 @@ import {
     PostInfoBar,
     PostStats,
     UserLink,
-} from '../shared-styles/post.styles';
-import { CategoryTitle } from '../shared-styles/global.styles';
-import { CreatePostBtn } from './fixed-feed/CreatePostBtn';
+} from '../../shared-styles/post.styles';
+import { CategoryTitle } from '../../shared-styles/global.styles';
+import { CreatePostBtn } from '../fixed-feed/CreatePostBtn';
+import { AppProps } from '../types/types';
+import { GetPostsQuery } from '../../../generated/graphql';
 
 const FeedContainer = styled.div`
     flex-direction: column;
-
-    div {
-        display: flex;
-    }
+`;
+const FeedContent = styled.div`
+    display: flex;
+    margin-bottom: 9px;
 `;
 
 const ResponsiveContent = styled.div`
@@ -30,15 +32,33 @@ const ResponsiveContent = styled.div`
     }
 `;
 
-export function MainFeed(): JSX.Element {
-    return (
-        <>
-            <FeedContainer>
-                <ResponsiveContent>
-                    <CreatePostBtn />
-                </ResponsiveContent>
-                <CategoryTitle>Uni Feed</CategoryTitle>
-                <div>
+const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+];
+
+export function MainFeed({ feedData }: AppProps): JSX.Element | null {
+    if (typeof feedData === 'undefined') return null;
+
+    const renderFeed = (feedData: GetPostsQuery): JSX.Element[] => {
+        const feed = feedData.getPosts.map((item) => {
+            const rawDate = new Date(item.createdAt);
+            const date = `${
+                months[rawDate.getMonth()]
+            } ${rawDate.getDay()}, ${rawDate.getFullYear()}`;
+
+            return (
+                <FeedContent key={item.title}>
                     <Link to='/post'>
                         <PostHeader responsive>
                             <FaCommentAlt />
@@ -47,21 +67,17 @@ export function MainFeed(): JSX.Element {
                     <PostContent>
                         <CategoryLink to='/'>Category</CategoryLink>
                         <Link to='/'>
-                            <h1>Filler title</h1>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                sed do eiusmod tempor incididunt ut labore et dolore magna
-                                aliqua.
-                            </p>
+                            <h1>{item.title}</h1>
+                            <p>{item.content}</p>
                         </Link>
                         <PostInfoBar>
-                            <UserLink to='/'>XXX | User</UserLink>
+                            <UserLink to='/'>XXX | {item.author.username}</UserLink>
                             <span>•</span>
                             <PostStats>
                                 <li>
                                     <button type='button'>
                                         <FaRegThumbsUp />
-                                        100
+                                        {item.likes}
                                     </button>
                                 </li>
                                 <li>
@@ -73,15 +89,26 @@ export function MainFeed(): JSX.Element {
                                 <li>
                                     <Link to='/'>
                                         <FaRegEye />
-                                        100
+                                        {item.views}
                                     </Link>
                                 </li>
                             </PostStats>
-                            <p>June 20, 2020</p>
+                            <p>{date}</p>
                         </PostInfoBar>
                     </PostContent>
-                </div>
-            </FeedContainer>
-        </>
+                </FeedContent>
+            );
+        });
+        return feed;
+    };
+
+    return (
+        <FeedContainer>
+            <ResponsiveContent>
+                <CreatePostBtn />
+            </ResponsiveContent>
+            <CategoryTitle>Uni Feed</CategoryTitle>
+            {renderFeed(feedData)}
+        </FeedContainer>
     );
 }

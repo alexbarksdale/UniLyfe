@@ -43,6 +43,7 @@ export const PostContent = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
+    width: 100%;
 
     a {
         text-decoration: none;
@@ -55,6 +56,7 @@ export const PostContent = styled.div`
     h1 {
         font-size: 19px;
         font-weight: 600;
+        margin-bottom: 5px;
         color: ${(props) => props.theme.gray800};
     }
 

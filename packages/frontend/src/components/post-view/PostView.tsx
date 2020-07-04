@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { FaAngleLeft } from 'react-icons/fa';
 
 import { Container, TwoOneGrid } from '../shared-styles/global.styles';
-import { FixedFeed } from '../feed/fixed-feed/FixedFeed';
+import { FixedFeed } from '../feeds/fixed-feed/FixedFeed';
 import { PostDetails } from './PostDetails';
 import { CreateComment } from './comments/CreateComment';
 import { PostComments } from './PostComments';
