@@ -10,6 +10,7 @@ import {
     JoinColumn,
 } from 'typeorm';
 import { UserEntity } from './User.entity';
+import { CategoryEntity } from './Category.entity';
 
 @ObjectType()
 @Entity('posts')
@@ -17,11 +18,6 @@ export class PostEntity extends BaseEntity {
     @Field(() => Int)
     @PrimaryGeneratedColumn()
     id!: number;
-
-    @Field(() => UserEntity)
-    @ManyToOne(() => UserEntity, (user: UserEntity) => user.posts)
-    @JoinColumn()
-    author!: UserEntity;
 
     @Field()
     @Column('text')
@@ -38,6 +34,16 @@ export class PostEntity extends BaseEntity {
     @Field(() => Int)
     @Column('int', { default: 0 })
     views!: number;
+
+    @Field(() => UserEntity)
+    @ManyToOne(() => UserEntity, (user: UserEntity) => user.posts)
+    @JoinColumn()
+    author!: UserEntity;
+
+    @Field(() => CategoryEntity)
+    @ManyToOne(() => CategoryEntity, (category: CategoryEntity) => category.posts)
+    @JoinColumn()
+    category!: CategoryEntity;
 
     @Field(() => Date)
     @CreateDateColumn({

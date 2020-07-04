@@ -6,6 +6,7 @@ import { PostUpdateInput } from './types/post.types';
 import { Context } from '../context/context';
 import { logger } from '../utils/logger.util';
 import { checkAuthor, AuthorError } from '../utils/checkAuthor.util';
+import { CategoryEntity } from '../entity/Category.entity';
 
 // TODO: Secure the queries and mutations after testing
 @Resolver()
@@ -16,7 +17,7 @@ export class PostResolver {
         let posts: PostEntity[];
         try {
             posts = await PostEntity.find({
-                relations: ['author'],
+                relations: ['author', 'category'],
                 order: {
                     likes: 'DESC',
                 },
@@ -44,18 +45,25 @@ export class PostResolver {
     async createPost(
         @Arg('title') title: string,
         @Arg('content') content: string,
-        @Arg('email') email: string
+        @Arg('authorId') authorId: number,
+        @Arg('categoryName') categoryName: string
     ): Promise<PostEntity> {
-        if (!title || !content || !email) throw new Error('Missing fields!');
+        if (!title || !content || !authorId || !categoryName) {
+            throw new Error('Missing fields!');
+        }
 
-        const author = await UserEntity.findOne({ where: { email } });
+        const author = await UserEntity.findOne({ where: { id: authorId } });
         if (!author) throw new Error('Unable to find author!');
+
+        const category = await CategoryEntity.findOne({ where: { name: categoryName } });
+        if (!category) throw new Error('Unable to find category');
 
         // Create new post
         const post = PostEntity.create({
             title,
             content,
             author,
+            category,
         });
 
         try {

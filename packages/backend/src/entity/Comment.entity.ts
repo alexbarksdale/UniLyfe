@@ -12,8 +12,8 @@ import {
 import { UserEntity } from './User.entity';
 
 // TODO: Like system?
-@Entity('comments')
 @ObjectType()
+@Entity('comments')
 export class CommentEntity extends BaseEntity {
     @Field(() => Int)
     @PrimaryGeneratedColumn()
