@@ -144,7 +144,7 @@ export function ForumDropdown({ categories }: AppProps): JSX.Element | null {
     };
 
     const renderCategories = (categories: GetCategoriesQuery): JSX.Element[] => {
-        const items = categories.getCategories.map((category) => {
+        return categories.getCategories.map((category) => {
             return (
                 <ListItem
                     to='/'
@@ -160,8 +160,6 @@ export function ForumDropdown({ categories }: AppProps): JSX.Element | null {
                 </ListItem>
             );
         });
-
-        return items;
     };
 
     return (

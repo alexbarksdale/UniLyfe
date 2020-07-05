@@ -51,7 +51,7 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
     if (typeof feedData === 'undefined') return null;
 
     const renderFeed = (feedData: GetPostsQuery): JSX.Element[] => {
-        const feed = feedData.getPosts.map((item) => {
+        return feedData.getPosts.map((item) => {
             const rawDate = new Date(item.createdAt);
             const date = `${
                 months[rawDate.getMonth()]
@@ -101,7 +101,6 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
                 </FeedContent>
             );
         });
-        return feed;
     };
 
     return (
