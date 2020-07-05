@@ -1,0 +1,17 @@
+query GetCategoryPosts($categoryName: String!) {
+    getCategoryPosts(categoryName: $categoryName) {
+        name
+        posts {
+            id
+            title
+            content
+            likes
+            views
+            createdAt
+            author {
+                id
+                username
+            }
+        }
+    }
+}

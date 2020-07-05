@@ -1,5 +1,15 @@
-mutation CreatePost($email: String!, $title: String!, $content: String!) {
-    createPost(email: $email, title: $title, content: $content) {
+mutation CreatePost(
+    $authorId: Float!
+    $title: String!
+    $content: String!
+    $categoryName: String!
+) {
+    createPost(
+        authorId: $authorId
+        title: $title
+        content: $content
+        categoryName: $categoryName
+    ) {
         id
         title
         content

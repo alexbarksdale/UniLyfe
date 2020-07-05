@@ -4,6 +4,7 @@ import { FaFire, FaCertificate } from 'react-icons/fa';
 
 import { ForumDropdown } from './dropdown/ForumDropdown';
 import { Container } from '../shared-styles/global.styles';
+import { useGetCategoriesQuery } from '../../generated/graphql';
 
 const NavContainer = styled.div`
     position: fixed;
@@ -52,14 +53,18 @@ const FilterBtn = styled.button`
 `;
 
 // This component was inspired by: Hansa Sahu
-export function ForumNavigation(): JSX.Element {
+export function ForumNavigation(): JSX.Element | null {
+    const { data, loading } = useGetCategoriesQuery();
+
+    if (loading || !data) return null;
+
     return (
         <Container>
             <div style={{ paddingBottom: '114px', width: 'inherit' }}>
                 <NavContainer>
                     <NavList>
                         <li>
-                            <ForumDropdown />
+                            <ForumDropdown categories={data} />
                         </li>
                         <li>
                             <FilterBtn>

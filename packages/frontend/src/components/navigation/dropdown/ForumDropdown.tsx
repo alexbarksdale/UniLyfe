@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { FaChevronDown, FaRegStar } from 'react-icons/fa';
 
 import { device } from '../../../utils/theme.util';
+import { GetCategoriesQuery } from '../../../generated/graphql';
 
 type StyleProps = {
     dropdown: boolean | number;
@@ -51,7 +52,7 @@ const StyledIcon = styled(FaChevronDown)`
     transform: rotate(${(props: StyleProps) => (props.dropdown ? 180 : 0)}deg);
 `;
 
-const SelectList = styled.ul`
+const SelectList = styled.div`
     list-style: none;
     width: 164px;
     margin-top: -6px;
@@ -62,27 +63,17 @@ const SelectList = styled.ul`
     box-shadow: 0px 11px 13px 0px rgba(0, 0, 0, 0.11);
     background-color: ${(props) => props.theme.white};
 
-    li {
+    span {
         display: flex;
         align-items: center;
         border-radius: 8px;
         padding: 6px;
         transition: all 0.3s ease 0s;
+        width: 100%;
+        box-sizing: border-box;
 
         &:hover {
             background-color: ${(props) => props.theme.gray300};
-        }
-
-        button {
-            cursor: pointer;
-            font-size: 15.5px;
-            background-color: transparent;
-            margin-left: 7px;
-            transition: all 0.3s ease 0s;
-
-            &:hover {
-                color: ${(props) => props.theme.primary};
-            }
         }
     }
 
@@ -110,10 +101,31 @@ const ListItem = styled(Link)`
     width: 100%;
     letter-spacing: 0.4px;
     font-weight: 500;
+
+    &:hover {
+        background-color: ${(props) => props.theme.gray300};
+    }
 `;
 
-export function ForumDropdown(): JSX.Element {
-    const [dropdown, setDropdown] = useState(false);
+const FavoriteBtn = styled.button`
+    cursor: pointer;
+    font-size: 15.5px;
+    background-color: transparent;
+    margin-left: 7px;
+    transition: all 0.3s ease 0s;
+
+    &:hover {
+        color: ${(props) => props.theme.primary};
+    }
+`;
+
+type AppProps = {
+    categories: GetCategoriesQuery;
+};
+
+export function ForumDropdown({ categories }: AppProps): JSX.Element | null {
+    const [dropdown, setDropdown] = useState(true);
+    const [activeCategory, setCategory] = useState('Select a category');
 
     const node = useRef<HTMLDivElement>(null);
     const handleClick = (e: any) => {
@@ -127,23 +139,41 @@ export function ForumDropdown(): JSX.Element {
         return () => document.removeEventListener('mousedown', handleClick);
     }, []);
 
+    const categoryClick = (category: string) => {
+        setCategory(category);
+    };
+
+    const renderCategories = (categories: GetCategoriesQuery): JSX.Element[] => {
+        const items = categories.getCategories.map((category) => {
+            return (
+                <ListItem
+                    to='/'
+                    onClick={() => categoryClick(category.name)}
+                    key={category.name}
+                >
+                    <span>
+                        {category.name}
+                        <FavoriteBtn type='button'>
+                            <FaRegStar />
+                        </FavoriteBtn>
+                    </span>
+                </ListItem>
+            );
+        });
+
+        return items;
+    };
+
     return (
         <div ref={node}>
             <SelectBtn onClick={() => setDropdown(!dropdown)} dropdown={dropdown}>
-                <ActiveItem>Filler Text</ActiveItem>
+                <ActiveItem>{activeCategory}</ActiveItem>
                 <StyledIcon dropdown={dropdown ? 1 : 0} />
             </SelectBtn>
             {dropdown && (
                 <SelectList>
-                    <ListLabel>Discussions</ListLabel>
-                    <ListItem to='/'>
-                        <li>
-                            Filler Text
-                            <button type='button'>
-                                <FaRegStar />
-                            </button>
-                        </li>
-                    </ListItem>
+                    <ListLabel>Categories</ListLabel>
+                    {renderCategories(categories)}
                 </SelectList>
             )}
         </div>

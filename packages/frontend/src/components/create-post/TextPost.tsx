@@ -11,7 +11,7 @@ import {
 import { Form, Input, Label, Select, TextArea } from '../shared-styles/form.styles';
 
 type initialValues = {
-    discussion: string;
+    category: string;
     title: string;
     body: string;
 };
@@ -40,7 +40,7 @@ export function TextPost(): JSX.Element | null {
 
     if (loading) return null;
 
-    const initValues: initialValues = { discussion: '', title: '', body: '' };
+    const initValues: initialValues = { category: '', title: '', body: '' };
 
     return (
         <Formik
@@ -51,9 +51,10 @@ export function TextPost(): JSX.Element | null {
                 if (data && data.me) {
                     const res = await createPost({
                         variables: {
-                            email: data.me.email,
                             title: values.title,
                             content: values.body,
+                            categoryName: values.category,
+                            authorId: data.me.id,
                         },
                         // @param {data} is what we get back after createPost
                         update: (store, { data }) => {
@@ -82,11 +83,12 @@ export function TextPost(): JSX.Element | null {
                 }
             }}
         >
+            {/* TODO: Make options an enum*/}
             {({ handleSubmit, isSubmitting }) => (
                 <Form onSubmit={handleSubmit} isSubmitting={isSubmitting}>
-                    <TextField name='discussion' label='Discussion' as={Select}>
+                    <TextField name='category' label='Category' as={Select}>
                         <option value='0' defaultValue='selected' hidden>
-                            Select a discussion
+                            Select a category
                         </option>
                         <option value='1'>Filler1</option>
                         <option value='2'>Filler2</option>
