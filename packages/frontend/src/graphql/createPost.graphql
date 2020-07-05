@@ -16,6 +16,10 @@ mutation CreatePost(
         likes
         views
         createdAt
+        category {
+            id
+            name
+        }
         author {
             id
             username

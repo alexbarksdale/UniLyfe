@@ -6,6 +6,10 @@ query GetPosts {
         likes
         views
         createdAt
+        category {
+            id
+            name
+        }
         author {
             id
             username

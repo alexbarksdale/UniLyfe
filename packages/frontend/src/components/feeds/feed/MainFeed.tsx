@@ -65,7 +65,7 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
                         </PostHeader>
                     </Link>
                     <PostContent>
-                        <CategoryLink to='/'>Category</CategoryLink>
+                        <CategoryLink to='/'>{item.category.name}</CategoryLink>
                         <Link to='/'>
                             <h1>{item.title}</h1>
                             <p>{item.content}</p>

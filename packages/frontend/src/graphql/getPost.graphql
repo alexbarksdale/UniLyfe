@@ -6,6 +6,10 @@ query GetPost($postId: Int!) {
         likes
         views
         createdAt
+        category {
+            id
+            name
+        }
         author {
             id
             username

@@ -19,7 +19,7 @@ type initialValues = {
 };
 
 const validationSchema = yup.object().shape({
-    category: yup.string().required('Your must select a discussion.'),
+    category: yup.string().required('Your must select a category.'),
     title: yup.string().required('You must include a title.'),
     body: yup.string().required('You must include a body.'),
 });
