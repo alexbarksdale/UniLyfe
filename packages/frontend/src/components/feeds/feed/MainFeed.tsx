@@ -57,16 +57,18 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
                 months[rawDate.getMonth()]
             } ${rawDate.getDay()}, ${rawDate.getFullYear()}`;
 
+            const postUrl = `/post/${item.id}`;
+
             return (
                 <FeedContent key={item.title}>
-                    <Link to='/post'>
+                    <Link to={postUrl}>
                         <PostHeader responsive>
                             <FaCommentAlt />
                         </PostHeader>
                     </Link>
                     <PostContent>
                         <CategoryLink to='/'>{item.category.name}</CategoryLink>
-                        <Link to='/'>
+                        <Link to={postUrl}>
                             <h1>{item.title}</h1>
                             <p>{item.content}</p>
                         </Link>
@@ -81,13 +83,13 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
                                     </button>
                                 </li>
                                 <li>
-                                    <Link to='/'>
+                                    <Link to={postUrl}>
                                         <FaRegCommentAlt />
                                         100
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to='/'>
+                                    <Link to={postUrl}>
                                         <FaRegEye />
                                         {item.views}
                                     </Link>

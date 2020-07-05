@@ -62,7 +62,6 @@ const ExistingAccount = styled.p`
     }
 `;
 
-// @ts-ignore
 export function Authentication({ typeLogin, history }: AppProps): JSX.Element {
     const heading = typeLogin ? 'Welcome back!' : 'Create an account';
     const subHeading = typeLogin

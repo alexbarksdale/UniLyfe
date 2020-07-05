@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { FaRegThumbsUp, FaRegEye } from 'react-icons/fa';
 
 import { PostStats } from '../shared-styles/post.styles';
+import { GetPostQuery } from '../../generated/graphql';
 
 const PostDetailContainer = styled.div`
     div {
@@ -36,34 +37,31 @@ const Divider = styled.hr`
     background-color: ${(props) => props.theme.divider};
 `;
 
-export function PostDetails(): JSX.Element {
+type AppProps = {
+    postData: GetPostQuery;
+};
+
+export function PostDetails({ postData }: AppProps): JSX.Element {
+    const { getPost } = postData;
+
     return (
         <PostDetailContainer>
             <div>
-                <h2>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                    eiusmod tempor.
-                </h2>
-                <p>Created by: XXX | User</p>
+                <h2>{getPost.title}</h2>
+                <p>Created by: XXX | {getPost.author.username}</p>
             </div>
-            <PostDescription>
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                mollit anim id est laborum.
-            </PostDescription>
+            <PostDescription>{getPost.content}</PostDescription>
             <PostStats postView>
                 <li>
                     <button type='button'>
                         <FaRegThumbsUp />
-                        100
+                        {getPost.likes}
                     </button>
                 </li>
                 <li>
                     <span>
                         <FaRegEye />
-                        300
+                        {getPost.views}
                     </span>
                 </li>
             </PostStats>
