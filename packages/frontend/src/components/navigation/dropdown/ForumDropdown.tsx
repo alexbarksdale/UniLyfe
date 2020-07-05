@@ -124,7 +124,7 @@ type AppProps = {
 };
 
 export function ForumDropdown({ categories }: AppProps): JSX.Element | null {
-    const [dropdown, setDropdown] = useState(true);
+    const [dropdown, setDropdown] = useState(false);
     const [activeCategory, setCategory] = useState('Select a category');
 
     const node = useRef<HTMLDivElement>(null);

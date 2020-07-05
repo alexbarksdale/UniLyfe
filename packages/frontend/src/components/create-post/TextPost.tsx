@@ -7,6 +7,8 @@ import {
     useMeQuery,
     GetPostsQuery,
     GetPostsDocument,
+    useGetCategoriesQuery,
+    GetCategoriesQuery,
 } from '../../generated/graphql';
 import { Form, Input, Label, Select, TextArea } from '../shared-styles/form.styles';
 
@@ -17,7 +19,7 @@ type initialValues = {
 };
 
 const validationSchema = yup.object().shape({
-    discussion: yup.string().required('Your must select a discussion.'),
+    category: yup.string().required('Your must select a discussion.'),
     title: yup.string().required('You must include a title.'),
     body: yup.string().required('You must include a body.'),
 });
@@ -35,10 +37,21 @@ const TextField = ({ placeholder, label, ...props }: any) => {
 };
 
 export function TextPost(): JSX.Element | null {
-    const { data, loading } = useMeQuery();
     const [createPost] = useCreatePostMutation();
+    const { data: meData, loading: meLoading } = useMeQuery();
+    const { data: categoryData, loading: categoryLoading } = useGetCategoriesQuery();
 
-    if (loading) return null;
+    if (!categoryData || categoryLoading || meLoading) return null;
+
+    const renderCategories = (categories: GetCategoriesQuery) => {
+        return categories.getCategories.map((category) => {
+            return (
+                <option value={category.name} key={category.name}>
+                    {category.name}
+                </option>
+            );
+        });
+    };
 
     const initValues: initialValues = { category: '', title: '', body: '' };
 
@@ -48,13 +61,13 @@ export function TextPost(): JSX.Element | null {
             validationSchema={validationSchema}
             onSubmit={async (values, { setSubmitting }) => {
                 setSubmitting(true);
-                if (data && data.me) {
+                if (meData && meData.me) {
                     const res = await createPost({
                         variables: {
+                            authorId: meData.me.id,
                             title: values.title,
                             content: values.body,
                             categoryName: values.category,
-                            authorId: data.me.id,
                         },
                         // @param {data} is what we get back after createPost
                         update: (store, { data }) => {
@@ -83,15 +96,13 @@ export function TextPost(): JSX.Element | null {
                 }
             }}
         >
-            {/* TODO: Make options an enum*/}
             {({ handleSubmit, isSubmitting }) => (
                 <Form onSubmit={handleSubmit} isSubmitting={isSubmitting}>
                     <TextField name='category' label='Category' as={Select}>
                         <option value='0' defaultValue='selected' hidden>
                             Select a category
                         </option>
-                        <option value='1'>Filler1</option>
-                        <option value='2'>Filler2</option>
+                        {renderCategories(categoryData)}
                     </TextField>
 
                     <TextField
