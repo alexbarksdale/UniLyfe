@@ -34,7 +34,9 @@ export class PostResolver {
     async getPost(@Arg('postId', () => Int) postId: number): Promise<PostEntity> {
         if (!postId) throw new Error('You must provide a postId!');
 
-        const post = await PostEntity.findOne(postId, { relations: ['author'] });
+        const post = await PostEntity.findOne(postId, {
+            relations: ['author', 'category'],
+        });
         if (!post) throw new Error(`Unable to find post with postId: ${postId}`);
 
         return post;
