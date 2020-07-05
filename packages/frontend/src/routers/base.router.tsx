@@ -8,14 +8,13 @@ import { PostView } from '../components/post-view/PostView';
 import { CreatePost } from '../components/create-post/CreatePost';
 
 export function BaseRouter(): JSX.Element {
-    // TODO: Create a slug for post url
     return (
         <BrowserRouter>
             <Navigation />
             <Switch>
                 <Route exact path='/' component={Home} />
                 <Route exact path='/create' component={CreatePost} />
-                <Route exact path='/post/:id' component={PostView} />
+                <Route exact path='/post/:id/:slug' component={PostView} />
                 <Route
                     exact
                     path='/login'

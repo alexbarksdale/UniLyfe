@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaCommentAlt, FaRegThumbsUp, FaRegCommentAlt, FaRegEye } from 'react-icons/fa';
+import slugify from 'slugify';
 
 import {
     PostHeader,
@@ -57,7 +58,8 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
                 months[rawDate.getMonth()]
             } ${rawDate.getDay()}, ${rawDate.getFullYear()}`;
 
-            const postUrl = `/post/${item.id}`;
+            const slugTitle = slugify(item.title, '_').toLowerCase();
+            const postUrl = `/post/${item.id}/${slugTitle}`;
 
             return (
                 <FeedContent key={item.title}>
