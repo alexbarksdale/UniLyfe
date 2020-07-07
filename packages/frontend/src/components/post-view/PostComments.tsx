@@ -38,14 +38,19 @@ const CommentsContainer = styled.div`
     }
 `;
 
+type AppProps = {
+    isAuth: boolean;
+};
+
 // TODO: Figure out reply comment structure later
-export function PostComments(): JSX.Element {
+export function PostComments({ isAuth }: AppProps): JSX.Element {
+    console.log(isAuth);
     return (
         <CommentsContainer>
             <h3>1 Comment</h3>
             <ul>
                 <li>
-                    <Reply />
+                    <Reply isAuth={isAuth} />
                 </li>
             </ul>
         </CommentsContainer>

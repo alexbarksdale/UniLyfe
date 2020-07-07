@@ -7,7 +7,7 @@ import reduxThunk from 'redux-thunk';
 
 import { App } from './components/App';
 import { client } from './apollo/client';
-import { reducers } from './store/reducers/main.reducers';
+import { reducers } from './store/reducers/main.reducer';
 
 const composeEnhancers =
     (window && (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;

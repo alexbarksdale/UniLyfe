@@ -43,7 +43,11 @@ const ReplyBtn = styled.button`
     }
 `;
 
-export function Reply(): JSX.Element {
+type AppProps = {
+    isAuth: boolean;
+};
+
+export function Reply({ isAuth }: AppProps): JSX.Element {
     const [isReply, setReply] = useState(false);
 
     return (
@@ -54,10 +58,14 @@ export function Reply(): JSX.Element {
                 Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
                 deserunt mollit anim id est laborum.
             </p>
-            <ReplyBtn type='button' onClick={() => setReply(!isReply)}>
-                Reply
-            </ReplyBtn>
-            {isReply ? <CreateComment isReply={isReply} /> : null}
+            {isAuth ? (
+                <>
+                    <ReplyBtn type='button' onClick={() => setReply(!isReply)}>
+                        Reply
+                    </ReplyBtn>
+                    {isReply ? <CreateComment isReply={isReply} /> : null}
+                </>
+            ) : null}
         </ReplyContent>
     );
 }

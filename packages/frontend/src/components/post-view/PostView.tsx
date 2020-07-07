@@ -8,7 +8,7 @@ import { FixedFeed } from '../feeds/fixed-feed/FixedFeed';
 import { PostDetails } from './PostDetails';
 import { CreateComment } from './comments/CreateComment';
 import { PostComments } from './PostComments';
-import { useGetPostQuery } from '../../generated/graphql';
+import { useGetPostQuery, useMeQuery } from '../../generated/graphql';
 
 const BackButton = styled.button`
     font-size: 16px;
@@ -28,16 +28,38 @@ const BackButton = styled.button`
     }
 `;
 
+const NoAuthComment = styled.div`
+    margin: 24px 0px;
+    h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: ${(props) => props.theme.gray600};
+
+        a {
+            text-decoration: none;
+            color: ${(props) => props.theme.primary};
+            transition: all 0.3s ease 0s;
+
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+    }
+`;
+
 // TODO: Don't show PostComment if not auth
 export function PostView(): JSX.Element | null {
+    const { data: meData } = useMeQuery();
     const { id } = useParams();
-    const { data, loading } = useGetPostQuery({
+    const { data: postData, loading } = useGetPostQuery({
         variables: {
             postId: parseInt(id, 10),
         },
     });
 
-    if (loading || typeof data === 'undefined') return null;
+    if (loading || typeof postData === 'undefined') return null;
+
+    const isAuth: boolean = !!(meData && meData.me);
 
     // TODO: Create a state for current category and use that for back button url
     return (
@@ -51,9 +73,18 @@ export function PostView(): JSX.Element | null {
                         </Link>
                     </BackButton>
 
-                    <PostDetails postData={data} />
-                    <CreateComment />
-                    <PostComments />
+                    <PostDetails postData={postData} />
+                    {isAuth ? (
+                        <CreateComment />
+                    ) : (
+                        <NoAuthComment>
+                            <h3>
+                                <Link to='/login'>Log in </Link>
+                                to leave a comment.
+                            </h3>
+                        </NoAuthComment>
+                    )}
+                    <PostComments isAuth={isAuth} />
                 </div>
                 <FixedFeed />
             </TwoOneGrid>
