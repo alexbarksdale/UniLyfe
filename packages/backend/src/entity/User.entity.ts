@@ -11,6 +11,8 @@ import {
 
 import { PostEntity } from './Post.entity';
 import { CommentEntity } from './Comment.entity';
+import { UniEmail } from '../utils/validateEmail.util';
+import { University } from './types/University.type';
 
 @ObjectType()
 @Entity('users')
@@ -29,6 +31,10 @@ export class UserEntity extends BaseEntity {
 
     @Column('text')
     password!: string;
+
+    @Field(() => University)
+    @Column('json')
+    university!: UniEmail;
 
     @Field(() => PostEntity)
     @OneToMany(() => PostEntity, (post: PostEntity) => post.author, { cascade: true })

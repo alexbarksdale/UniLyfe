@@ -6,10 +6,10 @@ import { verify } from 'jsonwebtoken';
 
 import { UserEntity } from '../entity/User.entity';
 import { Context } from '../context/context';
-import { UniEmail, RegisterResponse, LoginResponse } from './types/auth.types';
+import { RegisterResponse, LoginResponse } from './types/auth.types';
 import { genAccessToken, genRefreshToken, sendRefreshToken } from '../utils/jwt.util';
 import { handleError, AuthError } from '../utils/errors.util';
-import uni_emails from '../assets/uni_emails.json';
+import { getAndValidateEmail } from '../utils/validateEmail.util';
 
 // TODO: Secure the queries and mutations after testing
 @Resolver()
@@ -18,6 +18,17 @@ export class AuthResolver {
     @Query(() => [UserEntity])
     users(): Promise<UserEntity[]> {
         return UserEntity.find();
+    }
+
+    // TODO: Remove, this is just for testing
+    @Query(() => UserEntity)
+    async getUser(@Arg('email') email: string): Promise<UserEntity> {
+        if (!email) throw new Error("You must provide the user's email!");
+
+        const user = await UserEntity.findOne({ where: { email } });
+        if (!user) throw new Error('Unable to find user!');
+
+        return user;
     }
 
     @Query(() => UserEntity, { nullable: true })
@@ -46,11 +57,10 @@ export class AuthResolver {
         const doesUserExist = await UserEntity.findOne({ where: { email } });
         if (doesUserExist) return handleError(AuthError.USER_EXISTS);
 
-        const validUniEmail: UniEmail | undefined = uni_emails.find((uniEmail) => {
-            return email.includes(uniEmail.domains[0]);
-        });
-
-        if (typeof validUniEmail === 'undefined') {
+        let userUni = {};
+        try {
+            userUni = await getAndValidateEmail(email);
+        } catch (err) {
             return handleError(AuthError.INVALID_UNI_EMAIL);
         }
 
@@ -62,6 +72,7 @@ export class AuthResolver {
             email,
             username: shortUid(),
             password: await hash(password, 12),
+            university: userUni,
         });
 
         try {
