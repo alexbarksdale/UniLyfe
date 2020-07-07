@@ -6,6 +6,8 @@ import { History } from 'history';
 import { Form, Input, Label } from '../shared-styles/form.styles';
 import { useLoginMutation, MeDocument, MeQuery } from '../../generated/graphql';
 import { setToken } from '../../utils/accessToken.util';
+import { useDispatch } from 'react-redux';
+import { setAuth } from '../../store/actions/auth.action';
 
 const validationSchema = yup.object().shape({
     email: yup
@@ -38,6 +40,7 @@ type FormValues = {
 
 export function Login({ history }: AppProps): JSX.Element {
     const [login] = useLoginMutation();
+    const dispatch = useDispatch();
 
     const initValues: FormValues = {
         email: '',
@@ -73,6 +76,7 @@ export function Login({ history }: AppProps): JSX.Element {
                     if (data && data.login.accessToken) {
                         setSubmitting(false);
                         setToken(data.login.accessToken);
+                        dispatch(setAuth(true));
                         history.push('/');
                     }
                 } catch (err) {

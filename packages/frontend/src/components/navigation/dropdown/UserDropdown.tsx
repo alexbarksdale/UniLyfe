@@ -7,6 +7,8 @@ import { useLogoutMutation } from '../../../generated/graphql';
 import { device } from '../../../utils/theme.util';
 import { setToken } from '../../../utils/accessToken.util';
 import defaultAvatar from '../../../assets/images/default-avatar.png';
+import { useDispatch } from 'react-redux';
+import { setAuth } from '../../../store/actions/auth.action';
 
 type StyleProps = {
     dropdown: number;
@@ -126,6 +128,7 @@ type AppProps = {
 export function UserDropdown({ username }: AppProps): JSX.Element {
     const node = useRef<HTMLDivElement>(null);
     const [dropdown, setDropdown] = useState(false);
+    const dispatch = useDispatch();
 
     const [logout, { client }] = useLogoutMutation();
 
@@ -176,6 +179,7 @@ export function UserDropdown({ username }: AppProps): JSX.Element {
                             await logout();
                             setToken('');
                             await client!.resetStore();
+                            dispatch(setAuth(false));
                         }}
                     >
                         <li>

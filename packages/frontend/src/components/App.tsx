@@ -22,14 +22,13 @@ export function App(): JSX.Element | null {
                 setToken(accessToken);
                 setLoading(false);
                 if (accessToken) {
-                    console.log('Fired auth');
                     dispatch(setAuth(true));
                 }
             })
             .catch((err) => {
                 console.log('Error getting accessToken: ', err);
             });
-    }, []);
+    }, [dispatch]);
 
     if (loading) return null;
 
