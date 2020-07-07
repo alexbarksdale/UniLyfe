@@ -46,11 +46,23 @@ export type CommentEntity = {
   updatedAt: Scalars['DateTime'];
 };
 
+export type University = {
+  __typename?: 'University';
+  webPages: Array<Scalars['String']>;
+  name: Scalars['String'];
+  alphaTwoCode: Scalars['String'];
+  stateProvince?: Maybe<Scalars['String']>;
+  domains: Array<Scalars['String']>;
+  country: Scalars['String'];
+};
+
 export type UserEntity = {
   __typename?: 'UserEntity';
   id: Scalars['Int'];
   username: Scalars['String'];
   email: Scalars['String'];
+  university: University;
+  universityName: Scalars['String'];
   posts: Array<PostEntity>;
   comments: Array<CommentEntity>;
   createdAt: Scalars['DateTime'];
@@ -81,12 +93,18 @@ export type PostUpdateInput = {
 export type Query = {
   __typename?: 'Query';
   users: Array<UserEntity>;
+  getUser: UserEntity;
   me?: Maybe<UserEntity>;
   getCategories: Array<CategoryEntity>;
   getCategoryPosts: Array<CategoryEntity>;
   getPostComments: Array<CommentEntity>;
   getPosts: Array<PostEntity>;
   getPost: PostEntity;
+};
+
+
+export type QueryGetUserArgs = {
+  email: Scalars['String'];
 };
 
 
@@ -195,7 +213,7 @@ export type CreatePostMutation = (
       & Pick<CategoryEntity, 'id' | 'name'>
     ), author: (
       { __typename?: 'UserEntity' }
-      & Pick<UserEntity, 'id' | 'username' | 'email'>
+      & Pick<UserEntity, 'id' | 'username' | 'email' | 'universityName'>
     ) }
   ) }
 );
@@ -226,7 +244,11 @@ export type GetCategoryPostsQuery = (
       & Pick<PostEntity, 'id' | 'title' | 'content' | 'likes' | 'views' | 'createdAt'>
       & { author: (
         { __typename?: 'UserEntity' }
-        & Pick<UserEntity, 'id' | 'username'>
+        & Pick<UserEntity, 'id' | 'username' | 'email'>
+        & { university: (
+          { __typename?: 'University' }
+          & Pick<University, 'domains'>
+        ) }
       ) }
     )>> }
   )> }
@@ -247,7 +269,7 @@ export type GetPostQuery = (
       & Pick<CategoryEntity, 'id' | 'name'>
     ), author: (
       { __typename?: 'UserEntity' }
-      & Pick<UserEntity, 'id' | 'username'>
+      & Pick<UserEntity, 'id' | 'username' | 'email' | 'universityName'>
     ) }
   ) }
 );
@@ -265,7 +287,7 @@ export type GetPostsQuery = (
       & Pick<CategoryEntity, 'id' | 'name'>
     ), author: (
       { __typename?: 'UserEntity' }
-      & Pick<UserEntity, 'id' | 'username' | 'email'>
+      & Pick<UserEntity, 'id' | 'username' | 'email' | 'universityName'>
     ) }
   )> }
 );
@@ -283,7 +305,7 @@ export type LoginMutation = (
     & Pick<LoginResponse, 'accessToken'>
     & { user: (
       { __typename?: 'UserEntity' }
-      & Pick<UserEntity, 'id' | 'email' | 'username'>
+      & Pick<UserEntity, 'id' | 'email' | 'username' | 'universityName'>
     ) }
   ) }
 );
@@ -303,7 +325,7 @@ export type MeQuery = (
   { __typename?: 'Query' }
   & { me?: Maybe<(
     { __typename?: 'UserEntity' }
-    & Pick<UserEntity, 'id' | 'email' | 'username'>
+    & Pick<UserEntity, 'id' | 'email' | 'username' | 'universityName'>
   )> }
 );
 
@@ -339,6 +361,7 @@ export const CreatePostDocument = gql`
       id
       username
       email
+      universityName
     }
   }
 }
@@ -418,6 +441,10 @@ export const GetCategoryPostsDocument = gql`
       author {
         id
         username
+        email
+        university {
+          domains
+        }
       }
     }
   }
@@ -465,6 +492,8 @@ export const GetPostDocument = gql`
     author {
       id
       username
+      email
+      universityName
     }
   }
 }
@@ -512,6 +541,7 @@ export const GetPostsDocument = gql`
       id
       username
       email
+      universityName
     }
   }
 }
@@ -548,6 +578,7 @@ export const LoginDocument = gql`
       id
       email
       username
+      universityName
     }
     accessToken
   }
@@ -614,6 +645,7 @@ export const MeDocument = gql`
     id
     email
     username
+    universityName
   }
 }
     `;

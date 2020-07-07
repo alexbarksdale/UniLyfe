@@ -48,7 +48,10 @@ export function PostDetails({ postData }: AppProps): JSX.Element {
         <PostDetailContainer>
             <div>
                 <h2>{getPost.title}</h2>
-                <p>Created by: XXX | {getPost.author.username}</p>
+                <p>
+                    Created by: {getPost.author.universityName} |{' '}
+                    {getPost.author.username}
+                </p>
             </div>
             <PostDescription>{getPost.content}</PostDescription>
             <PostStats postView>

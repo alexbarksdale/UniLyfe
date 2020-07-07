@@ -75,7 +75,9 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
                             <p>{item.content}</p>
                         </Link>
                         <PostInfoBar>
-                            <UserLink to='/'>XXX | {item.author.username}</UserLink>
+                            <UserLink to='/'>
+                                {item.author.universityName} | {item.author.username}
+                            </UserLink>
                             <span>•</span>
                             <PostStats>
                                 <li>

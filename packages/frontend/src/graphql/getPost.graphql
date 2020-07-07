@@ -13,6 +13,8 @@ query GetPost($postId: Int!) {
         author {
             id
             username
+            email
+            universityName
         }
     }
 }

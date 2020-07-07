@@ -11,6 +11,10 @@ query GetCategoryPosts($categoryName: String!) {
             author {
                 id
                 username
+                email
+                university {
+                    domains
+                }
             }
         }
     }
