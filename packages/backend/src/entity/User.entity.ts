@@ -36,6 +36,10 @@ export class UserEntity extends BaseEntity {
     @Column('json')
     university!: UniEmail;
 
+    @Field()
+    @Column('text')
+    universityName!: string;
+
     @Field(() => PostEntity)
     @OneToMany(() => PostEntity, (post: PostEntity) => post.author, { cascade: true })
     posts!: Array<PostEntity>;

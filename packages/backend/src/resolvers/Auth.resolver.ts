@@ -9,7 +9,7 @@ import { Context } from '../context/context';
 import { RegisterResponse, LoginResponse } from './types/auth.types';
 import { genAccessToken, genRefreshToken, sendRefreshToken } from '../utils/jwt.util';
 import { handleError, AuthError } from '../utils/errors.util';
-import { getAndValidateEmail } from '../utils/validateEmail.util';
+import { getAndValidateEmail, UniEmail } from '../utils/validateEmail.util';
 
 // TODO: Secure the queries and mutations after testing
 @Resolver()
@@ -57,7 +57,7 @@ export class AuthResolver {
         const doesUserExist = await UserEntity.findOne({ where: { email } });
         if (doesUserExist) return handleError(AuthError.USER_EXISTS);
 
-        let userUni = {};
+        let userUni: UniEmail;
         try {
             userUni = await getAndValidateEmail(email);
         } catch (err) {
@@ -73,6 +73,7 @@ export class AuthResolver {
             username: shortUid(),
             password: await hash(password, 12),
             university: userUni,
+            universityName: userUni.domains[0].split('.')[0].toUpperCase(),
         });
 
         try {
