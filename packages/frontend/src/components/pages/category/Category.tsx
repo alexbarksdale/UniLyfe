@@ -1,16 +1,21 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { Container } from '../../shared-styles/global.styles';
 import { Feed } from '../../feeds/Feed';
 import { useGetCategoryPostsQuery } from '../../../generated/graphql';
 import { setCategory } from '../../../store/actions/navigation.action';
+import { NavigationTypes } from '../../../store/types/navigation.types';
+import { StoreState } from '../../../store/reducers/main.reducer';
 
 export function Category(): JSX.Element | null {
-    const { category } = useParams();
     const dispatch = useDispatch();
+    const forumCategory = useSelector(
+        (state: StoreState) => state.navigationReducer.category.forum
+    );
 
+    const { category } = useParams();
     const name: string = category.charAt(0).toUpperCase() + category.slice(1);
     const { data, loading } = useGetCategoryPostsQuery({
         variables: {
@@ -23,7 +28,9 @@ export function Category(): JSX.Element | null {
         return null;
     }
 
-    dispatch(setCategory(category));
+    if (!forumCategory) {
+        dispatch(setCategory(category, NavigationTypes.SET_FORUM_CATEGORY));
+    }
 
     return (
         <Container>

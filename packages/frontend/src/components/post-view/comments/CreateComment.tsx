@@ -78,7 +78,7 @@ export function CreateComment({ isReply }: AppProps): JSX.Element {
                 initialValues={initValues}
                 onSubmit={(values, { setSubmitting }) => {
                     setSubmitting(true);
-                    console.log(values);
+                    console.log('CreateComment.tsx', values);
                     setSubmitting(false);
                 }}
             >

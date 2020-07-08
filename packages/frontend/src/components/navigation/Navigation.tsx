@@ -12,6 +12,7 @@ import { ForumNavigation } from './ForumNavigation';
 import { useMeQuery } from '../../generated/graphql';
 import { setBrowsing, setCategory } from '../../store/actions/navigation.action';
 import { StoreState } from '../../store/reducers/main.reducer';
+import { NavigationTypes } from '../../store/types/navigation.types';
 
 type StyleProps = {
     fontSize?: number;
@@ -150,8 +151,9 @@ export function Navigation(): JSX.Element | null {
 
     if (loading) return null;
 
-    const setForumNav = (): void => {
-        dispatch(setCategory(null));
+    const setStateCategory = (category?: string): void => {
+        dispatch(setBrowsing(true));
+        dispatch(setCategory(category, NavigationTypes.SET_UNILYFE_CATEGORY));
     };
 
     return (
@@ -164,7 +166,7 @@ export function Navigation(): JSX.Element | null {
                                 <StyledLink
                                     to='/'
                                     fontSize={28}
-                                    onClick={() => dispatch(setBrowsing(true))}
+                                    onClick={() => setStateCategory()}
                                 >
                                     UniLyfe
                                 </StyledLink>
@@ -176,12 +178,18 @@ export function Navigation(): JSX.Element | null {
                         <LargeDisplay dropdown={dropdown ? 1 : 0}>
                             <NavLeft>
                                 <li>
-                                    <StyledLink to='/' onClick={setForumNav}>
+                                    <StyledLink
+                                        to='/'
+                                        onClick={() => setStateCategory('')}
+                                    >
                                         Home
                                     </StyledLink>
                                 </li>
                                 <li>
-                                    <StyledLink to='/popular' onClick={setForumNav}>
+                                    <StyledLink
+                                        to='/popular'
+                                        onClick={() => setStateCategory('popular')}
+                                    >
                                         Popular
                                     </StyledLink>
                                 </li>

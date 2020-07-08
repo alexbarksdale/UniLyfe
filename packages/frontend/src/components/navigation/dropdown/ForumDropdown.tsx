@@ -7,6 +7,7 @@ import { FaChevronDown, FaRegStar } from 'react-icons/fa';
 import { device } from '../../../utils/theme.util';
 import { GetCategoriesQuery } from '../../../generated/graphql';
 import { setCategory } from '../../../store/actions/navigation.action';
+import { NavigationTypes } from '../../../store/types/navigation.types';
 import { StoreState } from '../../../store/reducers/main.reducer';
 
 type StyleProps = {
@@ -129,7 +130,9 @@ type AppProps = {
 export function ForumDropdown({ categories }: AppProps): JSX.Element | null {
     const dispatch = useDispatch();
 
-    const category = useSelector((state: StoreState) => state.navigationReducer.category);
+    const forumCategory = useSelector(
+        (state: StoreState) => state.navigationReducer.category.forum
+    );
     const [dropdown, setDropdown] = useState(false);
 
     const node = useRef<HTMLDivElement>(null);
@@ -149,7 +152,11 @@ export function ForumDropdown({ categories }: AppProps): JSX.Element | null {
             return (
                 <ListItem
                     to={`/category/${category.name}`}
-                    onClick={() => dispatch(setCategory(category.name))}
+                    onClick={() =>
+                        dispatch(
+                            setCategory(category.name, NavigationTypes.SET_FORUM_CATEGORY)
+                        )
+                    }
                     key={category.name}
                 >
                     <span>
@@ -163,7 +170,7 @@ export function ForumDropdown({ categories }: AppProps): JSX.Element | null {
         });
     };
 
-    const activeCategory = !category ? 'Select a category' : category;
+    const activeCategory = !forumCategory ? 'Select a category' : forumCategory;
 
     return (
         <div ref={node}>

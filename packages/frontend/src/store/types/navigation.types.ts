@@ -1,15 +1,19 @@
 export type NavigatonState = {
-    readonly category: string | null;
+    readonly category: {
+        unilyfe?: string | null;
+        forum?: string | null;
+    };
     readonly browsing: boolean;
 };
 
 export enum NavigationTypes {
-    SET_CATEGORY = 'SET_CATEGORY',
+    SET_FORUM_CATEGORY = 'SET_FORUM_CATEGORY',
+    SET_UNILYFE_CATEGORY = 'SET_UNILYFE_CATEGORY',
     SET_BROWSING = 'SET_BROWSING',
 }
 
 export type SetCategoryAction = {
-    type: NavigationTypes.SET_CATEGORY;
+    type: NavigationTypes.SET_FORUM_CATEGORY | NavigationTypes.SET_UNILYFE_CATEGORY;
     payload: string | null;
 };
 

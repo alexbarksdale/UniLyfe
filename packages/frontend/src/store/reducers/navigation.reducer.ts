@@ -7,15 +7,25 @@ import {
 } from '../types/navigation.types';
 
 const INIT_STATE: NavigatonState = {
-    category: null,
+    category: {
+        unilyfe: '',
+        forum: null,
+    },
     browsing: true,
 };
 
-const setCategory = (
+const setUnilyfeCategory = (
     state: NavigatonState,
     action: SetCategoryAction
 ): NavigatonState => {
-    return { ...state, category: action.payload };
+    return { ...state, category: { unilyfe: action.payload, forum: null } };
+};
+
+const setForumCategory = (
+    state: NavigatonState,
+    action: SetCategoryAction
+): NavigatonState => {
+    return { ...state, category: { unilyfe: null, forum: action.payload } };
 };
 
 const setBrowsing = (
@@ -27,8 +37,10 @@ const setBrowsing = (
 
 export function navigationReducer(state = INIT_STATE, action: NavigationActions) {
     switch (action.type) {
-        case NavigationTypes.SET_CATEGORY:
-            return setCategory(state, action);
+        case NavigationTypes.SET_UNILYFE_CATEGORY:
+            return setUnilyfeCategory(state, action);
+        case NavigationTypes.SET_FORUM_CATEGORY:
+            return setForumCategory(state, action);
         case NavigationTypes.SET_BROWSING:
             return setBrowsing(state, action);
         default:

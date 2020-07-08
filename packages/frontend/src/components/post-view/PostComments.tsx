@@ -44,7 +44,6 @@ type AppProps = {
 
 // TODO: Figure out reply comment structure later
 export function PostComments({ isAuth }: AppProps): JSX.Element {
-    console.log(isAuth);
     return (
         <CommentsContainer>
             <h3>1 Comment</h3>

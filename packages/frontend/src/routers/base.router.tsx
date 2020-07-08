@@ -14,8 +14,8 @@ export function BaseRouter(): JSX.Element {
             <Navigation />
             <Switch>
                 <Route exact path='/' component={Home} />
-                <Route exact path='/category/:category/:id/:slug' component={PostView} />
                 <Route exact path='/category/:category' component={Category} />
+                <Route exact path='/category/:category/:id/:slug' component={PostView} />
                 <Route exact path='/create' component={CreatePost} />
                 <Route
                     exact

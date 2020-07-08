@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaAngleLeft } from 'react-icons/fa';
@@ -9,6 +10,7 @@ import { PostDetails } from './PostDetails';
 import { CreateComment } from './comments/CreateComment';
 import { PostComments } from './PostComments';
 import { useGetPostQuery, useMeQuery } from '../../generated/graphql';
+import { StoreState } from '../../store/reducers/main.reducer';
 
 const BackButton = styled.button`
     font-size: 16px;
@@ -47,8 +49,11 @@ const NoAuthComment = styled.div`
     }
 `;
 
-// TODO: Don't show PostComment if not auth
 export function PostView(): JSX.Element | null {
+    const { unilyfe, forum } = useSelector(
+        (state: StoreState) => state.navigationReducer.category
+    );
+
     const { data: meData } = useMeQuery();
     const { id } = useParams();
     const { data: postData, loading } = useGetPostQuery({
@@ -61,13 +66,16 @@ export function PostView(): JSX.Element | null {
 
     const isAuth: boolean = !!(meData && meData.me);
 
-    // TODO: Create a state for current category and use that for back button url
+    let backBtnLink = '';
+    if (unilyfe) backBtnLink = `/${unilyfe}`;
+    if (forum) backBtnLink = `/category/${forum}`;
+
     return (
         <Container>
             <TwoOneGrid>
                 <div>
                     <BackButton>
-                        <Link to='/'>
+                        <Link to={backBtnLink}>
                             <FaAngleLeft />
                             Back
                         </Link>
@@ -91,4 +99,3 @@ export function PostView(): JSX.Element | null {
         </Container>
     );
 }
-
