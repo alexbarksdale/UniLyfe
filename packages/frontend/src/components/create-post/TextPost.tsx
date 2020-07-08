@@ -5,10 +5,10 @@ import * as yup from 'yup';
 import {
     useCreatePostMutation,
     useMeQuery,
-    GetPostsQuery,
     GetPostsDocument,
     useGetCategoriesQuery,
     GetCategoriesQuery,
+    GetCategoryPostsDocument,
 } from '../../generated/graphql';
 import { Form, Input, Label, Select, TextArea } from '../shared-styles/form.styles';
 
@@ -69,24 +69,17 @@ export function TextPost(): JSX.Element | null {
                             content: values.body,
                             categoryName: values.category,
                         },
-                        // @param {data} is what we get back after createPost
-                        update: (store, { data }) => {
-                            // Reads from the cache
-                            const postData = store.readQuery<GetPostsQuery>({
+                        refetchQueries: [
+                            {
                                 query: GetPostsDocument,
-                            });
-
-                            // We shouldn't mutate the current store directly (similar to Redux)
-                            // so we're creating a new array and adding on the new post
-                            if (postData && data) {
-                                store.writeQuery<GetPostsQuery>({
-                                    query: GetPostsDocument,
-                                    data: {
-                                        getPosts: [...postData.getPosts, data.createPost],
-                                    },
-                                });
-                            }
-                        },
+                            },
+                            {
+                                query: GetCategoryPostsDocument,
+                                variables: {
+                                    categoryName: values.category,
+                                },
+                            },
+                        ],
                     });
 
                     if (res && !res.errors) {
