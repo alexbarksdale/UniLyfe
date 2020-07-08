@@ -1,6 +1,5 @@
 query GetCategoryPosts($categoryName: String!) {
     getCategoryPosts(categoryName: $categoryName) {
-        name
         posts {
             id
             title
@@ -8,13 +7,15 @@ query GetCategoryPosts($categoryName: String!) {
             likes
             views
             createdAt
+            category {
+                id
+                name
+            }
             author {
                 id
                 username
                 email
-                university {
-                    domains
-                }
+                universityName
             }
         }
     }

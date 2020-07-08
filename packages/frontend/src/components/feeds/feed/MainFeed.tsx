@@ -14,8 +14,8 @@ import {
 } from '../../shared-styles/post.styles';
 import { CategoryTitle } from '../../shared-styles/global.styles';
 import { CreatePostBtn } from '../fixed-feed/CreatePostBtn';
-import { AppProps } from '../types/types';
-import { GetPostsQuery } from '../../../generated/graphql';
+import { AppProps, FeedDataType } from '../types/types';
+/* import { UserEntity, CategoryEntity } from '../../../generated/graphql'; */
 
 const FeedContainer = styled.div`
     flex-direction: column;
@@ -51,8 +51,8 @@ const months = [
 export function MainFeed({ feedData }: AppProps): JSX.Element | null {
     if (typeof feedData === 'undefined') return null;
 
-    const renderFeed = (feedData: GetPostsQuery): JSX.Element[] => {
-        return feedData.getPosts.map((item) => {
+    const renderFeed = (data: FeedDataType[]): JSX.Element[] => {
+        return data.map((item: FeedDataType) => {
             const rawDate = new Date(item.createdAt);
             const date = `${
                 months[rawDate.getMonth()]
@@ -62,7 +62,7 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
             const postUrl = `/post/${item.id}/${slugTitle}`;
 
             return (
-                <FeedContent key={item.title}>
+                <FeedContent key={item.id}>
                     <Link to={postUrl}>
                         <PostHeader responsive>
                             <FaCommentAlt />

@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaChevronDown, FaRegStar } from 'react-icons/fa';
 
 import { device } from '../../../utils/theme.util';
 import { GetCategoriesQuery } from '../../../generated/graphql';
+import { setCategory } from '../../../store/actions/navigation.action';
+import { StoreState } from '../../../store/reducers/main.reducer';
 
 type StyleProps = {
     dropdown: boolean | number;
@@ -124,8 +127,10 @@ type AppProps = {
 };
 
 export function ForumDropdown({ categories }: AppProps): JSX.Element | null {
+    const dispatch = useDispatch();
+
+    const category = useSelector((state: StoreState) => state.navigationReducer.category);
     const [dropdown, setDropdown] = useState(false);
-    const [activeCategory, setCategory] = useState('Select a category');
 
     const node = useRef<HTMLDivElement>(null);
     const handleClick = (e: any) => {
@@ -139,16 +144,12 @@ export function ForumDropdown({ categories }: AppProps): JSX.Element | null {
         return () => document.removeEventListener('mousedown', handleClick);
     }, []);
 
-    const categoryClick = (category: string) => {
-        setCategory(category);
-    };
-
     const renderCategories = (categories: GetCategoriesQuery): JSX.Element[] => {
         return categories.getCategories.map((category) => {
             return (
                 <ListItem
-                    to='/'
-                    onClick={() => categoryClick(category.name)}
+                    to={`/category/${category.name}`}
+                    onClick={() => dispatch(setCategory(category.name))}
                     key={category.name}
                 >
                     <span>
@@ -161,6 +162,8 @@ export function ForumDropdown({ categories }: AppProps): JSX.Element | null {
             );
         });
     };
+
+    const activeCategory = !category ? 'Select a category' : category;
 
     return (
         <div ref={node}>

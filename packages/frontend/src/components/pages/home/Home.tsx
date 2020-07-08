@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Container } from '../shared-styles/global.styles';
-import { OurPicks } from '../our-picks/OurPicks';
-import { Feed } from '../feeds/Feed';
-import { useGetPostsQuery } from '../../generated/graphql';
+import { Container } from '../../shared-styles/global.styles';
+import { OurPicks } from '../../our-picks/OurPicks';
+import { Feed } from '../../feeds/Feed';
+import { useGetPostsQuery } from '../../../generated/graphql';
 
 const Divider = styled.hr`
     border: none;
@@ -15,14 +15,15 @@ const Divider = styled.hr`
 
 export function Home(): JSX.Element | null {
     const { data, loading } = useGetPostsQuery();
+    if (loading || typeof data === 'undefined') return null;
 
-    if (loading) return null;
+    console.log(data);
 
     return (
         <Container>
             <OurPicks />
             <Divider />
-            <Feed feedData={data} />
+            <Feed feedData={data.getPosts} />
         </Container>
     );
 }

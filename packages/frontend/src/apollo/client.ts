@@ -70,8 +70,8 @@ export const client = new ApolloClient({
                 setToken(accessToken);
             },
             handleError: (err: Error) => {
-                console.warn('Your refresh token is invalid. Try to relogin');
-                console.error('Handle error: ', err);
+                console.log('Your refresh token is invalid. Try to relogin');
+                console.log('Handle error: ', err);
             },
         }) as any,
         onError(({ graphQLErrors, networkError }) => {

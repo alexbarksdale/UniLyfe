@@ -218,26 +218,25 @@ export type GetCategoryPostsQueryVariables = Exact<{
 
 export type GetCategoryPostsQuery = { __typename?: 'Query' } & {
     getCategoryPosts: Array<
-        { __typename?: 'CategoryEntity' } & Pick<CategoryEntity, 'name'> & {
-                posts?: Maybe<
-                    Array<
-                        { __typename?: 'PostEntity' } & Pick<
-                            PostEntity,
-                            'id' | 'title' | 'content' | 'likes' | 'views' | 'createdAt'
-                        > & {
-                                author: { __typename?: 'UserEntity' } & Pick<
-                                    UserEntity,
-                                    'id' | 'username' | 'email'
-                                > & {
-                                        university: { __typename?: 'University' } & Pick<
-                                            University,
-                                            'domains'
-                                        >;
-                                    };
-                            }
-                    >
-                >;
-            }
+        { __typename?: 'CategoryEntity' } & {
+            posts?: Maybe<
+                Array<
+                    { __typename?: 'PostEntity' } & Pick<
+                        PostEntity,
+                        'id' | 'title' | 'content' | 'likes' | 'views' | 'createdAt'
+                    > & {
+                            category: { __typename?: 'CategoryEntity' } & Pick<
+                                CategoryEntity,
+                                'id' | 'name'
+                            >;
+                            author: { __typename?: 'UserEntity' } & Pick<
+                                UserEntity,
+                                'id' | 'username' | 'email' | 'universityName'
+                            >;
+                        }
+                >
+            >;
+        }
     >;
 };
 
@@ -455,7 +454,6 @@ export type GetCategoriesQueryResult = ApolloReactCommon.QueryResult<
 export const GetCategoryPostsDocument = gql`
     query GetCategoryPosts($categoryName: String!) {
         getCategoryPosts(categoryName: $categoryName) {
-            name
             posts {
                 id
                 title
@@ -463,13 +461,15 @@ export const GetCategoryPostsDocument = gql`
                 likes
                 views
                 createdAt
+                category {
+                    id
+                    name
+                }
                 author {
                     id
                     username
                     email
-                    university {
-                        domains
-                    }
+                    universityName
                 }
             }
         }
