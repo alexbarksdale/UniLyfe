@@ -59,7 +59,7 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
             } ${rawDate.getDay()}, ${rawDate.getFullYear()}`;
 
             const slugTitle = slugify(item.title, '_').toLowerCase();
-            const postUrl = `/post/${item.id}/${slugTitle}`;
+            const postUrl = `/category/${item.category.name}/${item.id}/${slugTitle}`;
 
             return (
                 <FeedContent key={item.id}>
