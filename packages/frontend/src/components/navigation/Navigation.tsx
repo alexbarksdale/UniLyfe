@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaBars, FaTimes } from 'react-icons/fa';
@@ -9,6 +10,8 @@ import { SearchBar } from '../search-bar/SearchBar';
 import { UserDropdown } from './dropdown/UserDropdown';
 import { ForumNavigation } from './ForumNavigation';
 import { useMeQuery } from '../../generated/graphql';
+import { setBrowsing, setCategory } from '../../store/actions/navigation.action';
+import { StoreState } from '../../store/reducers/main.reducer';
 
 type StyleProps = {
     fontSize?: number;
@@ -42,6 +45,7 @@ const Navbar = styled.div`
 const LargeDisplay = styled.div`
     display: flex;
     width: 100%;
+    justify-content: flex-end;
 
     @media ${device.tabletS} {
         display: ${(props: StyleProps) => (props.dropdown ? 'flex' : 'none')};
@@ -117,7 +121,7 @@ const NavRight = styled.ul`
     list-style: none;
 
     li {
-        margin-right: 15px;
+        margin-left: 15px;
     }
 
     @media ${device.tabletS} {
@@ -126,6 +130,9 @@ const NavRight = styled.ul`
 `;
 
 export function Navigation(): JSX.Element | null {
+    const dispatch = useDispatch();
+    const browsing = useSelector((state: StoreState) => state.navigationReducer.browsing);
+
     const { data, loading } = useMeQuery();
 
     const node = useRef<HTMLDivElement>(null);
@@ -143,6 +150,10 @@ export function Navigation(): JSX.Element | null {
 
     if (loading) return null;
 
+    const setForumNav = (): void => {
+        dispatch(setCategory(null));
+    };
+
     return (
         <>
             <NavContainer ref={node}>
@@ -150,7 +161,11 @@ export function Navigation(): JSX.Element | null {
                     <Navbar>
                         <TitleContainer>
                             <NavTitle>
-                                <StyledLink to='/' fontSize={28}>
+                                <StyledLink
+                                    to='/'
+                                    fontSize={28}
+                                    onClick={() => dispatch(setBrowsing(true))}
+                                >
                                     UniLyfe
                                 </StyledLink>
                             </NavTitle>
@@ -161,10 +176,14 @@ export function Navigation(): JSX.Element | null {
                         <LargeDisplay dropdown={dropdown ? 1 : 0}>
                             <NavLeft>
                                 <li>
-                                    <StyledLink to='/'>Home</StyledLink>
+                                    <StyledLink to='/' onClick={setForumNav}>
+                                        Home
+                                    </StyledLink>
                                 </li>
                                 <li>
-                                    <StyledLink to='/popular'>Popular</StyledLink>
+                                    <StyledLink to='/popular' onClick={setForumNav}>
+                                        Popular
+                                    </StyledLink>
                                 </li>
                             </NavLeft>
                             <SearchBar corpus={['test']} />
@@ -186,7 +205,7 @@ export function Navigation(): JSX.Element | null {
                     </Navbar>
                 </Container>
             </NavContainer>
-            <ForumNavigation />
+            {browsing ? <ForumNavigation /> : null}
         </>
     );
 }

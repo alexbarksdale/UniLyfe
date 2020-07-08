@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Formik, useField } from 'formik';
 import * as yup from 'yup';
 import { History } from 'history';
@@ -6,8 +7,8 @@ import { History } from 'history';
 import { Form, Input, Label } from '../shared-styles/form.styles';
 import { useLoginMutation, MeDocument, MeQuery } from '../../generated/graphql';
 import { setToken } from '../../utils/accessToken.util';
-import { useDispatch } from 'react-redux';
 import { setAuth } from '../../store/actions/auth.action';
+import { setBrowsing } from '../../store/actions/navigation.action';
 
 const validationSchema = yup.object().shape({
     email: yup
@@ -77,6 +78,7 @@ export function Login({ history }: AppProps): JSX.Element {
                         setSubmitting(false);
                         setToken(data.login.accessToken);
                         dispatch(setAuth(true));
+                        dispatch(setBrowsing(true));
                         history.push('/');
                     }
                 } catch (err) {

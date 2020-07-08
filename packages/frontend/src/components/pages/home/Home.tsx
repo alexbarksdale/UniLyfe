@@ -17,8 +17,6 @@ export function Home(): JSX.Element | null {
     const { data, loading } = useGetPostsQuery();
     if (loading || typeof data === 'undefined') return null;
 
-    console.log(data);
-
     return (
         <Container>
             <OurPicks />
