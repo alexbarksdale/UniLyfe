@@ -39,6 +39,10 @@ const ReplyContent = styled.div`
     }
 `;
 
+const UserInfoDate = styled.div`
+    display: flex;
+`;
+
 const ReplyBtn = styled.button`
     display: flex;
     margin-top: 9px;
@@ -89,8 +93,11 @@ export function Reply({ isAuth, typeReply, commentData }: AppProps): JSX.Element
 
     return (
         <ReplyContent typeReply={typeReply}>
-            <h5>XXX | {commentData.author.username}</h5>
-            <span>{date}</span>
+            <UserInfoDate>
+                <h5>XXX | {commentData.author.username}</h5>
+                <span style={{ margin: '0px 4px' }}>•</span>
+                <span>{date}</span>
+            </UserInfoDate>
             <p>{commentData.content}</p>
             {isAuth ? (
                 <>
