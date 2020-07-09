@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { CategoryTitle } from '../../shared-styles/global.styles';
@@ -72,7 +71,7 @@ const SubHeader = styled.div`
         font-weight: 600;
         letter-spacing: 1px;
         color: ${(props) => props.theme.white};
-        background-color: ${(props) => props.theme.error};
+        background-color: #ff9090;
     }
 
     span {
@@ -107,9 +106,9 @@ export function NewsFeed(): JSX.Element | null {
             return (
                 <li key={item.title}>
                     <NewsCard>
-                        <Link to={`${item.url}`}>
+                        <a href={`${item.url}`} rel='noreferrer' target='_blank'>
                             <img src={`${item.urlToImage}`} alt={`${item.urlToImage}`} />
-                        </Link>
+                        </a>
                         <div>
                             <SubHeader>
                                 <p>{item.source.name}</p>
@@ -117,7 +116,9 @@ export function NewsFeed(): JSX.Element | null {
                                 <h4>{date}</h4>
                             </SubHeader>
                             <h3>
-                                <Link to='/'>{item.title}</Link>
+                                <a href={`${item.url}`} rel='noreferrer' target='_blank'>
+                                    {item.title}
+                                </a>
                             </h3>
                         </div>
                     </NewsCard>
