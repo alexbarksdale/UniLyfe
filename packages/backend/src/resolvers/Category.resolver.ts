@@ -10,17 +10,20 @@ export class CategoryResolver {
     }
 
     @Query(() => [CategoryEntity])
-    async getCategoryPosts(@Arg('categoryName') categoryName: string) {
+    async getCategoryPosts(
+        @Arg('categoryName') categoryName: string
+    ): Promise<CategoryEntity[]> {
         if (!categoryName) throw new Error('You must provide a category name');
 
         const categoryExist = await CategoryEntity.findOne({
             where: { name: categoryName },
         });
+
         if (!categoryExist) throw new Error('Unable to find category!');
 
         const posts = await CategoryEntity.find({
             where: { name: categoryName },
-            relations: ['posts', 'posts.author'],
+            relations: ['posts', 'posts.author', 'posts.category'],
         });
 
         return posts;
@@ -33,8 +36,9 @@ export class CategoryResolver {
         const categoryExist = await CategoryEntity.findOne({ where: { name } });
         if (categoryExist) throw new Error('That category already exists!');
 
+        const categoryName = name.charAt(0).toUpperCase() + name.slice(1);
         const category = CategoryEntity.create({
-            name,
+            name: categoryName,
         });
 
         try {

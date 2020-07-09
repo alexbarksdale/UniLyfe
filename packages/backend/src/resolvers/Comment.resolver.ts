@@ -13,9 +13,17 @@ import { checkAuthor, AuthorError } from '../utils/checkAuthor.util';
 @Resolver()
 export class CommentResolver {
     @Query(() => [CommentEntity])
-    async getPostComments(@Arg('postId', () => Int) postId: number): Promise<CommentEntity[]> {
+    async getPostComments(
+        @Arg('postId', () => Int) postId: number
+    ): Promise<CommentEntity[]> {
         if (!postId) throw new Error('You must provide a postId!');
-        return CommentEntity.find({ where: { postId }, relations: ['author'] });
+        return CommentEntity.find({
+            where: { postId },
+            relations: ['author'],
+            order: {
+                createdAt: 'ASC',
+            },
+        });
     }
 
     @Mutation(() => CommentEntity)
@@ -26,7 +34,9 @@ export class CommentResolver {
         @Arg('content') content: string,
         @Arg('replyId', () => Int, { nullable: true }) replyId: number
     ): Promise<CommentEntity> {
-        if (!postId || !authorEmail) throw new Error('You must provide a postId and authorEmail');
+        if (!postId || !authorEmail) {
+            throw new Error('You must provide a postId and authorEmail');
+        }
 
         const author = await UserEntity.findOne({ where: { email: authorEmail } });
         if (!author) throw new Error('Unable to find author!');
