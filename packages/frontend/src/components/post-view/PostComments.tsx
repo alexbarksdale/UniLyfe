@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { useGetPostCommentsQuery } from '../../generated/graphql';
 import { Reply } from './comments/Reply';
 
 const CommentsContainer = styled.div`
@@ -38,19 +39,52 @@ const CommentsContainer = styled.div`
     }
 `;
 
+type CommentType = {
+    id: number;
+    postId: number;
+    content: string;
+    replyId?: number | null | undefined;
+    author: {
+        id: number;
+        username: string;
+    };
+    createdAt: Date;
+};
+
 type AppProps = {
+    postId: number;
     isAuth: boolean;
 };
 
 // TODO: Figure out reply comment structure later
-export function PostComments({ isAuth }: AppProps): JSX.Element {
+export function PostComments({ isAuth, postId }: AppProps): JSX.Element | null {
+    const { data, loading } = useGetPostCommentsQuery({
+        variables: {
+            postId: postId,
+        },
+    });
+
+    if (!data || loading || typeof data.getPostComments === 'undefined') return null;
+
+    const renderComments = (data: CommentType[]) => {
+        return data.map((item: CommentType) => {
+            // This comment is not a reply to another comment
+            if (!item.replyId) {
+                return <Reply isAuth={isAuth} commentData={item} key={item.id} />;
+            }
+            return <Reply isAuth={isAuth} typeReply commentData={item} key={item.id} />;
+        });
+    };
+
+    const commentLen = data.getPostComments.length;
+    const pluralComment = commentLen !== 1 ? 'Comments' : 'Comment';
     return (
         <CommentsContainer>
-            <h3>1 Comment</h3>
+            <h3>
+                {commentLen} {pluralComment}
+            </h3>
             <ul>
-                <li>
-                    <Reply isAuth={isAuth} />
-                </li>
+                <li>{renderComments(data.getPostComments)}</li>
             </ul>
         </CommentsContainer>
     );

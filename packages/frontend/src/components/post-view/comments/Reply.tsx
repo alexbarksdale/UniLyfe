@@ -2,10 +2,24 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { CreateComment } from './CreateComment';
+import { Theme } from '../../../utils/theme.util';
+
+type StyleProps = {
+    theme: Theme;
+    typeReply?: boolean;
+    children: any;
+};
 
 const ReplyContent = styled.div`
     display: flex;
     flex-direction: column;
+    margin: ${(props: StyleProps) => (props.typeReply ? null : '16px 0px')};
+    margin-left: ${(props: StyleProps) => (props.typeReply ? '15px' : null)};
+    margin-top: ${(props: StyleProps) => (props.typeReply ? '-10px' : null)};
+    border-radius: 8px;
+    background-color: ${({ typeReply, theme }: StyleProps) =>
+        typeReply ? theme.gray200 : null};
+    padding: ${(props: StyleProps) => (props.typeReply ? '14px' : null)};
 
     h5 {
         font-size: 15px;
@@ -27,13 +41,13 @@ const ReplyContent = styled.div`
 
 const ReplyBtn = styled.button`
     display: flex;
-    align-self: flex-end;
     margin-top: 9px;
-    padding: 8px;
+    padding: 8px 0px;
+    width: 39px;
 
     font-size: 15px;
     font-weight: 500;
-    color: ${(props) => props.theme.gray350};
+    color: ${(props) => props.theme.gray400};
     background-color: transparent;
     outline: none;
     transition: all 0.3s ease 0s;
@@ -43,27 +57,53 @@ const ReplyBtn = styled.button`
     }
 `;
 
-type AppProps = {
-    isAuth: boolean;
+type CommentType = {
+    id: number;
+    postId: number;
+    content: string;
+    replyId?: number | null | undefined;
+    author: {
+        id: number;
+        username: string;
+    };
+    createdAt: Date;
 };
 
-export function Reply({ isAuth }: AppProps): JSX.Element {
+type AppProps = {
+    isAuth: boolean;
+    typeReply?: boolean;
+    commentData: CommentType;
+};
+
+export function Reply({ isAuth, typeReply, commentData }: AppProps): JSX.Element {
     const [isReply, setReply] = useState(false);
+    const rawDate = new Date(commentData.createdAt);
+    const options = {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+    };
+    const date = `${rawDate.toLocaleTimeString('en-us', options)}`;
 
     return (
-        <ReplyContent>
-            <h5>XXX | User</h5>
-            <span>June 2, 2020</span>
-            <p>
-                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.
-            </p>
+        <ReplyContent typeReply={typeReply}>
+            <h5>XXX | {commentData.author.username}</h5>
+            <span>{date}</span>
+            <p>{commentData.content}</p>
             {isAuth ? (
                 <>
-                    <ReplyBtn type='button' onClick={() => setReply(!isReply)}>
-                        Reply
-                    </ReplyBtn>
-                    {isReply ? <CreateComment isReply={isReply} /> : null}
+                    {isReply ? (
+                        <CreateComment
+                            isReply={isReply}
+                            cancelReply={(cancel: boolean) => setReply(cancel)}
+                        />
+                    ) : (
+                        <ReplyBtn type='button' onClick={() => setReply(!isReply)}>
+                            Reply
+                        </ReplyBtn>
+                    )}
                 </>
             ) : null}
         </ReplyContent>

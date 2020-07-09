@@ -92,7 +92,7 @@ export function PostView(): JSX.Element | null {
                             </h3>
                         </NoAuthComment>
                     )}
-                    <PostComments isAuth={isAuth} />
+                    <PostComments isAuth={isAuth} postId={postData.getPost.id} />
                 </div>
                 <FixedFeed />
             </TwoOneGrid>

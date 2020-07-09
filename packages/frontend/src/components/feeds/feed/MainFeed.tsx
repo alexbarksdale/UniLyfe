@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaCommentAlt, FaRegThumbsUp, FaRegCommentAlt, FaRegEye } from 'react-icons/fa';
@@ -15,7 +16,7 @@ import {
 import { CategoryTitle } from '../../shared-styles/global.styles';
 import { CreatePostBtn } from '../fixed-feed/CreatePostBtn';
 import { AppProps, FeedDataType } from '../types/types';
-/* import { UserEntity, CategoryEntity } from '../../../generated/graphql'; */
+import { StoreState } from '../../../store/reducers/main.reducer';
 
 const FeedContainer = styled.div`
     flex-direction: column;
@@ -33,30 +34,22 @@ const ResponsiveContent = styled.div`
     }
 `;
 
-const months = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-];
-
 export function MainFeed({ feedData }: AppProps): JSX.Element | null {
+    const forum = useSelector(
+        (state: StoreState) => state.navigationReducer.category.forum
+    );
+
     if (typeof feedData === 'undefined') return null;
 
     const renderFeed = (data: FeedDataType[]): JSX.Element[] => {
         return data.map((item: FeedDataType) => {
             const rawDate = new Date(item.createdAt);
-            const date = `${
-                months[rawDate.getMonth()]
-            } ${rawDate.getDay()}, ${rawDate.getFullYear()}`;
+            const options = {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+            };
+            const date = `${rawDate.toLocaleDateString('en-us', options)}`;
 
             const slugTitle = slugify(item.title, '_').toLowerCase();
             const postUrl = `/category/${item.category.name}/${item.id}/${slugTitle}`;
@@ -112,7 +105,7 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
             <ResponsiveContent>
                 <CreatePostBtn />
             </ResponsiveContent>
-            <CategoryTitle>Uni Feed</CategoryTitle>
+            <CategoryTitle>{forum ?? 'Uni Feed'}</CategoryTitle>
             {renderFeed(feedData)}
         </FeedContainer>
     );
