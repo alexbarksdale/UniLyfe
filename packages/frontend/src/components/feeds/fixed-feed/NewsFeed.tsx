@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { CategoryTitle } from '../../shared-styles/global.styles';
+import { useGetNewsQuery, NewsArticle } from '../../../generated/graphql';
 
 const NewsContainer = styled.div``;
 
@@ -21,6 +22,7 @@ const NewsHeader = styled.div`
 const NewsContent = styled.ul`
     li {
         list-style: none;
+        margin-bottom: 12px;
 
         a {
             text-decoration: none;
@@ -35,7 +37,7 @@ const NewsCard = styled.div`
     transition: all 0.3s ease 0s;
 
     img {
-        height: 88px;
+        height: 105px;
         width: 100%;
         margin-right: 9px;
         border: none;
@@ -85,36 +87,51 @@ const SubHeader = styled.div`
     }
 `;
 
-export function NewsFeed(): JSX.Element {
+export function NewsFeed(): JSX.Element | null {
+    const { data, loading } = useGetNewsQuery();
+
+    if (loading || !data || typeof data.getNews === 'undefined') return null;
+
+    const renderNews = (data: NewsArticle[]) => {
+        return data.map((item) => {
+            const rawDate = new Date(item.publishedAt);
+
+            const options = {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+            };
+            const date = rawDate.toLocaleDateString('en-us', options);
+            return (
+                <li key={item.title}>
+                    <NewsCard>
+                        <Link to={`${item.url}`}>
+                            <img src={`${item.urlToImage}`} alt={`${item.urlToImage}`} />
+                        </Link>
+                        <div>
+                            <SubHeader>
+                                <p>{item.source.name}</p>
+                                <span>•</span>
+                                <h4>{date}</h4>
+                            </SubHeader>
+                            <h3>
+                                <Link to='/'>{item.title}</Link>
+                            </h3>
+                        </div>
+                    </NewsCard>
+                </li>
+            );
+        });
+    };
+
     return (
         <NewsContainer>
             <NewsHeader>
                 <CategoryTitle>News</CategoryTitle>
             </NewsHeader>
-            <NewsContent>
-                <li>
-                    <NewsCard>
-                        <Link to='/'>
-                            <img
-                                src='https://techcrunch.com/wp-content/uploads/2020/06/GettyImages-128073063.jpg?w=602'
-                                alt='TODO'
-                            />
-                        </Link>
-                        <div>
-                            <SubHeader>
-                                <p>NBC</p>
-                                <span>•</span>
-                                <h4>June 20, 2020</h4>
-                            </SubHeader>
-                            <h3>
-                                <Link to='/'>
-                                    Across the country, university campuses are in limbo.
-                                </Link>
-                            </h3>
-                        </div>
-                    </NewsCard>
-                </li>
-            </NewsContent>
+            <NewsContent>{renderNews(data.getNews.articles)}</NewsContent>
         </NewsContainer>
     );
 }
