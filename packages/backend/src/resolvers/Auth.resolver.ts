@@ -10,6 +10,7 @@ import { RegisterResponse, LoginResponse } from './types/auth.types';
 import { genAccessToken, genRefreshToken, sendRefreshToken } from '../utils/jwt.util';
 import { handleError, AuthError } from '../utils/errors.util';
 import { getAndValidateEmail, UniEmail } from '../utils/validateEmail.util';
+import { logger } from '../utils/logger.util';
 
 // TODO: Secure the queries and mutations after testing
 @Resolver()
@@ -67,11 +68,19 @@ export class AuthResolver {
         // Function to create a unique id that acts as a user's username
         const shortUid = new ShortUniqueId();
 
+        let hashedPassword;
+        try {
+            hashedPassword = await hash(password, 12);
+        } catch (err) {
+            logger.error('Failed to hash password', err);
+            throw new Error('Failed to hash password');
+        }
+
         // Create a new user
         const user = UserEntity.create({
             email,
             username: shortUid(),
-            password: await hash(password, 12),
+            password: hashedPassword,
             university: userUni,
             universityName: userUni.domains[0].split('.')[0].toUpperCase(),
         });

@@ -10,10 +10,16 @@ export class NewsResolver {
     async getNews(): Promise<NewsResponse> {
         try {
             const res = await fetch(
-                `http://newsapi.org/v2/everything?q=university&pageSize=5&apiKey=${process.env.NEWS_API_KEY}`,
+                `http://newsapi.org/v2/everything?q=university&pageSize=3&apiKey=${process.env.NEWS_API_KEY}`,
                 { method: 'GET' }
             );
-            return res.json();
+            const resData = await res.json();
+
+            console.log(resData);
+            resData.articles.forEach((item: any) => {
+                console.log(item.source);
+            });
+            return resData;
         } catch (err) {
             logger.error('Unable to fetch news data', err);
             throw new Error('Unable to fetch news data');

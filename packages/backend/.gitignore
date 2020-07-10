@@ -8,3 +8,4 @@ temp/
 .prettierrc
 .eslintrc.json
 .DS_Store
+.pgdata

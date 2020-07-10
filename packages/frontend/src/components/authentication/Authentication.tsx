@@ -1,5 +1,4 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { History } from 'history';
@@ -7,7 +6,6 @@ import { History } from 'history';
 import { Login } from './Login';
 import { Register } from './Register';
 import { CardContainer } from '../shared-styles/global.styles';
-import { setBrowsing } from '../../store/actions/navigation.action';
 
 type AppProps = {
     typeLogin?: boolean;
@@ -66,10 +64,6 @@ const ExistingAccount = styled.p`
 `;
 
 export function Authentication({ typeLogin, history }: AppProps): JSX.Element {
-    const dispatch = useDispatch();
-
-    dispatch(setBrowsing(false));
-
     const heading = typeLogin ? 'Welcome back!' : 'Create an account';
     const subHeading = typeLogin
         ? 'Log in to create posts and interact with the community.'

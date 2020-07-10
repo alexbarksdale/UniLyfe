@@ -1,42 +1,42 @@
 {
-   "name": "server",
-   "version": "0.0.1",
-   "description": "Authentication microservice",
-   "devDependencies": {
-      "@types/express": "^4.17.6",
-      "@types/graphql": "^14.5.0",
-      "@types/jsonwebtoken": "^8.5.0",
-      "@types/node": "^14.0.4",
-      "@typescript-eslint/eslint-plugin": "^2.34.0",
-      "@typescript-eslint/parser": "^2.34.0",
-      "eslint": "^6.8.0",
-      "eslint-config-airbnb-base": "^14.1.0",
-      "eslint-plugin-import": "^2.20.2",
-      "nodemon": "^2.0.4",
-      "ts-node": "8.10.2",
-      "typescript": "3.9.5"
-   },
-   "dependencies": {
-      "@types/bcrypt": "^3.0.0",
-      "@types/cookie-parser": "^1.4.2",
-      "apollo-server-express": "^2.14.3",
-      "bcrypt": "^5.0.0",
-      "class-validator": "^0.12.2",
-      "cookie-parser": "^1.4.5",
-      "cors": "^2.8.5",
-      "dotenv": "^8.2.0",
-      "express": "^4.17.1",
-      "graphql": "^15.1.0",
-      "jsonwebtoken": "^8.5.1",
-      "node-fetch": "^2.6.0",
-      "pg": "^8.2.1",
-      "reflect-metadata": "^0.1.10",
-      "short-unique-id": "^3.0.3",
-      "type-graphql": "^1.0.0-rc.2",
-      "typeorm": "0.2.25",
-      "winston": "^3.2.1"
-   },
-   "scripts": {
-      "start": "nodemon --exec ts-node src/index.ts"
-   }
+    "name": "server",
+    "version": "0.0.1",
+    "description": "GraphQL API for UniLyfe",
+    "dependencies": {
+        "apollo-server-express": "^2.14.3",
+        "bcrypt": "^5.0.0",
+        "class-validator": "^0.12.2",
+        "cookie-parser": "^1.4.5",
+        "cors": "^2.8.5",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "graphql": "^15.1.0",
+        "jsonwebtoken": "^8.5.1",
+        "node-fetch": "^2.6.0",
+        "pg": "^8.2.1",
+        "reflect-metadata": "^0.1.10",
+        "short-unique-id": "^3.0.3",
+        "type-graphql": "^1.0.0-rc.2",
+        "typeorm": "0.2.25",
+        "winston": "^3.2.1"
+    },
+    "devDependencies": {
+        "@types/bcrypt": "^3.0.0",
+        "@types/cookie-parser": "^1.4.2",
+        "@types/express": "^4.17.6",
+        "@types/graphql": "^14.5.0",
+        "@types/jsonwebtoken": "^8.5.0",
+        "@types/node": "^14.0.4",
+        "@typescript-eslint/eslint-plugin": "^2.34.0",
+        "@typescript-eslint/parser": "^2.34.0",
+        "eslint": "^6.8.0",
+        "eslint-config-airbnb-base": "^14.1.0",
+        "eslint-plugin-import": "^2.20.2",
+        "nodemon": "^2.0.4",
+        "ts-node": "8.10.2",
+        "typescript": "3.9.5"
+    },
+    "scripts": {
+        "start": "nodemon --exec ts-node src/index.ts"
+    }
 }

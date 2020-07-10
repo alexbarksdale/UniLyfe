@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:12
+    restart: always
+    environment:
+      POSTGRES_DB: unilyfe
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - './packages/backend/.pgdata:/var/lib/postgresql/data'
+    ports:
+      - '5432:5432'
+  backend:
+    image: backend
+    command: yarn start
+    ports:
+      - '4000:4000'
+    volumes:
+      - './packages/backend:/usr/backend'
+      - '/usr/backend/node_modules'
+    depends_on:
+      - postgres
+  frontend:
+    image: frontend
+    command: yarn start
+    volumes:
+      - './packages/frontend:/usr/frontend'
+    ports:
+      - '3000:3000'
+    depends_on:
+      - backend
+    stdin_open: true
+
+volumes:
+  data:
+

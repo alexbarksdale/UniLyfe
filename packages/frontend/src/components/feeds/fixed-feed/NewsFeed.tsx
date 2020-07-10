@@ -106,7 +106,7 @@ export function NewsFeed(): JSX.Element | null {
             return (
                 <li key={item.title}>
                     <NewsCard>
-                        <a href={`${item.url}`} rel='noreferrer' target='_blank'>
+                        <a href={`${item.url}`} rel='noopener noreferrer' target='_blank'>
                             <img src={`${item.urlToImage}`} alt={`${item.urlToImage}`} />
                         </a>
                         <div>
@@ -116,7 +116,11 @@ export function NewsFeed(): JSX.Element | null {
                                 <h4>{date}</h4>
                             </SubHeader>
                             <h3>
-                                <a href={`${item.url}`} rel='noreferrer' target='_blank'>
+                                <a
+                                    href={`${item.url}`}
+                                    rel='noopener noreferrer'
+                                    target='_blank'
+                                >
                                     {item.title}
                                 </a>
                             </h3>

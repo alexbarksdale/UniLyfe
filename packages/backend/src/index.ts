@@ -16,7 +16,7 @@ import { router as refreshRouter } from './routers/refresh.router';
 
     app.use(
         cors({
-            origin: process.env.DOMAIN_URL,
+            origin: 'http://localhost:3000',
             credentials: true,
         })
     );
@@ -24,7 +24,7 @@ import { router as refreshRouter } from './routers/refresh.router';
     app.use(refreshRouter);
 
     try {
-        // Refer to the ormconfig.json to change the database settings
+        // Refer to the ormconfig.ts to change the database settings
         await createConnection();
         logger.info('Connected to the database.');
     } catch (err) {
