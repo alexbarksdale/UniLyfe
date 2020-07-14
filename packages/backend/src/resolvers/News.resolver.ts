@@ -21,6 +21,10 @@ export class NewsResolver {
             );
             const resData = await res.json();
 
+            // console.log(resData);
+            // resData.articles.forEach((item: any) => {
+            //     console.log(item.source);
+            // });
             return resData;
         } catch (err) {
             logger.error('Unable to fetch news data', err);

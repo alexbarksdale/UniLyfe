@@ -7,9 +7,6 @@ export class CategoryResolver {
     @Query(() => [CategoryEntity])
     async getCategories(): Promise<CategoryEntity[]> {
         const posts = await CategoryEntity.find({ relations: ['posts'] });
-        // console.log(posts);
-        // console.log(posts[0].posts);
-        // console.log(posts[0].posts[0].title);
         return posts;
     }
 
@@ -30,7 +27,6 @@ export class CategoryResolver {
             relations: ['posts', 'posts.author', 'posts.category'],
         });
 
-        console.log(posts);
         return posts;
     }
 
