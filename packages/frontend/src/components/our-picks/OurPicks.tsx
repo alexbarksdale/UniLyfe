@@ -5,6 +5,7 @@ import { FaCommentAlt } from 'react-icons/fa';
 
 import {
     PostHeader,
+    PostDate,
     PostContent,
     CategoryLink,
     PostInfoBar,
@@ -26,7 +27,6 @@ const MainItem = styled.div`
     height: 100%;
     grid-area: Main;
     margin-right: 16px;
-    border-radius: 13px;
 
     @media (max-width: 875px) {
         margin-right: 0px;
@@ -72,7 +72,7 @@ export function OurPicks(): JSX.Element {
                             <UserLink to='/' big='true'>
                                 XXX | User
                             </UserLink>
-                            <p>June 20, 2020</p>
+                            <PostDate>June 20, 2020</PostDate>
                         </PostInfoBar>
                     </PostContent>
                 </MainItem>
@@ -96,7 +96,7 @@ export function OurPicks(): JSX.Element {
                             <UserLink to='/' big='true'>
                                 XXX | User
                             </UserLink>
-                            <p>June 20, 2020</p>
+                            <PostDate>June 20, 2020</PostDate>
                         </PostInfoBar>
                     </PostContent>
                 </SecondItem>
@@ -120,7 +120,7 @@ export function OurPicks(): JSX.Element {
                             <UserLink to='/' big='true'>
                                 XXX | User
                             </UserLink>
-                            <p>June 20, 2020</p>
+                            <PostDate>June 20, 2020</PostDate>
                         </PostInfoBar>
                     </PostContent>
                 </ThirdItem>

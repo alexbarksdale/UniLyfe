@@ -1,10 +1,26 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { device } from '../../../utils/theme.util';
 import { Container } from '../../shared-styles/global.styles';
 import { OurPicks } from '../../our-picks/OurPicks';
 import { Feed } from '../../feeds/Feed';
 import { useGetPostsQuery } from '../../../generated/graphql';
+import { GlobalNews } from './GlobalNews';
+
+const LargeContainer = styled.div`
+    height: 424px;
+    width: 1205px;
+    margin: auto;
+
+    @media ${device.laptopM} {
+        width: 100%;
+    }
+
+    @media ${device.tabletL} {
+        height: 486px;
+    }
+`;
 
 const Divider = styled.hr`
     border: none;
@@ -18,10 +34,15 @@ export function Home(): JSX.Element | null {
     if (loading || typeof data === 'undefined') return null;
 
     return (
-        <Container>
-            <OurPicks />
-            <Divider />
-            <Feed feedData={data.getPosts} />
-        </Container>
+        <>
+            <LargeContainer>
+                <GlobalNews />
+            </LargeContainer>
+            <Container>
+                <OurPicks />
+                <Divider />
+                <Feed feedData={data.getPosts} />
+            </Container>
+        </>
     );
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { CategoryTitle } from '../../shared-styles/global.styles';
-import { useGetNewsQuery, NewsArticle } from '../../../generated/graphql';
+import { useGetUniNewsQuery, NewsArticle } from '../../../generated/graphql';
 
 const NewsContainer = styled.div``;
 
@@ -21,7 +21,7 @@ const NewsHeader = styled.div`
 const NewsContent = styled.ul`
     li {
         list-style: none;
-        margin-bottom: 12px;
+        margin-bottom: 20px;
 
         a {
             text-decoration: none;
@@ -31,22 +31,20 @@ const NewsContent = styled.ul`
 `;
 
 const NewsCard = styled.div`
-    border-radius: 8px;
     background-color: ${(props) => props.theme.white};
     transition: all 0.3s ease 0s;
 
     img {
-        height: 105px;
+        height: 143px;
         width: 100%;
         margin-right: 9px;
         border: none;
-        border-radius: 8px;
         object-fit: cover;
         background-color: ${(props) => props.theme.gray300};
     }
 
     h3 {
-        font-size: 16px;
+        font-size: 17px;
         font-weight: 600;
         color: ${(props) => props.theme.gray800};
     }
@@ -64,32 +62,33 @@ const SubHeader = styled.div`
     align-items: baseline;
     margin: 8px 0px;
 
-    p {
+    h4 {
         font-size: 11px;
         border-radius: 30px;
         padding: 4px 10px;
         font-weight: 600;
         letter-spacing: 1px;
         color: ${(props) => props.theme.white};
-        background-color: #ff9090;
+        background-color: #a9b2d3;
+    }
+
+    p {
+        font-size: 12px;
+        font-family: 'SFMono', Arial, Helvetica, sans-serif !important;
+        font-weight: 500;
+        color: ${(props) => props.theme.gray450};
     }
 
     span {
         margin: 0px 5px;
         color: ${(props) => props.theme.gray350};
     }
-
-    h4 {
-        font-size: 13px;
-        font-weight: 500;
-        color: ${(props) => props.theme.gray450};
-    }
 `;
 
 export function NewsFeed(): JSX.Element | null {
-    const { data, loading } = useGetNewsQuery();
+    const { data, loading } = useGetUniNewsQuery();
 
-    if (loading || !data || typeof data.getNews === 'undefined') return null;
+    if (loading || !data || typeof data.getUniNews === 'undefined') return null;
 
     const renderNews = (data: NewsArticle[]) => {
         return data.map((item) => {
@@ -111,9 +110,9 @@ export function NewsFeed(): JSX.Element | null {
                         </a>
                         <div>
                             <SubHeader>
-                                <p>{item.source.name}</p>
+                                <h4>{item.source.name}</h4>
                                 <span>•</span>
-                                <h4>{date}</h4>
+                                <p>{date}</p>
                             </SubHeader>
                             <h3>
                                 <a
@@ -134,9 +133,9 @@ export function NewsFeed(): JSX.Element | null {
     return (
         <NewsContainer>
             <NewsHeader>
-                <CategoryTitle>News</CategoryTitle>
+                <CategoryTitle>University News</CategoryTitle>
             </NewsHeader>
-            <NewsContent>{renderNews(data.getNews.articles)}</NewsContent>
+            <NewsContent>{renderNews(data.getUniNews.articles)}</NewsContent>
         </NewsContainer>
     );
 }

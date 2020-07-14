@@ -11,10 +11,10 @@ import {
     CategoryLink,
     PostInfoBar,
     PostStats,
+    PostDate,
     UserLink,
 } from '../../shared-styles/post.styles';
 import { CategoryTitle } from '../../shared-styles/global.styles';
-import { CreatePostBtn } from '../fixed-feed/CreatePostBtn';
 import { AppProps, FeedDataType } from '../types/types';
 import { StoreState } from '../../../store/reducers/main.reducer';
 
@@ -24,14 +24,6 @@ const FeedContainer = styled.div`
 const FeedContent = styled.div`
     display: flex;
     margin-bottom: 9px;
-`;
-
-const ResponsiveContent = styled.div`
-    display: none !important;
-
-    @media (max-width: 902px) {
-        display: flex !important;
-    }
 `;
 
 export function MainFeed({ feedData }: AppProps): JSX.Element | null {
@@ -92,7 +84,7 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
                                     </Link>
                                 </li>
                             </PostStats>
-                            <p>{date}</p>
+                            <PostDate>{date}</PostDate>
                         </PostInfoBar>
                     </PostContent>
                 </FeedContent>
@@ -102,9 +94,6 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
 
     return (
         <FeedContainer>
-            <ResponsiveContent>
-                <CreatePostBtn />
-            </ResponsiveContent>
             <CategoryTitle>{forum ?? 'Uni Feed'}</CategoryTitle>
             {renderFeed(feedData)}
         </FeedContainer>

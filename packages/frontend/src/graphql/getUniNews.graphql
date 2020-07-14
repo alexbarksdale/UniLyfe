@@ -1,5 +1,5 @@
-query GetNews {
-    getNews {
+query GetUniNews {
+    getUniNews {
         status
         totalResults
         articles {
