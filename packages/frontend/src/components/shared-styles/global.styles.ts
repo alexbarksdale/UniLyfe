@@ -29,6 +29,15 @@ export const GlobalStyle = createGlobalStyle`
         font-display: swap;
     }
 
+    @font-face {
+        font-family: 'SFMono';
+        src: url('/fonts/SFMono-Medium.woff2') format('woff2'),
+            url('/fonts/SFMono-Medium.woff') format('woff');
+        font-weight: 500;
+        font-style: normal;
+        font-display: swap;
+    }
+
     * {
         margin: 0;
         padding: 0;
@@ -40,14 +49,12 @@ export const GlobalStyle = createGlobalStyle`
         border-top: none;
         border: none;
     }
+    
 `;
 
 export const Container = styled.div`
-    width: 1375px;
+    width: 1105px;
     margin: 0px auto;
-    @media ${device.laptopM} {
-        width: 1105px;
-    }
     @media ${device.laptopS} {
         width: 905px;
     }

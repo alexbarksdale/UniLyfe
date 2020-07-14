@@ -86,7 +86,6 @@ export const Select = styled.select`
 export const TextArea = styled.textarea`
     resize: none;
     border: 1px solid transparent;
-    border-radius: 8px;
     box-sizing: border-box;
 
     font-weight: 500;

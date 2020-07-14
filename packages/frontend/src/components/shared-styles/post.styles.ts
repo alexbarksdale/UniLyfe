@@ -6,6 +6,7 @@ type StyleProps = {
     big?: boolean | string; // Used to position elements in 'Our Picks'
     responsive?: boolean;
     postView?: boolean;
+    size?: number;
 };
 
 export const PostHeader = styled.div`
@@ -14,7 +15,6 @@ export const PostHeader = styled.div`
     justify-content: center;
     height: ${(props: StyleProps) => (props.big ? '115px' : '94px')};
     padding: 15px;
-    border-radius: 8px;
     background-color: ${(props) => props.theme.gray300};
     margin-right: ${(props: StyleProps) => (props.big ? undefined : '15px')};
     width: ${(props: StyleProps) => (props.big ? undefined : '94px')};
@@ -50,6 +50,11 @@ export const PostContent = styled.div`
         transition: all 0.3s ease 0s;
         &:hover {
             opacity: 0.8;
+        }
+        p {
+            font-size: 16px;
+            font-weight: 500;
+            color: ${(props) => props.theme.gray500};
         }
     }
 
@@ -112,6 +117,12 @@ export const PostStats = styled.ul`
             }
         }
     }
+`;
+
+export const PostDate = styled.p`
+    font-size: ${({ size }: StyleProps) => (size ? `${size}px` : '13px')} !important;
+    font-family: 'SFMono', Arial, Helvetica, sans-serif !important;
+    letter-spacing: -0.5px;
 `;
 
 export const CategoryLink = styled(Link)`
