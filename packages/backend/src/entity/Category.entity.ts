@@ -15,5 +15,5 @@ export class CategoryEntity extends BaseEntity {
 
     @Field(() => PostEntity, { nullable: true })
     @OneToMany(() => PostEntity, (post: PostEntity) => post.category, { cascade: true })
-    posts!: Array<PostEntity>;
+    posts?: Array<PostEntity>;
 }

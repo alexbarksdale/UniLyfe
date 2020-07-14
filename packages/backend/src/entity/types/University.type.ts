@@ -12,7 +12,7 @@ export class University {
     alphaTwoCode!: string;
 
     @Field(() => String, { nullable: true })
-    stateProvince!: string | null;
+    stateProvince?: string | null;
 
     @Field(() => [String])
     domains!: Array<string>;

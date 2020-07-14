@@ -6,19 +6,21 @@ import { logger } from '../utils/logger.util';
 
 @Resolver()
 export class NewsResolver {
+    baseUrl: string;
+
+    constructor() {
+        this.baseUrl = 'http://newsapi.org/v2';
+    }
+
     @Query(() => NewsResponse)
-    async getNews(): Promise<NewsResponse> {
+    async getUniNews(): Promise<NewsResponse> {
         try {
             const res = await fetch(
-                `http://newsapi.org/v2/everything?q=university&pageSize=3&apiKey=${process.env.NEWS_API_KEY}`,
+                `${this.baseUrl}/everything?q=university&pageSize=4&apiKey=${process.env.NEWS_API_KEY}`,
                 { method: 'GET' }
             );
             const resData = await res.json();
 
-            console.log(resData);
-            resData.articles.forEach((item: any) => {
-                console.log(item.source);
-            });
             return resData;
         } catch (err) {
             logger.error('Unable to fetch news data', err);

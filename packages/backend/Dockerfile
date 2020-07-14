@@ -3,7 +3,7 @@ FROM node:12
 WORKDIR /usr/backend
 
 COPY package.json ./
-COPY ormconfig.ts ./
+COPY ormconfig.json ./
 COPY tsconfig.json ./
 COPY .env ./
 

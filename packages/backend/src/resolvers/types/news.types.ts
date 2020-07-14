@@ -4,8 +4,8 @@ import { ObjectType, Field, Int } from 'type-graphql';
     description: "NewsArticle 'source' types",
 })
 export class NewsSource {
-    @Field({ nullable: true })
-    id!: string;
+    @Field(() => String, { nullable: true })
+    id?: string;
 
     @Field()
     name!: string;
@@ -16,13 +16,10 @@ export class NewsSource {
 })
 export class NewsArticle {
     @Field(() => NewsSource)
-    source!: {
-        id: string;
-        name: string;
-    };
+    source!: NewsSource;
 
     @Field({ nullable: true })
-    author!: string;
+    author?: string;
 
     @Field()
     title!: string;
@@ -40,7 +37,7 @@ export class NewsArticle {
     publishedAt!: string;
 
     @Field({ nullable: true })
-    content!: string;
+    content?: string;
 }
 
 @ObjectType({

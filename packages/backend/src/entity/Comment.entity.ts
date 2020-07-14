@@ -34,7 +34,7 @@ export class CommentEntity extends BaseEntity {
 
     @Field(() => Int, { nullable: true })
     @Column('integer', { nullable: true })
-    replyId!: number;
+    replyId?: number;
 
     @Field(() => Date)
     @CreateDateColumn({
