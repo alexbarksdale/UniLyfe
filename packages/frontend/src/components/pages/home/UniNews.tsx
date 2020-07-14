@@ -7,8 +7,12 @@ import { Container, CategoryTitle } from '../../shared-styles/global.styles';
 import { useGetUniNewsQuery } from '../../../generated/graphql';
 import { device, Theme } from '../../../utils/theme.util';
 
-// I tried my best to keep it as DRY as possible without going insane.
-// This works perfectly fine...
+// MESSSAGE:
+// I tried my best to keep this component as DRY as possible without
+// going insane over the grid situtation and the small differences between them.
+// Iterating over the news data would be slightly more annoying because of the different
+// CSS properties some grids have and not to mention figuring out what iteration of the article
+// goes in what grid, etc etc.This works perfectly fine.
 
 type StyleProps = {
     theme: Theme;
@@ -33,7 +37,6 @@ const ItemStyles = `
     background-position: center;
     background-size: cover;
     transition: all .3s ease 0s;
-    z-index: 1;
 
     a {
         text-decoration: none;
@@ -139,7 +142,7 @@ export const NewsDate = styled.p`
 `;
 
 // TODO: Maybe refactor this in the future...
-export function GlobalNews(): JSX.Element | null {
+export function UniNews(): JSX.Element | null {
     const { data, loading } = useGetUniNewsQuery();
 
     if (loading || !data || typeof data.getUniNews === 'undefined') return null;

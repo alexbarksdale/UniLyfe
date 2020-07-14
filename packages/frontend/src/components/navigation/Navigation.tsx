@@ -140,6 +140,11 @@ const NavRight = styled.ul`
     list-style: none;
     li {
         margin-left: 15px;
+
+        @media ${device.mobileL} {
+            margin-left: 0px;
+            margin-right: 15px;
+        }
     }
     @media ${device.mobileL} {
         align-items: unset;

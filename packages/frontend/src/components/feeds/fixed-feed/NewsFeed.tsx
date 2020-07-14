@@ -133,7 +133,7 @@ export function NewsFeed(): JSX.Element | null {
     return (
         <NewsContainer>
             <NewsHeader>
-                <CategoryTitle>University News</CategoryTitle>
+                <CategoryTitle>This will be removed</CategoryTitle>
             </NewsHeader>
             <NewsContent>{renderNews(data.getUniNews.articles)}</NewsContent>
         </NewsContainer>

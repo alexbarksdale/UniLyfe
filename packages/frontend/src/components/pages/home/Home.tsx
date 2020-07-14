@@ -6,10 +6,10 @@ import { Container } from '../../shared-styles/global.styles';
 import { OurPicks } from '../../our-picks/OurPicks';
 import { Feed } from '../../feeds/Feed';
 import { useGetPostsQuery } from '../../../generated/graphql';
-import { GlobalNews } from './GlobalNews';
+import { UniNews } from './UniNews';
 
 const LargeContainer = styled.div`
-    height: 422px;
+    height: 440px;
     width: 1205px;
     margin: auto;
 
@@ -18,7 +18,7 @@ const LargeContainer = styled.div`
     }
 
     @media ${device.tabletL} {
-        height: 486px;
+        height: 508px;
     }
 `;
 
@@ -36,7 +36,7 @@ export function Home(): JSX.Element | null {
     return (
         <>
             <LargeContainer>
-                <GlobalNews />
+                <UniNews />
             </LargeContainer>
             <Container>
                 <OurPicks />
