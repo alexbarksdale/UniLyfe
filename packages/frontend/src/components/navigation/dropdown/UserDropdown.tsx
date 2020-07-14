@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaChevronDown, FaCog, FaSignOutAlt } from 'react-icons/fa';
@@ -7,7 +8,6 @@ import { useLogoutMutation } from '../../../generated/graphql';
 import { device } from '../../../utils/theme.util';
 import { setToken } from '../../../utils/accessToken.util';
 import defaultAvatar from '../../../assets/images/default-avatar.png';
-import { useDispatch } from 'react-redux';
 import { setAuth } from '../../../store/actions/auth.action';
 
 type StyleProps = {
@@ -71,7 +71,7 @@ const ProfileList = styled.ul`
     position: absolute;
     padding: 6px;
     background-color: white;
-    box-shadow: 0px 0px 17px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 17px 0px rgba(0, 0, 0, 0.12);
 
     li {
         display: flex;
