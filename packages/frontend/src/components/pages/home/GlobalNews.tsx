@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaCalendarAlt } from 'react-icons/fa';
 
+import { Container, CategoryTitle } from '../../shared-styles/global.styles';
 import { useGetUniNewsQuery } from '../../../generated/graphql';
 import { device, Theme } from '../../../utils/theme.util';
 
@@ -32,6 +33,7 @@ const ItemStyles = `
     background-position: center;
     background-size: cover;
     transition: all .3s ease 0s;
+    z-index: 1;
 
     a {
         text-decoration: none;
@@ -160,55 +162,60 @@ export function GlobalNews(): JSX.Element | null {
     const fourth = data.getUniNews.articles[3];
 
     return (
-        <GNContainer>
-            <MainItem bgUrl={main.urlToImage}>
-                <Link to={main.url}>
-                    <NewsContent>
-                        <NewsTag>{main.source.name}</NewsTag>
-                        <NewsTitle>{main.title}</NewsTitle>
-                        <NewsDate>
-                            <FaCalendarAlt />
-                            {formatDate(main.publishedAt)}
-                        </NewsDate>
-                    </NewsContent>
-                </Link>
-            </MainItem>
-            <SecondaryItem bgUrl={second.urlToImage}>
-                <Link to={second.url}>
-                    <NewsContent>
-                        <NewsTag>{second.source.name}</NewsTag>
-                        <NewsTitle>{second.title}</NewsTitle>
-                        <NewsDate>
-                            <FaCalendarAlt />
-                            {formatDate(second.publishedAt)}
-                        </NewsDate>
-                    </NewsContent>
-                </Link>
-            </SecondaryItem>
-            <ThirdItem bgUrl={third.urlToImage}>
-                <Link to={third.url}>
-                    <NewsContent>
-                        <NewsTag>{third.source.name}</NewsTag>
-                        <NewsTitle>{third.title}</NewsTitle>
-                        <NewsDate>
-                            <FaCalendarAlt />
-                            {formatDate(third.publishedAt)}
-                        </NewsDate>
-                    </NewsContent>
-                </Link>
-            </ThirdItem>
-            <FourthItem bgUrl={fourth.urlToImage}>
-                <Link to={fourth.url}>
-                    <NewsContent>
-                        <NewsTag>{fourth.source.name}</NewsTag>
-                        <NewsTitle>{fourth.title}</NewsTitle>
-                        <NewsDate>
-                            <FaCalendarAlt />
-                            {formatDate(fourth.publishedAt)}
-                        </NewsDate>
-                    </NewsContent>
-                </Link>
-            </FourthItem>
-        </GNContainer>
+        <>
+            <Container>
+                <CategoryTitle>University News</CategoryTitle>
+            </Container>
+            <GNContainer>
+                <MainItem bgUrl={main.urlToImage}>
+                    <Link to={main.url}>
+                        <NewsContent>
+                            <NewsTag>{main.source.name}</NewsTag>
+                            <NewsTitle>{main.title}</NewsTitle>
+                            <NewsDate>
+                                <FaCalendarAlt />
+                                {formatDate(main.publishedAt)}
+                            </NewsDate>
+                        </NewsContent>
+                    </Link>
+                </MainItem>
+                <SecondaryItem bgUrl={second.urlToImage}>
+                    <Link to={second.url}>
+                        <NewsContent>
+                            <NewsTag>{second.source.name}</NewsTag>
+                            <NewsTitle>{second.title}</NewsTitle>
+                            <NewsDate>
+                                <FaCalendarAlt />
+                                {formatDate(second.publishedAt)}
+                            </NewsDate>
+                        </NewsContent>
+                    </Link>
+                </SecondaryItem>
+                <ThirdItem bgUrl={third.urlToImage}>
+                    <Link to={third.url}>
+                        <NewsContent>
+                            <NewsTag>{third.source.name}</NewsTag>
+                            <NewsTitle>{third.title}</NewsTitle>
+                            <NewsDate>
+                                <FaCalendarAlt />
+                                {formatDate(third.publishedAt)}
+                            </NewsDate>
+                        </NewsContent>
+                    </Link>
+                </ThirdItem>
+                <FourthItem bgUrl={fourth.urlToImage}>
+                    <Link to={fourth.url}>
+                        <NewsContent>
+                            <NewsTag>{fourth.source.name}</NewsTag>
+                            <NewsTitle>{fourth.title}</NewsTitle>
+                            <NewsDate>
+                                <FaCalendarAlt />
+                                {formatDate(fourth.publishedAt)}
+                            </NewsDate>
+                        </NewsContent>
+                    </Link>
+                </FourthItem>
+            </GNContainer>
+        </>
     );
 }

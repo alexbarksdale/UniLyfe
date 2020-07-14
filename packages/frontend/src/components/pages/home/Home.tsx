@@ -9,7 +9,7 @@ import { useGetPostsQuery } from '../../../generated/graphql';
 import { GlobalNews } from './GlobalNews';
 
 const LargeContainer = styled.div`
-    height: 424px;
+    height: 422px;
     width: 1205px;
     margin: auto;
 
