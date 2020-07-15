@@ -1,16 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import { Formik, useField } from 'formik';
 import * as yup from 'yup';
 
 import {
-    useCreatePostMutation,
+    useCreateTextPostMutation,
     useMeQuery,
     GetPostsDocument,
     useGetCategoriesQuery,
     GetCategoriesQuery,
     GetCategoryPostsDocument,
 } from '../../generated/graphql';
-import { Form, Input, Label, Select, TextArea } from '../shared-styles/form.styles';
+import {
+    Form,
+    SubmitBtn,
+    Input,
+    Label,
+    Select,
+    TextArea,
+} from '../shared-styles/form.styles';
+import { PostType } from './CreatePost';
+import { Filestack } from './Filestack';
+
+const ThumbnailTitle = styled.p`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: ${(props) => props.theme.gray500};
+`;
 
 type initialValues = {
     category: string;
@@ -37,7 +57,9 @@ const TextField = ({ placeholder, label, ...props }: any) => {
 };
 
 export function TextPost(): JSX.Element | null {
-    const [createPost] = useCreatePostMutation();
+    const [thumbnailSrc, setThumbnail] = useState<string | null>(null);
+
+    const [createTextPost] = useCreateTextPostMutation();
     const { data: meData, loading: meLoading } = useMeQuery();
     const { data: categoryData, loading: categoryLoading } = useGetCategoriesQuery();
 
@@ -53,7 +75,11 @@ export function TextPost(): JSX.Element | null {
         });
     };
 
-    const initValues: initialValues = { category: '', title: '', body: '' };
+    const initValues: initialValues = {
+        category: '',
+        title: '',
+        body: '',
+    };
 
     return (
         <Formik
@@ -62,11 +88,13 @@ export function TextPost(): JSX.Element | null {
             onSubmit={async (values, { setSubmitting }) => {
                 setSubmitting(true);
                 if (meData && meData.me) {
-                    const res = await createPost({
+                    const res = await createTextPost({
                         variables: {
-                            authorId: meData.me.id,
                             title: values.title,
+                            type: PostType.TEXT,
+                            authorId: meData.me.id,
                             content: values.body,
+                            thumbnail: thumbnailSrc,
                             categoryName: values.category,
                         },
                         refetchQueries: [
@@ -98,6 +126,11 @@ export function TextPost(): JSX.Element | null {
                         {renderCategories(categoryData)}
                     </TextField>
 
+                    <ThumbnailTitle>Thumbnail (Optional)</ThumbnailTitle>
+                    <Filestack
+                        getThumbnail={(link: string | null) => setThumbnail(link)}
+                    />
+
                     <TextField
                         name='title'
                         id='title'
@@ -114,7 +147,7 @@ export function TextPost(): JSX.Element | null {
                         label='Body'
                         as={TextArea}
                     />
-                    <button type='submit'>Post</button>
+                    <SubmitBtn type='submit'>Post</SubmitBtn>
                 </Form>
             )}
         </Formik>

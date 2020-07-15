@@ -16,6 +16,7 @@ type StyleProps = {
 const CreateContainer = styled.div`
     display: flex;
     justify-content: center;
+    margin-top: 30px;
 `;
 
 const CreateContent = styled.div`
@@ -28,15 +29,15 @@ const CreateContent = styled.div`
         margin-bottom: 8px;
         color: ${(props) => props.theme.gray800};
     }
+`;
 
-    p {
-        text-align: center;
-        letter-spacing: 0.2px;
-        font-size: 15px;
-        font-weight: 500;
-        margin-bottom: 13px;
-        color: ${(props) => props.theme.gray500};
-    }
+const SubTitle = styled.p`
+    text-align: center;
+    letter-spacing: 0.2px;
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 13px;
+    color: ${(props) => props.theme.gray500};
 `;
 
 const Selection = styled.ul`
@@ -73,6 +74,11 @@ const Disabled = styled.div`
     pointer-events: none;
 `;
 
+export enum PostType {
+    TEXT = 'TEXT',
+    IMG = 'IMG',
+}
+
 export function CreatePost(): JSX.Element {
     const [active, setActive] = useState(true);
 
@@ -80,7 +86,7 @@ export function CreatePost(): JSX.Element {
         <CreateContainer>
             <CreateContent>
                 <h2>Create Post</h2>
-                <p>Select what type of post you would like to create.</p>
+                <SubTitle>Select what type of post you would like to create.</SubTitle>
 
                 <Selection>
                     <li>
