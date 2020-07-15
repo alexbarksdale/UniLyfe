@@ -18,6 +18,7 @@ export type CategoryEntity = {
   __typename?: 'CategoryEntity';
   id: Scalars['Int'];
   name: Scalars['String'];
+  categoryImage: Scalars['String'];
   posts?: Maybe<Array<PostEntity>>;
 };
 
@@ -179,6 +180,7 @@ export type MutationLoginArgs = {
 
 
 export type MutationCreateCategoryArgs = {
+  categoryImage: Scalars['String'];
   name: Scalars['String'];
 };
 
@@ -267,6 +269,7 @@ export type GetCategoryPostsQuery = (
   { __typename?: 'Query' }
   & { getCategoryPosts: Array<(
     { __typename?: 'CategoryEntity' }
+    & Pick<CategoryEntity, 'categoryImage'>
     & { posts?: Maybe<Array<(
       { __typename?: 'PostEntity' }
       & Pick<PostEntity, 'id' | 'title' | 'content' | 'likes' | 'views' | 'createdAt'>
@@ -493,6 +496,7 @@ export type GetCategoriesQueryResult = ApolloReactCommon.QueryResult<GetCategori
 export const GetCategoryPostsDocument = gql`
     query GetCategoryPosts($categoryName: String!) {
   getCategoryPosts(categoryName: $categoryName) {
+    categoryImage
     posts {
       id
       title

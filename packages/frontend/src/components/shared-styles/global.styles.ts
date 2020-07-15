@@ -89,7 +89,6 @@ export const CardContainer = `
     flex-direction: column;
 
     padding: 26px 19px;
-    margin: 65px 20px 65px 20px;
     border-radius: 8px;
     box-shadow: 0px 0px 65px 0px rgba(0, 0, 0, 0.23);
     animation: blink 3s linear infinite;

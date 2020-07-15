@@ -1,5 +1,6 @@
 query GetCategoryPosts($categoryName: String!) {
     getCategoryPosts(categoryName: $categoryName) {
+        categoryImage
         posts {
             id
             title

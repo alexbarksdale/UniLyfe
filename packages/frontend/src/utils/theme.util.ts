@@ -14,6 +14,7 @@ export type Theme = {
     gray800: string;
     divider: string;
     error: string;
+    warning: string;
     success: string;
 };
 
@@ -34,6 +35,7 @@ export const theme: Theme = {
     gray800: '#414042',
     divider: '#f1f1f1',
     error: '#ff7373',
+    warning: '#ffb85f',
     success: '#14ce4c',
 };
 

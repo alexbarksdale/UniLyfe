@@ -7,11 +7,6 @@ import { Login } from './Login';
 import { Register } from './Register';
 import { CardContainer } from '../shared-styles/global.styles';
 
-type AppProps = {
-    typeLogin?: boolean;
-    history: History;
-};
-
 const AuthContainer = styled.div`
     display: flex;
     justify-content: center;
@@ -62,6 +57,31 @@ const ExistingAccount = styled.p`
         }
     }
 `;
+
+const InvalidStyles = `
+    padding: 8px 15px;
+    font-size: 15px;
+    border-radius: 8px;
+    line-height: 16px;
+    margin-bottom: 25px;
+`;
+
+export const ErrorMsg = styled.p`
+    color: ${(props) => props.theme.white};
+    background-color: ${(props) => props.theme.error};
+    ${InvalidStyles}
+`;
+
+export const WarningMsg = styled.p`
+    color: ${(props) => props.theme.white};
+    background-color: ${(props) => props.theme.warning};
+    ${InvalidStyles}
+`;
+
+type AppProps = {
+    typeLogin?: boolean;
+    history: History;
+};
 
 export function Authentication({ typeLogin, history }: AppProps): JSX.Element {
     const heading = typeLogin ? 'Welcome back!' : 'Create an account';

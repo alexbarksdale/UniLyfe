@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Formik, useField } from 'formik';
 import * as yup from 'yup';
@@ -9,6 +9,7 @@ import { useLoginMutation, MeDocument, MeQuery } from '../../generated/graphql';
 import { setToken } from '../../utils/accessToken.util';
 import { setAuth } from '../../store/actions/auth.action';
 import { setBrowsing } from '../../store/actions/navigation.action';
+import { ErrorMsg } from './Authentication';
 
 const validationSchema = yup.object().shape({
     email: yup
@@ -41,7 +42,9 @@ type FormValues = {
 
 export function Login({ history }: AppProps): JSX.Element {
     const [login] = useLoginMutation();
+
     const dispatch = useDispatch();
+    const [authErrors, setErrors] = useState<Object>();
 
     const initValues: FormValues = {
         email: '',
@@ -82,30 +85,33 @@ export function Login({ history }: AppProps): JSX.Element {
                         history.push('/');
                     }
                 } catch (err) {
-                    console.log('Unable to login', err);
+                    setErrors(err);
                 }
-
-                // TODO: Handle error
             }}
         >
             {({ handleSubmit, isSubmitting }) => (
-                <Form onSubmit={handleSubmit} isSubmitting={isSubmitting}>
-                    <TextField
-                        name='email'
-                        id='email'
-                        type='email'
-                        placeholder='Enter your email'
-                        label='Enter your email'
-                    />
-                    <TextField
-                        name='password'
-                        id='password'
-                        type='password'
-                        placeholder='Enter your password'
-                        label='Enter your password'
-                    />
-                    <button type='submit'>Login</button>
-                </Form>
+                <>
+                    {authErrors && (
+                        <ErrorMsg>Invalid email or password. Please try again.</ErrorMsg>
+                    )}
+                    <Form onSubmit={handleSubmit} isSubmitting={isSubmitting}>
+                        <TextField
+                            name='email'
+                            id='email'
+                            type='email'
+                            placeholder='Enter your email'
+                            label='Enter your email'
+                        />
+                        <TextField
+                            name='password'
+                            id='password'
+                            type='password'
+                            placeholder='Enter your password'
+                            label='Enter your password'
+                        />
+                        <button type='submit'>Login</button>
+                    </Form>
+                </>
             )}
         </Formik>
     );

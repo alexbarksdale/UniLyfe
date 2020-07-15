@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, useField } from 'formik';
 import * as yup from 'yup';
 import { History } from 'history';
 
 import { Form, Input, Label } from '../shared-styles/form.styles';
+import { WarningMsg } from './Authentication';
 import { useRegisterMutation } from '../../generated/graphql';
 
 const validationSchema = yup.object().shape({
@@ -44,8 +45,9 @@ type AppProps = {
     history: History;
 };
 
-// TODO: Showcase register success stuff
 export function Register({ history }: AppProps): JSX.Element {
+    const [authErrors, setErrors] = useState<Object>();
+
     const [register] = useRegisterMutation();
     const initValues: FormValues = { email: '', password: '', confirmPassword: '' };
 
@@ -55,45 +57,57 @@ export function Register({ history }: AppProps): JSX.Element {
             validationSchema={validationSchema}
             onSubmit={async (values, { setSubmitting }) => {
                 setSubmitting(true);
-                const { data } = await register({
-                    variables: {
-                        email: values.email,
-                        password: values.password,
-                    },
-                });
+                try {
+                    const { data } = await register({
+                        variables: {
+                            email: values.email,
+                            password: values.password,
+                        },
+                    });
 
-                if (data && data.register.registerSuccess) {
-                    setSubmitting(false);
-                    history.push('/login');
+                    if (data && data.register.registerSuccess) {
+                        setSubmitting(false);
+                        history.push('/login');
+                    }
+                } catch (err) {
+                    setErrors(err);
                 }
                 // TODO: Handle error
             }}
         >
             {({ handleSubmit, isSubmitting }) => (
-                <Form onSubmit={handleSubmit} isSubmitting={isSubmitting}>
-                    <TextField
-                        name='email'
-                        id='email'
-                        type='email'
-                        placeholder='Enter your email'
-                        label='Enter your university email'
-                    />
-                    <TextField
-                        name='password'
-                        id='password'
-                        type='password'
-                        placeholder='Enter your password'
-                        label='Enter your password'
-                    />
-                    <TextField
-                        name='confirmPassword'
-                        id='confirmPassword'
-                        type='password'
-                        placeholder='Confirm your password'
-                        label='Confirm your password'
-                    />
-                    <button type='submit'>Sign Up</button>
-                </Form>
+                <>
+                    {authErrors && (
+                        <WarningMsg>
+                            We don&apos;t have your university email on file. Please email
+                            us and we&apos;ll work on getting your school added.
+                        </WarningMsg>
+                    )}
+                    <Form onSubmit={handleSubmit} isSubmitting={isSubmitting}>
+                        <TextField
+                            name='email'
+                            id='email'
+                            type='email'
+                            placeholder='Enter your email'
+                            label='Enter your university email'
+                        />
+                        <TextField
+                            name='password'
+                            id='password'
+                            type='password'
+                            placeholder='Enter your password'
+                            label='Enter your password'
+                        />
+                        <TextField
+                            name='confirmPassword'
+                            id='confirmPassword'
+                            type='password'
+                            placeholder='Confirm your password'
+                            label='Confirm your password'
+                        />
+                        <button type='submit'>Sign Up</button>
+                    </Form>
+                </>
             )}
         </Formik>
     );

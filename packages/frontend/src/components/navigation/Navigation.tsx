@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaBars, FaTimes, FaPencilAlt } from 'react-icons/fa';
 
@@ -152,7 +152,6 @@ const NavRight = styled.ul`
 `;
 
 export function Navigation(): JSX.Element | null {
-    const history = useHistory();
     const dispatch = useDispatch();
     const browsing = useSelector((state: StoreState) => state.navigationReducer.browsing);
 
@@ -165,15 +164,6 @@ export function Navigation(): JSX.Element | null {
         if (node.current!.contains(e.target)) return;
         setDropdown(false);
     };
-
-    useEffect(() => {
-        if (
-            history.location.pathname === '/login' ||
-            history.location.pathname === '/register'
-        ) {
-            dispatch(setBrowsing(false));
-        }
-    });
 
     useEffect(() => {
         document.addEventListener('mousedown', handleClick);
