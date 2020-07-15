@@ -5,7 +5,7 @@
     "username": "postgres",
     "password": "postgres",
     "database": "unilyfe",
-    "synchronize": false,
+    "synchronize": true,
     "logging": false,
     "entities": ["src/entity/**/*.ts"],
     "migrations": ["src/migration/**/*.ts"],

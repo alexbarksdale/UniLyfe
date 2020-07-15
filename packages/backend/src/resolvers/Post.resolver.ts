@@ -7,6 +7,7 @@ import { Context } from '../context/context';
 import { logger } from '../utils/logger.util';
 import { checkAuthor, AuthorError } from '../utils/checkAuthor.util';
 import { CategoryEntity } from '../entity/Category.entity';
+import { PostType } from '../entity/types/post.type';
 
 // TODO: Secure the queries and mutations after testing
 @Resolver()
@@ -44,15 +45,19 @@ export class PostResolver {
 
     @Mutation(() => PostEntity)
     // TODO: Apply auth middleware
-    async createPost(
+    async createTextPost(
         @Arg('title') title: string,
+        @Arg('type') type: PostType,
         @Arg('content') content: string,
         @Arg('authorId') authorId: number,
+        @Arg('thumbnail', { nullable: true }) thumbnail: string,
         @Arg('categoryName') categoryName: string
     ): Promise<PostEntity> {
-        if (!title || !content || !authorId || !categoryName) {
+        if (!title || !type || !content || !authorId || !categoryName) {
             throw new Error('Missing fields!');
         }
+
+        if (type !== PostType.TEXT) throw new Error('Post type must be TEXT!');
 
         const author = await UserEntity.findOne({ where: { id: authorId } });
         if (!author) throw new Error('Unable to find author!');
@@ -63,8 +68,10 @@ export class PostResolver {
         // Create new post
         const post = PostEntity.create({
             title,
+            type,
             content,
             author,
+            thumbnail,
             category,
         });
 

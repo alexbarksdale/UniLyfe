@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { UserEntity } from './User.entity';
 import { CategoryEntity } from './Category.entity';
+import { PostType } from './types/post.type';
 
 @ObjectType()
 @Entity('posts')
@@ -18,6 +19,14 @@ export class PostEntity extends BaseEntity {
     @Field(() => Int)
     @PrimaryGeneratedColumn()
     id!: number;
+
+    @Field()
+    @Column('enum', { enum: PostType })
+    type!: PostType;
+
+    @Field(() => String, { nullable: true })
+    @Column('text', { nullable: true })
+    thumbnail?: string | null;
 
     @Field()
     @Column('text')
