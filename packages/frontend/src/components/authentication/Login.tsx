@@ -4,7 +4,7 @@ import { Formik, useField } from 'formik';
 import * as yup from 'yup';
 import { History } from 'history';
 
-import { Form, Input, Label } from '../shared-styles/form.styles';
+import { Form, SubmitBtn, Input, Label } from '../shared-styles/form.styles';
 import { useLoginMutation, MeDocument, MeQuery } from '../../generated/graphql';
 import { setToken } from '../../utils/accessToken.util';
 import { setAuth } from '../../store/actions/auth.action';
@@ -109,7 +109,7 @@ export function Login({ history }: AppProps): JSX.Element {
                             placeholder='Enter your password'
                             label='Enter your password'
                         />
-                        <button type='submit'>Login</button>
+                        <SubmitBtn type='submit'>Login</SubmitBtn>
                     </Form>
                 </>
             )}

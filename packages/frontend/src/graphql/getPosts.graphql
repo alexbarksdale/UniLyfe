@@ -1,6 +1,7 @@
 query GetPosts {
     getPosts {
         id
+        thumbnail
         title
         content
         likes

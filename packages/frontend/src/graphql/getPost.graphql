@@ -1,6 +1,7 @@
 query GetPost($postId: Int!) {
     getPost(postId: $postId) {
         id
+        thumbnail
         title
         content
         likes

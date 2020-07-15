@@ -15,25 +15,25 @@ export const Form = styled.form`
 
     pointer-events: ${(props: StyleProps) => (props.isSubmitting ? 'none' : 'unset')};
     opacity: ${(props: StyleProps) => (props.isSubmitting ? '.4' : '1')};
+`;
 
-    button {
-        font-size: 16px;
-        font-weight: 600;
-        border-radius: 8px;
-        padding: 15px 19px;
-        margin-top: 20px;
-        outline: none;
-        letter-spacing: 0.3px;
-        color: ${(props) => props.theme.gray500};
-        box-shadow: 0px 3px 0px 0px ${(props) => props.theme.gray350};
-        background-color: ${(props) => props.theme.gray300};
-        transition: all 0.3s ease 0s;
+export const SubmitBtn = styled.button`
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 15px 19px;
+    margin-top: 20px;
+    outline: none;
+    letter-spacing: 0.3px;
+    color: ${(props) => props.theme.gray500};
+    box-shadow: 0px 3px 0px 0px ${(props) => props.theme.gray350};
+    background-color: ${(props) => props.theme.gray300};
+    transition: all 0.3s ease 0s;
 
-        &:hover,
-        &:focus {
-            color: ${(props) => props.theme.gray800};
-            box-shadow: 0px 3px 0px 0px ${(props) => props.theme.primary};
-        }
+    &:hover,
+    &:focus {
+        color: ${(props) => props.theme.gray800};
+        box-shadow: 0px 3px 0px 0px ${(props) => props.theme.primary};
     }
 `;
 
@@ -71,7 +71,7 @@ export const Label = styled.label`
 `;
 
 export const Select = styled.select`
-    color: ${(props) => props.theme.gray500};
+    color: ${(props) => props.theme.gray800};
     appearance: none;
     border-radius: 8px;
     background: #eee
@@ -91,16 +91,17 @@ export const TextArea = styled.textarea`
     font-weight: 500;
     font-size: 15px;
 
-    height: 100px;
+    height: 200px;
     width: 100%;
     padding: 10px;
+    line-height: 20px;
     margin-top: 8px;
     outline: none;
-    background-color: ${(props) => props.theme.gray200};
+    background-color: ${(props) => props.theme.gray300};
     transition: all 0.3s ease 0s;
 
     &:focus {
-        height: 150px;
+        height: 250px;
         border: 1px solid ${(props) => props.theme.gray300};
     }
 `;

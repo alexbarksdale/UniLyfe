@@ -1,8 +1,8 @@
 query GetCategoryPosts($categoryName: String!) {
     getCategoryPosts(categoryName: $categoryName) {
-        categoryImage
         posts {
             id
+            thumbnail
             title
             content
             likes

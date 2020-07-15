@@ -3,7 +3,7 @@ import { Formik, useField } from 'formik';
 import * as yup from 'yup';
 import { History } from 'history';
 
-import { Form, Input, Label } from '../shared-styles/form.styles';
+import { Form, SubmitBtn, Input, Label } from '../shared-styles/form.styles';
 import { WarningMsg } from './Authentication';
 import { useRegisterMutation } from '../../generated/graphql';
 
@@ -105,7 +105,7 @@ export function Register({ history }: AppProps): JSX.Element {
                             placeholder='Confirm your password'
                             label='Confirm your password'
                         />
-                        <button type='submit'>Sign Up</button>
+                        <SubmitBtn type='submit'>Sign Up</SubmitBtn>
                     </Form>
                 </>
             )}

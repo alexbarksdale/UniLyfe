@@ -49,9 +49,13 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
             return (
                 <FeedContent key={item.id}>
                     <Link to={postUrl}>
-                        <PostHeader responsive>
-                            <FaCommentAlt />
-                        </PostHeader>
+                        {item.thumbnail ? (
+                            <PostHeader responsive bgUrl={item.thumbnail} />
+                        ) : (
+                            <PostHeader responsive>
+                                <FaCommentAlt />
+                            </PostHeader>
+                        )}
                     </Link>
                     <PostContent>
                         <CategoryLink to='/'>{item.category.name}</CategoryLink>

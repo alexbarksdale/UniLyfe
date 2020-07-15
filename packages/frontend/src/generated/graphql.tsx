@@ -18,13 +18,14 @@ export type CategoryEntity = {
   __typename?: 'CategoryEntity';
   id: Scalars['Int'];
   name: Scalars['String'];
-  categoryImage: Scalars['String'];
   posts?: Maybe<Array<PostEntity>>;
 };
 
 export type PostEntity = {
   __typename?: 'PostEntity';
   id: Scalars['Int'];
+  type: Scalars['String'];
+  thumbnail?: Maybe<Scalars['String']>;
   title: Scalars['String'];
   content: Scalars['String'];
   likes: Scalars['Int'];
@@ -161,7 +162,7 @@ export type Mutation = {
   createComment: CommentEntity;
   updateComment: Scalars['Boolean'];
   deleteComment: Scalars['Boolean'];
-  createPost: PostEntity;
+  createTextPost: PostEntity;
   updatePost: Scalars['Boolean'];
   deletePost: Scalars['Boolean'];
 };
@@ -180,7 +181,6 @@ export type MutationLoginArgs = {
 
 
 export type MutationCreateCategoryArgs = {
-  categoryImage: Scalars['String'];
   name: Scalars['String'];
 };
 
@@ -206,10 +206,12 @@ export type MutationDeleteCommentArgs = {
 };
 
 
-export type MutationCreatePostArgs = {
+export type MutationCreateTextPostArgs = {
   categoryName: Scalars['String'];
+  thumbnail?: Maybe<Scalars['String']>;
   authorId: Scalars['Float'];
   content: Scalars['String'];
+  type: Scalars['String'];
   title: Scalars['String'];
 };
 
@@ -226,19 +228,21 @@ export type MutationDeletePostArgs = {
   postId: Scalars['Int'];
 };
 
-export type CreatePostMutationVariables = Exact<{
+export type CreateTextPostMutationVariables = Exact<{
   authorId: Scalars['Float'];
+  type: Scalars['String'];
   title: Scalars['String'];
   content: Scalars['String'];
+  thumbnail?: Maybe<Scalars['String']>;
   categoryName: Scalars['String'];
 }>;
 
 
-export type CreatePostMutation = (
+export type CreateTextPostMutation = (
   { __typename?: 'Mutation' }
-  & { createPost: (
+  & { createTextPost: (
     { __typename?: 'PostEntity' }
-    & Pick<PostEntity, 'id' | 'title' | 'content' | 'likes' | 'views' | 'createdAt'>
+    & Pick<PostEntity, 'id' | 'thumbnail' | 'title' | 'type' | 'content' | 'likes' | 'views' | 'createdAt'>
     & { category: (
       { __typename?: 'CategoryEntity' }
       & Pick<CategoryEntity, 'id' | 'name'>
@@ -269,10 +273,9 @@ export type GetCategoryPostsQuery = (
   { __typename?: 'Query' }
   & { getCategoryPosts: Array<(
     { __typename?: 'CategoryEntity' }
-    & Pick<CategoryEntity, 'categoryImage'>
     & { posts?: Maybe<Array<(
       { __typename?: 'PostEntity' }
-      & Pick<PostEntity, 'id' | 'title' | 'content' | 'likes' | 'views' | 'createdAt'>
+      & Pick<PostEntity, 'id' | 'thumbnail' | 'title' | 'content' | 'likes' | 'views' | 'createdAt'>
       & { category: (
         { __typename?: 'CategoryEntity' }
         & Pick<CategoryEntity, 'id' | 'name'>
@@ -293,7 +296,7 @@ export type GetPostQuery = (
   { __typename?: 'Query' }
   & { getPost: (
     { __typename?: 'PostEntity' }
-    & Pick<PostEntity, 'id' | 'title' | 'content' | 'likes' | 'views' | 'createdAt'>
+    & Pick<PostEntity, 'id' | 'thumbnail' | 'title' | 'content' | 'likes' | 'views' | 'createdAt'>
     & { category: (
       { __typename?: 'CategoryEntity' }
       & Pick<CategoryEntity, 'id' | 'name'>
@@ -328,7 +331,7 @@ export type GetPostsQuery = (
   { __typename?: 'Query' }
   & { getPosts: Array<(
     { __typename?: 'PostEntity' }
-    & Pick<PostEntity, 'id' | 'title' | 'content' | 'likes' | 'views' | 'createdAt'>
+    & Pick<PostEntity, 'id' | 'thumbnail' | 'title' | 'content' | 'likes' | 'views' | 'createdAt'>
     & { category: (
       { __typename?: 'CategoryEntity' }
       & Pick<CategoryEntity, 'id' | 'name'>
@@ -410,11 +413,13 @@ export type RegisterMutation = (
 );
 
 
-export const CreatePostDocument = gql`
-    mutation CreatePost($authorId: Float!, $title: String!, $content: String!, $categoryName: String!) {
-  createPost(authorId: $authorId, title: $title, content: $content, categoryName: $categoryName) {
+export const CreateTextPostDocument = gql`
+    mutation CreateTextPost($authorId: Float!, $type: String!, $title: String!, $content: String!, $thumbnail: String, $categoryName: String!) {
+  createTextPost(authorId: $authorId, type: $type, title: $title, content: $content, thumbnail: $thumbnail, categoryName: $categoryName) {
     id
+    thumbnail
     title
+    type
     content
     likes
     views
@@ -432,34 +437,36 @@ export const CreatePostDocument = gql`
   }
 }
     `;
-export type CreatePostMutationFn = ApolloReactCommon.MutationFunction<CreatePostMutation, CreatePostMutationVariables>;
+export type CreateTextPostMutationFn = ApolloReactCommon.MutationFunction<CreateTextPostMutation, CreateTextPostMutationVariables>;
 
 /**
- * __useCreatePostMutation__
+ * __useCreateTextPostMutation__
  *
- * To run a mutation, you first call `useCreatePostMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreatePostMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreateTextPostMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateTextPostMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createPostMutation, { data, loading, error }] = useCreatePostMutation({
+ * const [createTextPostMutation, { data, loading, error }] = useCreateTextPostMutation({
  *   variables: {
  *      authorId: // value for 'authorId'
+ *      type: // value for 'type'
  *      title: // value for 'title'
  *      content: // value for 'content'
+ *      thumbnail: // value for 'thumbnail'
  *      categoryName: // value for 'categoryName'
  *   },
  * });
  */
-export function useCreatePostMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreatePostMutation, CreatePostMutationVariables>) {
-        return ApolloReactHooks.useMutation<CreatePostMutation, CreatePostMutationVariables>(CreatePostDocument, baseOptions);
+export function useCreateTextPostMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateTextPostMutation, CreateTextPostMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreateTextPostMutation, CreateTextPostMutationVariables>(CreateTextPostDocument, baseOptions);
       }
-export type CreatePostMutationHookResult = ReturnType<typeof useCreatePostMutation>;
-export type CreatePostMutationResult = ApolloReactCommon.MutationResult<CreatePostMutation>;
-export type CreatePostMutationOptions = ApolloReactCommon.BaseMutationOptions<CreatePostMutation, CreatePostMutationVariables>;
+export type CreateTextPostMutationHookResult = ReturnType<typeof useCreateTextPostMutation>;
+export type CreateTextPostMutationResult = ApolloReactCommon.MutationResult<CreateTextPostMutation>;
+export type CreateTextPostMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateTextPostMutation, CreateTextPostMutationVariables>;
 export const GetCategoriesDocument = gql`
     query GetCategories {
   getCategories {
@@ -496,9 +503,9 @@ export type GetCategoriesQueryResult = ApolloReactCommon.QueryResult<GetCategori
 export const GetCategoryPostsDocument = gql`
     query GetCategoryPosts($categoryName: String!) {
   getCategoryPosts(categoryName: $categoryName) {
-    categoryImage
     posts {
       id
+      thumbnail
       title
       content
       likes
@@ -548,6 +555,7 @@ export const GetPostDocument = gql`
     query GetPost($postId: Int!) {
   getPost(postId: $postId) {
     id
+    thumbnail
     title
     content
     likes
@@ -637,6 +645,7 @@ export const GetPostsDocument = gql`
     query GetPosts {
   getPosts {
     id
+    thumbnail
     title
     content
     likes

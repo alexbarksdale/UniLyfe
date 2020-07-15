@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import { device } from '../../utils/theme.util';
 
 type StyleProps = {
-    big?: boolean | string; // Used to position elements in 'Our Picks'
-    responsive?: boolean;
-    postView?: boolean;
-    size?: number;
+    big?: boolean | string; // Used to position elements in OurPicks.tsx
+    responsive?: boolean; // Used to make PostHeader responsive adjustments.
+    postView?: boolean; // Changes properties when the component is in PostView.tsx
+    bgUrl?: string; // Determines if a background url was passed in.
+    size?: number; // Pass in a desired font size through props.
 };
 
 export const PostHeader = styled.div`
@@ -15,11 +16,14 @@ export const PostHeader = styled.div`
     justify-content: center;
     height: ${(props: StyleProps) => (props.big ? '115px' : '94px')};
     padding: 15px;
-    background-color: ${(props) => props.theme.gray300};
     margin-right: ${(props: StyleProps) => (props.big ? undefined : '15px')};
     width: ${(props: StyleProps) => (props.big ? undefined : '94px')};
     margin-bottom: ${(props: StyleProps) => (props.big ? '15px' : undefined)};
     transition: all 0.3s ease 0s;
+    background: url(${({ bgUrl }: StyleProps) => bgUrl});
+    background-size: cover;
+    background-position: center;
+    background-color: ${(props) => props.theme.gray300};
 
     svg {
         color: ${(props) => props.theme.gray500};
@@ -27,6 +31,7 @@ export const PostHeader = styled.div`
     }
 
     &:hover {
+        opacity: ${({ bgUrl }: StyleProps) => (bgUrl ? '.8' : null)};
         background-color: ${(props) => props.theme.gray200};
     }
 

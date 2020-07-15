@@ -11,6 +11,7 @@ export type FeedDataType = {
     };
     content: string;
     createdAt: Date;
+    thumbnail?: string | null;
     id: number;
     likes: number;
     title: string;

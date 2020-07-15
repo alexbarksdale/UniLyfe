@@ -1,17 +1,23 @@
-mutation CreatePost(
+mutation CreateTextPost(
     $authorId: Float!
+    $type: String!
     $title: String!
     $content: String!
+    $thumbnail: String
     $categoryName: String!
 ) {
-    createPost(
+    createTextPost(
         authorId: $authorId
+        type: $type
         title: $title
         content: $content
+        thumbnail: $thumbnail
         categoryName: $categoryName
     ) {
         id
+        thumbnail
         title
+        type
         content
         likes
         views
