@@ -54,7 +54,6 @@ const StyledTextArea = styled.textarea`
     transition: all 0.3s ease 0s;
 
     &:focus {
-        height: 150px;
         border: 1px solid ${({ theme }: StyleProps) => theme.gray300};
     }
 `;
@@ -113,7 +112,7 @@ export function CreateComment({
             {isReply ?? <h3>Add a new comment</h3>}
             <Formik
                 initialValues={initValues}
-                onSubmit={async (values, { setSubmitting }) => {
+                onSubmit={async (values, { setSubmitting, resetForm }) => {
                     setSubmitting(true);
 
                     if (meData.me) {
@@ -136,19 +135,21 @@ export function CreateComment({
 
                         if (data) {
                             setSubmitting(false);
-                            initValues.comment = '';
+                            resetForm({});
                         }
                     }
                 }}
             >
-                {({ handleSubmit }) => (
+                {({ handleSubmit, values }) => (
                     <form onSubmit={handleSubmit}>
                         <Field
                             name='comment'
                             placeholder='Write your response...'
+                            value={values.comment}
                             isReply={isReply}
                             as={StyledTextArea}
                         />
+                        <h1>{values.comment}</h1>
                         <div>
                             {isReply ? (
                                 <StyledBtn

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { Formik, useField } from 'formik';
 import * as yup from 'yup';
+import slugify from 'slugify';
 
 import {
     useCreateTextPostMutation,
@@ -58,6 +60,7 @@ const TextField = ({ placeholder, label, ...props }: any) => {
 
 export function TextPost(): JSX.Element | null {
     const [thumbnailSrc, setThumbnail] = useState<string | null>(null);
+    const history = useHistory();
 
     const [createTextPost] = useCreateTextPostMutation();
     const { data: meData, loading: meLoading } = useMeQuery();
@@ -110,9 +113,12 @@ export function TextPost(): JSX.Element | null {
                         ],
                     });
 
-                    if (res && !res.errors) {
+                    if (res.data && !res.errors) {
                         setSubmitting(false);
-                        // TODO: Handle success
+                        const { createTextPost } = res.data;
+                        const slugTitle = slugify(values.title, '_').toLowerCase();
+                        const postUrl = `category/${createTextPost.category.name}/${createTextPost.id}/${slugTitle}`;
+                        history.push(postUrl);
                     }
                 }
             }}

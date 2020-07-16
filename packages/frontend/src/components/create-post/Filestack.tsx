@@ -38,6 +38,7 @@ type AppProps = {
     getThumbnail: (s: string | null) => void;
 };
 
+// FIXME: It takes two clicks to upload
 export function Filestack({ getThumbnail }: AppProps): JSX.Element {
     return (
         <ReactFilestack

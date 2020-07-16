@@ -101,7 +101,6 @@ export const TextArea = styled.textarea`
     transition: all 0.3s ease 0s;
 
     &:focus {
-        height: 250px;
         border: 1px solid ${(props) => props.theme.gray300};
     }
 `;

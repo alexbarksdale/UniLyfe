@@ -3,6 +3,7 @@ FROM node:12
 WORKDIR /usr/frontend
 
 COPY package.json ./
+COPY .env ./
 
 RUN yarn install
 
