@@ -43,17 +43,13 @@ const StyledTextArea = styled.textarea`
     padding: 10px;
     margin-top: 8px;
     outline: none;
-    background-color: ${({ isReply, theme }: StyleProps) =>
-        isReply ? theme.gray300 : theme.gray200};
-    border: 1px solid
-        ${({ isReply, theme }: StyleProps) => (isReply ? theme.gray350 : 'none')};
+    background-color: ${({ theme }: StyleProps) => theme.gray200};
+    border: 1px solid transparent;
     transition: all 0.3s ease 0s;
 
     &:focus {
         height: 150px;
-        border: 1px solid
-            ${({ isReply, theme }: StyleProps) =>
-                isReply ? theme.gray400 : theme.gray300};
+        border: 1px solid ${({ theme }: StyleProps) => theme.gray300};
     }
 `;
 

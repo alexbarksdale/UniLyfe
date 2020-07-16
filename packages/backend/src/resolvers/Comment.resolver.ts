@@ -30,15 +30,15 @@ export class CommentResolver {
     // TODO: Apply auth middleware
     async createComment(
         @Arg('postId', () => Int) postId: number,
-        @Arg('authorEmail') authorEmail: string,
+        @Arg('authorId') authorId: number,
         @Arg('content') content: string,
         @Arg('replyId', () => Int, { nullable: true }) replyId: number
     ): Promise<CommentEntity> {
-        if (!postId || !authorEmail) {
-            throw new Error('You must provide a postId and authorEmail');
+        if (!postId || !authorId) {
+            throw new Error('You must provide a postId and authorId');
         }
 
-        const author = await UserEntity.findOne({ where: { email: authorEmail } });
+        const author = await UserEntity.findOne({ where: { id: authorId } });
         if (!author) throw new Error('Unable to find author!');
 
         // Create comment

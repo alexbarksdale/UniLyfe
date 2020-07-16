@@ -6,6 +6,7 @@ import { Reply } from './comments/Reply';
 
 const CommentsContainer = styled.div`
     margin-top: 15px;
+    margin-bottom: 30px;
 
     h3 {
         font-size: 17px;
@@ -56,7 +57,6 @@ type AppProps = {
     isAuth: boolean;
 };
 
-// TODO: Figure out reply comment structure later
 export function PostComments({ isAuth, postId }: AppProps): JSX.Element | null {
     const { data, loading } = useGetPostCommentsQuery({
         variables: {

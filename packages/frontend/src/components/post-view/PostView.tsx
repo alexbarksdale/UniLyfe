@@ -15,7 +15,7 @@ import { StoreState } from '../../store/reducers/main.reducer';
 const BackButton = styled.button`
     font-size: 16px;
     background-color: transparent;
-    margin-bottom: 17px;
+    margin-bottom: 14px;
 
     a {
         display: flex;
@@ -50,10 +50,6 @@ const NoAuthComment = styled.div`
 `;
 
 export function PostView(): JSX.Element | null {
-    const { unilyfe, forum } = useSelector(
-        (state: StoreState) => state.navigationReducer.category
-    );
-
     const { data: meData } = useMeQuery();
     const { id } = useParams();
     const { data: postData, loading } = useGetPostQuery({
@@ -61,6 +57,10 @@ export function PostView(): JSX.Element | null {
             postId: parseInt(id, 10),
         },
     });
+
+    const { unilyfe, forum } = useSelector(
+        (state: StoreState) => state.navigationReducer.category
+    );
 
     if (loading || typeof postData === 'undefined') return null;
 

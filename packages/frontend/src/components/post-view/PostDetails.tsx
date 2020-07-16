@@ -21,6 +21,13 @@ const PostDetailContainer = styled.div`
     }
 `;
 
+const PostImg = styled.img`
+    height: 300px;
+    width: 100%;
+    object-fit: cover;
+    margin-bottom: 12px;
+`;
+
 const PostDescription = styled.p`
     font-size: 16px;
     font-weight: 500;
@@ -46,6 +53,7 @@ export function PostDetails({ postData }: AppProps): JSX.Element {
 
     return (
         <PostDetailContainer>
+            {postData.getPost.thumbnail && <PostImg src={postData.getPost.thumbnail} />}
             <div>
                 <h2>{getPost.title}</h2>
                 <p>

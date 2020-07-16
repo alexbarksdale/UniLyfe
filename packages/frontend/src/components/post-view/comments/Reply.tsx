@@ -17,9 +17,11 @@ const ReplyContent = styled.div`
     margin-left: ${(props: StyleProps) => (props.typeReply ? '15px' : null)};
     margin-top: ${(props: StyleProps) => (props.typeReply ? '-10px' : null)};
     border-radius: 8px;
-    background-color: ${({ typeReply, theme }: StyleProps) =>
-        typeReply ? theme.gray200 : null};
     padding: ${(props: StyleProps) => (props.typeReply ? '14px' : null)};
+    border-left: ${(props: StyleProps) =>
+        props.typeReply ? `2px solid ${props.theme.gray300}` : null};
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
 
     h5 {
         font-size: 15px;
