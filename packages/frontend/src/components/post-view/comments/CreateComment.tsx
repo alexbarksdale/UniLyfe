@@ -140,16 +140,14 @@ export function CreateComment({
                     }
                 }}
             >
-                {({ handleSubmit, values }) => (
+                {({ handleSubmit }) => (
                     <form onSubmit={handleSubmit}>
                         <Field
                             name='comment'
                             placeholder='Write your response...'
-                            value={values.comment}
                             isReply={isReply}
                             as={StyledTextArea}
                         />
-                        <h1>{values.comment}</h1>
                         <div>
                             {isReply ? (
                                 <StyledBtn
