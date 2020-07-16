@@ -41,6 +41,10 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
         let postViews: number;
 
         return data.map((item: FeedDataType) => {
+            // URL
+            const slugTitle = slugify(item.title, '_').toLowerCase();
+            const postUrl = `/category/${item.category.name}/${item.id}/${slugTitle}`;
+
             // DATE
             const rawDate = new Date(item.createdAt);
             const options = {
@@ -49,10 +53,6 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
                 day: 'numeric',
             };
             const date = `${rawDate.toLocaleDateString('en-us', options)}`;
-
-            // URL
-            const slugTitle = slugify(item.title, '_').toLowerCase();
-            const postUrl = `/category/${item.category.name}/${item.id}/${slugTitle}`;
 
             // STATS
             postLikes = item.likes;

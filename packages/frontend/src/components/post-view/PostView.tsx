@@ -50,8 +50,9 @@ const NoAuthComment = styled.div`
 `;
 
 export function PostView(): JSX.Element | null {
-    const { data: meData } = useMeQuery();
     const { id } = useParams();
+
+    const { data: meData } = useMeQuery();
     const { data: postData, loading } = useGetPostQuery({
         variables: {
             postId: parseInt(id, 10),

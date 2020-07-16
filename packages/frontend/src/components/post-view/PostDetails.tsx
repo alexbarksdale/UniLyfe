@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { FaRegThumbsUp, FaRegEye } from 'react-icons/fa';
 
 import { PostStats } from '../shared-styles/post.styles';
-import { GetPostQuery } from '../../generated/graphql';
+import {
+    GetPostQuery,
+    useUpdatePostStatsMutation,
+    usePostStatsSubSubscription,
+} from '../../generated/graphql';
 
 const PostDetailContainer = styled.div`
     div {
@@ -49,7 +53,28 @@ type AppProps = {
 };
 
 export function PostDetails({ postData }: AppProps): JSX.Element {
+    const [updatePost] = useUpdatePostStatsMutation();
+    const { data: postSub } = usePostStatsSubSubscription();
+
     const { getPost } = postData;
+
+    // Get the current post views
+    let postViews = postData.getPost.views;
+
+    // If we get our subscription, then we update the current views.
+    if (postSub) {
+        postViews = postSub.postStatsSub.views;
+    }
+
+    useEffect(() => {
+        updatePost({
+            variables: {
+                postId: getPost.id,
+                likes: getPost.likes,
+                views: postViews + 1,
+            },
+        });
+    }, []);
 
     return (
         <PostDetailContainer>
