@@ -40,11 +40,11 @@ export class UserEntity extends BaseEntity {
     @Column('text')
     universityName!: string;
 
-    @Field(() => PostEntity)
+    @Field(() => [PostEntity])
     @OneToMany(() => PostEntity, (post: PostEntity) => post.author, { cascade: true })
     posts!: Array<PostEntity>;
 
-    @Field(() => CommentEntity)
+    @Field(() => [CommentEntity])
     @OneToMany(() => CommentEntity, (comment: CommentEntity) => comment.author, {
         cascade: true,
     })

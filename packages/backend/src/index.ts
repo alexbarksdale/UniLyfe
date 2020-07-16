@@ -29,6 +29,7 @@ import { router as refreshRouter } from './routers/refresh.router';
         await createConnection();
         logger.info('Connected to the database.');
     } catch (err) {
+        logger.error("If you're running this on docker you may need to restart again.");
         logger.error(`Failed to connect to the database: ${err}`);
     }
 

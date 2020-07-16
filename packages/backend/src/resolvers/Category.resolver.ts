@@ -27,6 +27,8 @@ export class CategoryResolver {
             relations: ['posts', 'posts.author', 'posts.category'],
         });
 
+        console.log(posts);
+
         return posts;
     }
 

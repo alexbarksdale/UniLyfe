@@ -13,7 +13,7 @@ export class CategoryEntity extends BaseEntity {
     @Column('text')
     name!: String;
 
-    @Field(() => PostEntity, { nullable: true })
+    @Field(() => [PostEntity], { nullable: true })
     @OneToMany(() => PostEntity, (post: PostEntity) => post.category, { cascade: true })
     posts?: Array<PostEntity>;
 }
