@@ -1,12 +1,20 @@
-import { InputType, Field, Int } from 'type-graphql';
+import { ObjectType, Field, Int } from 'type-graphql';
 
-@InputType()
-export class PostUpdateInput {
-    @Field(() => String, { nullable: true })
-    title?: string;
+// Used to dictate what subscription topic to talk to
+export enum PostTopics {
+    NEW_STATS = 'NEW_STATS',
+}
 
-    @Field(() => String, { nullable: true })
-    content?: string;
+export type PostStatPayload = {
+    postId: number;
+    likes?: number;
+    views?: number;
+};
+
+@ObjectType()
+export class PostStat {
+    @Field(() => Int)
+    postId!: number;
 
     @Field(() => Int, { nullable: true })
     likes?: number;

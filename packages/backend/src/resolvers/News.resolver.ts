@@ -16,7 +16,7 @@ export class NewsResolver {
     async getUniNews(): Promise<NewsResponse> {
         try {
             const res = await fetch(
-                `${this.baseUrl}/everything?q=university&pageSize=4&apiKey=${process.env.NEWS_API_KEY}`,
+                `${this.baseUrl}/everything?q=university&sortBy=relevancy&language=en&pageSize=4&apiKey=${process.env.NEWS_API_KEY}`,
                 { method: 'GET' }
             );
             const resData = await res.json();

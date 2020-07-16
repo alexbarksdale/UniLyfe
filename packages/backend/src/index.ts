@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import 'dotenv/config';
+import http from 'http';
 import path from 'path';
 import express from 'express';
 import cors from 'cors';
@@ -35,13 +36,20 @@ import { router as refreshRouter } from './routers/refresh.router';
         schema: await buildSchema({
             resolvers: [path.join(__dirname, '/resolvers/**/*.{ts,js}')],
         }),
+        playground: true,
         context: ({ req, res }) => ({ req, res }),
     });
 
     apolloServer.applyMiddleware({ path: '/api', app, cors: false });
 
+    const httpServer = http.createServer(app);
+    apolloServer.installSubscriptionHandlers(httpServer);
+
     const PORT = process.env.PORT || 4000;
-    app.listen(PORT, () => {
+    httpServer.listen(PORT, () => {
         logger.info(`UniLyfe API is running on port: ${PORT}`);
+        logger.info(
+            `UniLyfe subscriptions running on ws://localhost:${PORT}${apolloServer.subscriptionsPath}`
+        );
     });
 })();

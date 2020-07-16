@@ -17,6 +17,7 @@ import {
 import { CategoryTitle } from '../../shared-styles/global.styles';
 import { AppProps, FeedDataType } from '../types/types';
 import { StoreState } from '../../../store/reducers/main.reducer';
+import { usePostStatsSubSubscription } from '../../../generated/graphql';
 
 const FeedContainer = styled.div`
     flex-direction: column;
@@ -26,15 +27,37 @@ const FeedContent = styled.div`
     margin-bottom: 9px;
 `;
 
+type SubData = {
+    postId: number;
+    subLikes: number;
+    subViews: number;
+};
+
 export function MainFeed({ feedData }: AppProps): JSX.Element | null {
     const forum = useSelector(
         (state: StoreState) => state.navigationReducer.category.forum
     );
 
+    const { data: postSub } = usePostStatsSubSubscription();
+
+    // Post subscription data
+    const subData: SubData = {
+        postId: 0,
+        subLikes: 0,
+        subViews: 0,
+    };
+
+    if (postSub) {
+        subData.postId = postSub.postStatsSub.id;
+        subData.subLikes = postSub.postStatsSub.likes;
+        subData.subViews = postSub.postStatsSub.views;
+    }
+
     if (typeof feedData === 'undefined') return null;
 
     const renderFeed = (data: FeedDataType[]): JSX.Element[] => {
         return data.map((item: FeedDataType) => {
+            // DATE
             const rawDate = new Date(item.createdAt);
             const options = {
                 year: 'numeric',
@@ -43,8 +66,21 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
             };
             const date = `${rawDate.toLocaleDateString('en-us', options)}`;
 
+            // URL
             const slugTitle = slugify(item.title, '_').toLowerCase();
             const postUrl = `/category/${item.category.name}/${item.id}/${slugTitle}`;
+
+            // STATS
+            let postLikes = item.likes;
+            let postViews = item.views;
+
+            const { postId, subLikes, subViews } = subData;
+
+            // Check if the subscription data belongs to this post
+            if (postId === item.id) {
+                postLikes = subLikes;
+                postViews = subViews;
+            }
 
             return (
                 <FeedContent key={item.id}>
@@ -70,10 +106,10 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
                             <span>•</span>
                             <PostStats>
                                 <li>
-                                    <button type='button'>
+                                    <Link to={postUrl}>
                                         <FaRegThumbsUp />
-                                        {item.likes}
-                                    </button>
+                                        {postLikes}
+                                    </Link>
                                 </li>
                                 <li>
                                     <Link to={postUrl}>
@@ -84,7 +120,7 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
                                 <li>
                                     <Link to={postUrl}>
                                         <FaRegEye />
-                                        {item.views}
+                                        {postViews}
                                     </Link>
                                 </li>
                             </PostStats>

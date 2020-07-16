@@ -1,13 +1,24 @@
-import { Resolver, Query, Mutation, Arg, Int, Ctx } from 'type-graphql';
+import {
+    Resolver,
+    Query,
+    Mutation,
+    Arg,
+    Int,
+    Ctx,
+    Subscription,
+    Root,
+    PubSub,
+    Publisher,
+} from 'type-graphql';
 
 import { PostEntity } from '../entity/Post.entity';
 import { UserEntity } from '../entity/User.entity';
-import { PostUpdateInput } from './types/post.types';
 import { Context } from '../context/context';
 import { logger } from '../utils/logger.util';
 import { checkAuthor, AuthorError } from '../utils/checkAuthor.util';
 import { CategoryEntity } from '../entity/Category.entity';
 import { PostType } from '../entity/types/post.type';
+import { PostStatPayload, PostTopics } from './types/post.types';
 
 // TODO: Secure the queries and mutations after testing
 @Resolver()
@@ -87,10 +98,38 @@ export class PostResolver {
 
     @Mutation(() => Boolean)
     // TODO: Apply auth middleware
+    async updatePostStats(
+        @PubSub(PostTopics.NEW_STATS) publish: Publisher<PostStatPayload>,
+        @Arg('postId', () => Int) postId: number,
+        @Arg('likes', () => Int, { nullable: true }) likes: number,
+        @Arg('views', () => Int, { nullable: true }) views: number
+    ): Promise<boolean> {
+        if (!postId) {
+            throw new Error('You must provide a postId!');
+        }
+
+        try {
+            await PostEntity.update({ id: postId }, { likes, views });
+        } catch (err) {
+            logger.error(
+                `Failed to update post stats with postId: ${postId}! Error: `,
+                err
+            );
+            throw new Error('Unable to update post stats!');
+        }
+
+        // Publish new information to our subscribers
+        await publish({ postId });
+        return true;
+    }
+
+    @Mutation(() => Boolean)
+    // TODO: Apply auth middleware
     async updatePost(
         @Arg('postId', () => Int) postId: number,
         @Arg('authorId', () => Int) authorId: number,
-        @Arg('update', () => PostUpdateInput) update: PostUpdateInput,
+        @Arg('title', () => String, { nullable: true }) title: string,
+        @Arg('content', () => String, { nullable: true }) content: string,
         @Ctx() { req }: Context
     ): Promise<boolean> {
         if (!postId || !authorId) {
@@ -100,7 +139,7 @@ export class PostResolver {
         const isAuthor = checkAuthor(req, authorId, AuthorError.UPDATE_ERROR);
 
         try {
-            if (isAuthor) await PostEntity.update({ id: postId }, update);
+            if (isAuthor) await PostEntity.update({ id: postId }, { title, content });
         } catch (err) {
             logger.error(`Failed to update post with postId: ${postId}! Error: `, err);
             throw new Error('Unable to update post!');
@@ -130,5 +169,12 @@ export class PostResolver {
         }
 
         return true;
+    }
+
+    @Subscription(() => PostEntity, { topics: PostTopics.NEW_STATS })
+    async postStatsSub(@Root() { postId }: PostStatPayload): Promise<PostEntity> {
+        const post = await PostEntity.findOne(postId);
+        if (!post) throw new Error(`Unable to find post with postId: ${postId}`);
+        return post;
     }
 }
