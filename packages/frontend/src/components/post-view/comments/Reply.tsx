@@ -7,17 +7,19 @@ import { Theme } from '../../../utils/theme.util';
 type StyleProps = {
     theme: Theme;
     typeReply?: boolean;
+    isAuth: boolean;
     children: any;
 };
 
 const ReplyContent = styled.div`
     display: flex;
     flex-direction: column;
-    margin: ${(props: StyleProps) => (props.typeReply ? null : '16px 0px')};
-    margin-left: ${(props: StyleProps) => (props.typeReply ? '15px' : null)};
-    margin-top: ${(props: StyleProps) => (props.typeReply ? '-10px' : null)};
+    margin: ${({ typeReply }: StyleProps) => (typeReply ? null : '16px 0px')};
+    margin-left: ${({ typeReply }: StyleProps) => (typeReply ? '15px' : null)};
+    margin-top: ${({ typeReply }: StyleProps) => (typeReply ? '-10px' : null)};
+    margin-bottom: ${({ isAuth }: StyleProps) => (isAuth ? null : '26px')};
     border-radius: 8px;
-    padding: ${(props: StyleProps) => (props.typeReply ? '14px' : null)};
+    padding: ${({ typeReply }: StyleProps) => (typeReply ? '14px' : null)};
     border-left: ${(props: StyleProps) =>
         props.typeReply ? `2px solid ${props.theme.gray300}` : null};
     border-top-left-radius: 0px;
@@ -103,7 +105,7 @@ export function Reply({
     const date = `${rawDate.toLocaleTimeString('en-us', options)}`;
 
     return (
-        <ReplyContent typeReply={typeReply}>
+        <ReplyContent isAuth={isAuth} typeReply={typeReply}>
             <UserInfoDate>
                 <h5>
                     {commentData.author.universityName} | {commentData.author.username}
