@@ -27,35 +27,19 @@ const FeedContent = styled.div`
     margin-bottom: 9px;
 `;
 
-type SubData = {
-    postId: number;
-    subLikes: number;
-    subViews: number;
-};
-
 export function MainFeed({ feedData }: AppProps): JSX.Element | null {
+    const { data: postSub } = usePostStatsSubSubscription();
+
     const forum = useSelector(
         (state: StoreState) => state.navigationReducer.category.forum
     );
 
-    const { data: postSub } = usePostStatsSubSubscription();
-
-    // Post subscription data
-    const subData: SubData = {
-        postId: 0,
-        subLikes: 0,
-        subViews: 0,
-    };
-
-    if (postSub) {
-        subData.postId = postSub.postStatsSub.id;
-        subData.subLikes = postSub.postStatsSub.likes;
-        subData.subViews = postSub.postStatsSub.views;
-    }
-
     if (typeof feedData === 'undefined') return null;
 
     const renderFeed = (data: FeedDataType[]): JSX.Element[] => {
+        let postLikes: number;
+        let postViews: number;
+
         return data.map((item: FeedDataType) => {
             // DATE
             const rawDate = new Date(item.createdAt);
@@ -71,15 +55,17 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
             const postUrl = `/category/${item.category.name}/${item.id}/${slugTitle}`;
 
             // STATS
-            let postLikes = item.likes;
-            let postViews = item.views;
+            postLikes = item.likes;
+            postViews = item.views;
 
-            const { postId, subLikes, subViews } = subData;
-
-            // Check if the subscription data belongs to this post
-            if (postId === item.id) {
-                postLikes = subLikes;
-                postViews = subViews;
+            // Check if we got a subscription
+            if (postSub) {
+                const { id, likes, views } = postSub.postStatsSub;
+                // See if the subscription data belongs to this post
+                if (id === item.id) {
+                    postLikes = likes;
+                    postViews = views;
+                }
             }
 
             return (
