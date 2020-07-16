@@ -50,6 +50,7 @@ const NoAuthComment = styled.div`
 `;
 
 export function PostView(): JSX.Element | null {
+    window.scrollTo(0, 0);
     const { id } = useParams();
 
     const { data: meData } = useMeQuery();

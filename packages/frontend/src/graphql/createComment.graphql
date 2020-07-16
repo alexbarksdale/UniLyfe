@@ -17,6 +17,7 @@ mutation CreateComment(
         author {
             id
             username
+            universityName
         }
     }
 }

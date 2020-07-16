@@ -71,6 +71,7 @@ type CommentType = {
     author: {
         id: number;
         username: string;
+        universityName: string;
     };
     createdAt: Date;
 };
@@ -78,11 +79,18 @@ type CommentType = {
 type AppProps = {
     isAuth: boolean;
     postId: number;
+    replyId?: number;
     typeReply?: boolean;
     commentData: CommentType;
 };
 
-export function Reply({ isAuth, postId, typeReply, commentData }: AppProps): JSX.Element {
+export function Reply({
+    isAuth,
+    postId,
+    replyId,
+    typeReply,
+    commentData,
+}: AppProps): JSX.Element {
     const [isReply, setReply] = useState(false);
     const rawDate = new Date(commentData.createdAt);
     const options = {
@@ -97,7 +105,9 @@ export function Reply({ isAuth, postId, typeReply, commentData }: AppProps): JSX
     return (
         <ReplyContent typeReply={typeReply}>
             <UserInfoDate>
-                <h5>XXX | {commentData.author.username}</h5>
+                <h5>
+                    {commentData.author.universityName} | {commentData.author.username}
+                </h5>
                 <span style={{ margin: '0px 4px' }}>•</span>
                 <span>{date}</span>
             </UserInfoDate>
@@ -108,6 +118,7 @@ export function Reply({ isAuth, postId, typeReply, commentData }: AppProps): JSX
                         <CreateComment
                             isReply={isReply}
                             postId={postId}
+                            replyId={replyId}
                             cancelReply={(cancel: boolean) => setReply(cancel)}
                         />
                     ) : (

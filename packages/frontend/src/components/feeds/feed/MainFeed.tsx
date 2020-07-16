@@ -99,8 +99,7 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
                                 </li>
                                 <li>
                                     <Link to={postUrl}>
-                                        <FaRegCommentAlt />
-                                        100
+                                        <FaRegCommentAlt />0
                                     </Link>
                                 </li>
                                 <li>

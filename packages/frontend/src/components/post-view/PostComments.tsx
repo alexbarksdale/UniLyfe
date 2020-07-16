@@ -48,6 +48,7 @@ type CommentType = {
     author: {
         id: number;
         username: string;
+        universityName: string;
     };
     createdAt: Date;
 };
@@ -74,6 +75,7 @@ export function PostComments({ isAuth, postId }: AppProps): JSX.Element | null {
                     <Reply
                         isAuth={isAuth}
                         postId={postId}
+                        replyId={item.author.id}
                         commentData={item}
                         key={item.id}
                     />
@@ -83,6 +85,7 @@ export function PostComments({ isAuth, postId }: AppProps): JSX.Element | null {
                 <Reply
                     isAuth={isAuth}
                     postId={postId}
+                    replyId={item.author.id}
                     typeReply
                     commentData={item}
                     key={item.id}

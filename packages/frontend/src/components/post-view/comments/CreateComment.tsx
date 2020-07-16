@@ -84,20 +84,21 @@ const StyledBtn = styled.button`
     }
 `;
 
-type AppProps = {
-    isReply?: boolean;
-    postId: number;
-    cancelReply?: (b: boolean) => void;
-};
-
 type FormValues = {
     comment: string;
 };
 
-// TODO: Add required values like author id later
+type AppProps = {
+    isReply?: boolean;
+    postId: number;
+    replyId?: number;
+    cancelReply?: (b: boolean) => void;
+};
+
 export function CreateComment({
     isReply,
     postId,
+    replyId,
     cancelReply,
 }: AppProps): JSX.Element | null {
     const { data: meData, loading } = useMeQuery();
@@ -119,6 +120,7 @@ export function CreateComment({
                         const { data } = await createComment({
                             variables: {
                                 postId,
+                                replyId,
                                 authorId: meData.me.id,
                                 content: values.comment,
                             },

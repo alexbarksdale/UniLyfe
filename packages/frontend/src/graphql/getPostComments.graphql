@@ -7,6 +7,7 @@ query GetPostComments($postId: Int!) {
         author {
             id
             username
+            universityName
         }
         createdAt
     }

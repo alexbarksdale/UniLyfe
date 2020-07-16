@@ -238,7 +238,12 @@ export type CreateCommentMutation = { __typename?: 'Mutation' } & {
     createComment: { __typename?: 'CommentEntity' } & Pick<
         CommentEntity,
         'id' | 'postId' | 'content' | 'replyId'
-    > & { author: { __typename?: 'UserEntity' } & Pick<UserEntity, 'id' | 'username'> };
+    > & {
+            author: { __typename?: 'UserEntity' } & Pick<
+                UserEntity,
+                'id' | 'username' | 'universityName'
+            >;
+        };
 };
 
 export type CreateTextPostMutationVariables = Exact<{
@@ -347,7 +352,7 @@ export type GetPostCommentsQuery = { __typename?: 'Query' } & {
         > & {
                 author: { __typename?: 'UserEntity' } & Pick<
                     UserEntity,
-                    'id' | 'username'
+                    'id' | 'username' | 'universityName'
                 >;
             }
     >;
@@ -481,6 +486,7 @@ export const CreateCommentDocument = gql`
             author {
                 id
                 username
+                universityName
             }
         }
     }
@@ -816,6 +822,7 @@ export const GetPostCommentsDocument = gql`
             author {
                 id
                 username
+                universityName
             }
             createdAt
         }
