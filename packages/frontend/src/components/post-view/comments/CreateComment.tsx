@@ -1,7 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Formik, Field } from 'formik';
+
 import { Theme } from '../../../utils/theme.util';
+import {
+    useCreateCommentMutation,
+    useMeQuery,
+    GetPostCommentsDocument,
+} from '../../../generated/graphql';
 
 type StyleProps = {
     theme: Theme;
@@ -80,6 +86,7 @@ const StyledBtn = styled.button`
 
 type AppProps = {
     isReply?: boolean;
+    postId: number;
     cancelReply?: (b: boolean) => void;
 };
 
@@ -88,7 +95,16 @@ type FormValues = {
 };
 
 // TODO: Add required values like author id later
-export function CreateComment({ isReply, cancelReply }: AppProps): JSX.Element {
+export function CreateComment({
+    isReply,
+    postId,
+    cancelReply,
+}: AppProps): JSX.Element | null {
+    const { data: meData, loading } = useMeQuery();
+    const [createComment] = useCreateCommentMutation();
+
+    if (!meData || loading) return null;
+
     const initValues: FormValues = { comment: '' };
 
     return (
@@ -96,10 +112,31 @@ export function CreateComment({ isReply, cancelReply }: AppProps): JSX.Element {
             {isReply ?? <h3>Add a new comment</h3>}
             <Formik
                 initialValues={initValues}
-                onSubmit={(values, { setSubmitting }) => {
+                onSubmit={async (values, { setSubmitting }) => {
                     setSubmitting(true);
-                    console.log('CreateComment.tsx', values);
-                    setSubmitting(false);
+
+                    if (meData.me) {
+                        const { data } = await createComment({
+                            variables: {
+                                postId,
+                                authorId: meData.me.id,
+                                content: values.comment,
+                            },
+                            refetchQueries: [
+                                {
+                                    query: GetPostCommentsDocument,
+                                    variables: {
+                                        postId,
+                                    },
+                                },
+                            ],
+                        });
+
+                        if (data) {
+                            setSubmitting(false);
+                            initValues.comment = '';
+                        }
+                    }
                 }}
             >
                 {({ handleSubmit }) => (

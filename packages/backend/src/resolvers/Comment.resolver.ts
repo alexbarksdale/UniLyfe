@@ -21,7 +21,7 @@ export class CommentResolver {
             where: { postId },
             relations: ['author'],
             order: {
-                createdAt: 'ASC',
+                createdAt: 'DESC',
             },
         });
     }

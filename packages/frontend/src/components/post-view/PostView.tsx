@@ -84,7 +84,7 @@ export function PostView(): JSX.Element | null {
 
                     <PostDetails postData={postData} />
                     {isAuth ? (
-                        <CreateComment />
+                        <CreateComment postId={parseInt(id, 10)} />
                     ) : (
                         <NoAuthComment>
                             <h3>

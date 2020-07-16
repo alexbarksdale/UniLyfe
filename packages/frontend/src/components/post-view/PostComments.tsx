@@ -70,9 +70,24 @@ export function PostComments({ isAuth, postId }: AppProps): JSX.Element | null {
         return data.map((item: CommentType) => {
             // This comment is not a reply to another comment
             if (!item.replyId) {
-                return <Reply isAuth={isAuth} commentData={item} key={item.id} />;
+                return (
+                    <Reply
+                        isAuth={isAuth}
+                        postId={postId}
+                        commentData={item}
+                        key={item.id}
+                    />
+                );
             }
-            return <Reply isAuth={isAuth} typeReply commentData={item} key={item.id} />;
+            return (
+                <Reply
+                    isAuth={isAuth}
+                    postId={postId}
+                    typeReply
+                    commentData={item}
+                    key={item.id}
+                />
+            );
         });
     };
 

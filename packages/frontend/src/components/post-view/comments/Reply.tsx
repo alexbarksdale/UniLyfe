@@ -77,11 +77,12 @@ type CommentType = {
 
 type AppProps = {
     isAuth: boolean;
+    postId: number;
     typeReply?: boolean;
     commentData: CommentType;
 };
 
-export function Reply({ isAuth, typeReply, commentData }: AppProps): JSX.Element {
+export function Reply({ isAuth, postId, typeReply, commentData }: AppProps): JSX.Element {
     const [isReply, setReply] = useState(false);
     const rawDate = new Date(commentData.createdAt);
     const options = {
@@ -106,6 +107,7 @@ export function Reply({ isAuth, typeReply, commentData }: AppProps): JSX.Element
                     {isReply ? (
                         <CreateComment
                             isReply={isReply}
+                            postId={postId}
                             cancelReply={(cancel: boolean) => setReply(cancel)}
                         />
                     ) : (
