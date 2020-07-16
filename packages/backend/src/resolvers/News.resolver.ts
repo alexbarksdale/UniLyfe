@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+import axios, { AxiosResponse } from 'axios';
 import { Resolver, Query } from 'type-graphql';
 
 import { NewsResponse } from './types/news.types';
@@ -14,18 +14,23 @@ export class NewsResolver {
 
     @Query(() => NewsResponse)
     async getUniNews(): Promise<NewsResponse> {
-        try {
-            const res = await fetch(
-                `${this.baseUrl}/everything?q=university&sortBy=relevancy&language=en&pageSize=4&apiKey=${process.env.NEWS_API_KEY}`,
-                { method: 'GET' }
-            );
-            const resData = await res.json();
+        const params = {
+            q: 'university',
+            soryBy: 'relevancy',
+            langauge: 'en',
+            pageSize: '1',
+            apiKey: `${process.env.NEWS_API_KEY}`,
+        };
 
-            // console.log(resData);
-            // resData.articles.forEach((item: any) => {
-            //     console.log(item.source);
-            // });
-            return resData;
+        try {
+            const resData: AxiosResponse<NewsResponse> = await axios.get(
+                `${this.baseUrl}/everything`,
+                {
+                    params,
+                }
+            );
+
+            return resData.data;
         } catch (err) {
             logger.error('Unable to fetch news data', err);
             throw new Error('Unable to fetch news data');

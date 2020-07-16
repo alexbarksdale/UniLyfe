@@ -4,6 +4,7 @@
     "description": "GraphQL API for UniLyfe",
     "dependencies": {
         "apollo-server-express": "^2.14.3",
+        "axios": "^0.19.2",
         "bcrypt": "^5.0.0",
         "class-validator": "^0.12.2",
         "cookie-parser": "^1.4.5",
@@ -12,7 +13,6 @@
         "express": "^4.17.1",
         "graphql": "^15.1.0",
         "jsonwebtoken": "^8.5.1",
-        "node-fetch": "^2.6.0",
         "pg": "^8.2.1",
         "reflect-metadata": "^0.1.10",
         "short-unique-id": "^3.0.3",

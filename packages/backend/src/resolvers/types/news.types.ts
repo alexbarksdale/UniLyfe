@@ -43,6 +43,20 @@ export class NewsArticle {
 @ObjectType({
     description: 'Response from NewsApi.org',
 })
+export class NewsData {
+    @Field()
+    status!: string;
+
+    @Field(() => Int)
+    totalResults!: number;
+
+    @Field(() => [NewsArticle])
+    articles?: Array<NewsArticle>;
+}
+
+@ObjectType({
+    description: 'Axios response for NewsApi.org',
+})
 export class NewsResponse {
     @Field()
     status!: string;
@@ -50,6 +64,6 @@ export class NewsResponse {
     @Field(() => Int)
     totalResults!: number;
 
-    @Field(() => NewsArticle)
-    articles!: Array<NewsArticle>;
+    @Field(() => [NewsArticle])
+    articles?: Array<NewsArticle>;
 }

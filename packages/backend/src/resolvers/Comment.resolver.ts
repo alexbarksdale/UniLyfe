@@ -6,9 +6,6 @@ import { Context } from '../context/context';
 import { logger } from '../utils/logger.util';
 import { checkAuthor, AuthorError } from '../utils/checkAuthor.util';
 
-// Note to self: When interating over the comments, to find the replies take the id of the comment
-// and find any "key": value i.e: '"replies": (id)' with the matching id to the comment.
-
 // TODO: Secure the queries and mutations after testing
 @Resolver()
 export class CommentResolver {
@@ -21,7 +18,8 @@ export class CommentResolver {
             where: { postId },
             relations: ['author'],
             order: {
-                createdAt: 'DESC',
+                // THIS IS A BUG
+                createdAt: 'ASC',
             },
         });
     }
