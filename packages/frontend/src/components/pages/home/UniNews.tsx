@@ -141,6 +141,11 @@ export const NewsDate = styled.p`
     }
 `;
 
+// WARNING: If you changed the page size in the news request (on the back-end server)
+// this component will break! It is currently expecting at least four articles. I will
+// probably fix this in the future. Read the message at the top as to
+// why this component is scuffed.
+
 // TODO: Maybe refactor this in the future...
 export function UniNews(): JSX.Element | null {
     const { data, loading } = useGetUniNewsQuery();

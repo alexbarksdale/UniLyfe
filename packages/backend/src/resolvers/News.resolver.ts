@@ -18,7 +18,7 @@ export class NewsResolver {
             q: 'university',
             soryBy: 'relevancy',
             langauge: 'en',
-            pageSize: '1',
+            pageSize: '4',
             apiKey: `${process.env.NEWS_API_KEY}`,
         };
 
