@@ -5,9 +5,8 @@ UniLyfe is a platform for verified university students to network, chat, and sha
 
 ## Table of Contents
 
-* [About](#about)
-  * [Technologies - Web App](#tech-frontend)
-  * [Technologies - API](#tech-frontend)
+* [Technologies - Web App](#tech-frontend)
+* [Technologies - API](#tech-frontend)
 * [Getting Started](#getting-started)
   * [Installation - Web App](#installation-frontend)
   * [Installation - API](#installation-backend)
