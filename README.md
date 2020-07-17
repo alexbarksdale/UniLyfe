@@ -1,6 +1,6 @@
 # UniLyfe
 ***Documentation is still in early development***
-## About
+
 UniLyfe is a platform for verified university students to network, chat, and share their ideas while remaining anonymous. With peace of mind knowing only verified students can register. The goal was to create an environment where students could openly discuss their opinions or ideas.
 
 ## Table of Contents
