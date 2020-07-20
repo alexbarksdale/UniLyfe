@@ -32,7 +32,6 @@
         "react-scripts": "3.4.1",
         "redux": "^4.0.5",
         "redux-thunk": "^2.3.0",
-        "slick-carousel": "^1.8.1",
         "slugify": "^1.4.4",
         "styled-components": "^5.1.0",
         "typescript": "^3.7.5",

@@ -77612,14 +77612,6 @@
         "country": "United States"
     },
     {
-        "web_pages": ["https://www.vaniercollege.qc.ca/"],
-        "name": "Vanier College",
-        "alpha_two_code": "CA",
-        "state_province": null,
-        "domains": ["vaniercollege.qc.ca"],
-        "country": "Canada"
-    },
-    {
         "web_pages": ["http://www.defiance.edu/"],
         "name": "Defiance College",
         "alpha_two_code": "US",

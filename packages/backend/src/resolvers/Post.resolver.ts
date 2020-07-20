@@ -104,9 +104,7 @@ export class PostResolver {
         @Arg('likes', () => Int, { nullable: true }) likes: number,
         @Arg('views', () => Int, { nullable: true }) views: number
     ): Promise<boolean> {
-        if (!postId) {
-            throw new Error('You must provide a postId!');
-        }
+        if (!postId) throw new Error('You must provide a postId!');
 
         try {
             await PostEntity.update({ id: postId }, { likes, views });

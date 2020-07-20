@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import styled from 'styled-components';
 
 import { useGetPostCommentsQuery } from '../../generated/graphql';
@@ -67,31 +67,40 @@ export function PostComments({ isAuth, postId }: AppProps): JSX.Element | null {
 
     if (!data || loading || typeof data.getPostComments === 'undefined') return null;
 
-    const renderComments = (data: CommentType[]) => {
-        return data.map((item: CommentType) => {
-            // This comment is not a reply to another comment
-            if (!item.replyId) {
-                return (
+    const renderComments = (data: CommentType[]): JSX.Element[] => {
+        const comments: Array<ReactElement<CommentType>> = [];
+        const replies = data.filter((item: CommentType) => item.replyId);
+
+        data.forEach((comment: CommentType) => {
+            // Check if it's a parent comment
+            if (!comment.replyId) {
+                comments.push(
                     <Reply
                         isAuth={isAuth}
                         postId={postId}
-                        replyId={item.author.id}
-                        commentData={item}
-                        key={item.id}
+                        replyId={comment.id}
+                        commentData={comment}
+                        key={comment.id}
                     />
                 );
             }
-            return (
-                <Reply
-                    isAuth={isAuth}
-                    postId={postId}
-                    replyId={item.author.id}
-                    typeReply
-                    commentData={item}
-                    key={item.id}
-                />
-            );
+            // Look for any replies to the current parent comment
+            replies.forEach((reply: CommentType) => {
+                if (reply.replyId === comment.id) {
+                    comments.push(
+                        <Reply
+                            isAuth={isAuth}
+                            postId={postId}
+                            replyId={reply.id}
+                            typeReply
+                            commentData={reply}
+                            key={reply.id}
+                        />
+                    );
+                }
+            });
         });
+        return comments;
     };
 
     const commentLen = data.getPostComments.length;
