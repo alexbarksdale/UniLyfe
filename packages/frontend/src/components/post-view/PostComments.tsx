@@ -75,12 +75,13 @@ export function PostComments({ isAuth, postId }: AppProps): JSX.Element | null {
 
         data.forEach((comment: CommentType) => {
             treeNode = new TreeNode(comment);
-
             if (!comment.replyId) tree.push(treeNode);
             else {
                 const parentNode = findNodeInParentArray(comment.replyId, tree);
                 if (parentNode) parentNode.addChild(treeNode);
-                else throw new Error('Reply has no parent');
+                else {
+                    throw new Error('Reply has no parent, please contact the developer.');
+                }
             }
         });
 

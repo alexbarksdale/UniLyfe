@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Formik, useField } from 'formik';
 import * as yup from 'yup';
 import slugify from 'slugify';
+import { FaTimes } from 'react-icons/fa';
 
 import {
     useCreateTextPostMutation,
@@ -23,6 +24,23 @@ import {
 } from '../shared-styles/form.styles';
 import { PostType } from './CreatePost';
 import { Filestack } from './Filestack';
+
+const ThumbnailContent = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
+const DeleteBtn = styled.button`
+    margin-left: 8px;
+    font-size: 16px;
+    outline: none;
+    color: ${(props) => props.theme.gray600};
+    background-color: transparent;
+    transition: all 0.3s ease 0s;
+    &:hover {
+        color: ${(props) => props.theme.error};
+    }
+`;
 
 const ThumbnailTitle = styled.p`
     display: flex;
@@ -125,17 +143,24 @@ export function TextPost(): JSX.Element | null {
         >
             {({ handleSubmit, isSubmitting }) => (
                 <Form onSubmit={handleSubmit} isSubmitting={isSubmitting}>
+                    <ThumbnailTitle>Thumbnail (Optional)</ThumbnailTitle>
+                    <ThumbnailContent>
+                        <Filestack
+                            getThumbnail={(link: string | null) => setThumbnail(link)}
+                        />
+                        {thumbnailSrc && (
+                            <DeleteBtn type='button' onClick={() => setThumbnail(null)}>
+                                <FaTimes />
+                            </DeleteBtn>
+                        )}
+                    </ThumbnailContent>
+
                     <TextField name='category' label='Category' as={Select}>
                         <option value='0' defaultValue='selected' hidden>
                             Select a category
                         </option>
                         {renderCategories(categoryData)}
                     </TextField>
-
-                    <ThumbnailTitle>Thumbnail (Optional)</ThumbnailTitle>
-                    <Filestack
-                        getThumbnail={(link: string | null) => setThumbnail(link)}
-                    />
 
                     <TextField
                         name='title'

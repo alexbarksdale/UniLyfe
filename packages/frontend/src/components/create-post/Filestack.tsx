@@ -38,14 +38,13 @@ type AppProps = {
     getThumbnail: (s: string | null) => void;
 };
 
-// FIXME: It takes two clicks to upload
 export function Filestack({ getThumbnail }: AppProps): JSX.Element {
     return (
         <ReactFilestack
             apikey={FILESTACK_API}
             customRender={({ onPick }: any) => (
                 <UploadContainer>
-                    <UploadBtn onClick={onPick} type='submit'>
+                    <UploadBtn onClick={onPick} type='button'>
                         Upload
                     </UploadBtn>
                 </UploadContainer>
@@ -55,7 +54,7 @@ export function Filestack({ getThumbnail }: AppProps): JSX.Element {
                 getThumbnail(thumbnail);
             }}
             onError={(res: any) =>
-                console.log('Something went wrong during photo upload!', res)
+                console.log('Something went wrong trying to upload the image!', res)
             }
         />
     );
