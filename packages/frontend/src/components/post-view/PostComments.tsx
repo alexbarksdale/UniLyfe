@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { useGetPostCommentsQuery } from '../../generated/graphql';
 import { Reply } from './comments/Reply';
+import { TreeNode, findNodeInParentArray, compareNodes } from '../../assets/tree';
 
 const CommentsContainer = styled.div`
     margin-top: 15px;
@@ -40,7 +41,7 @@ const CommentsContainer = styled.div`
     }
 `;
 
-type CommentType = {
+export type CommentType = {
     id: number;
     postId: number;
     content: string;
@@ -69,37 +70,50 @@ export function PostComments({ isAuth, postId }: AppProps): JSX.Element | null {
 
     const renderComments = (data: CommentType[]): JSX.Element[] => {
         const comments: Array<ReactElement<CommentType>> = [];
-        const replies = data.filter((item: CommentType) => item.replyId);
+        let tree: Array<TreeNode> = [];
+        let treeNode: TreeNode;
 
         data.forEach((comment: CommentType) => {
-            // Check if it's a parent comment
-            if (!comment.replyId) {
+            treeNode = new TreeNode(comment);
+
+            if (!comment.replyId) tree.push(treeNode);
+            else {
+                const parentNode = findNodeInParentArray(comment.replyId, tree);
+                if (parentNode) parentNode.addChild(treeNode);
+                else throw new Error('Reply has no parent');
+            }
+        });
+
+        tree = tree.sort(compareNodes);
+        const recurseComments = (node: TreeNode) => {
+            if (node.value.replyId) {
                 comments.push(
                     <Reply
                         isAuth={isAuth}
-                        postId={postId}
-                        replyId={comment.id}
-                        commentData={comment}
-                        key={comment.id}
+                        postId={node.value.postId}
+                        replyId={node.value.id}
+                        typeReply
+                        commentData={node.value}
+                        key={node.value.id}
+                    />
+                );
+            } else {
+                comments.push(
+                    <Reply
+                        isAuth={isAuth}
+                        postId={node.value.postId}
+                        replyId={node.value.id}
+                        commentData={node.value}
+                        key={node.value.id}
                     />
                 );
             }
-            // Look for any replies to the current parent comment
-            replies.forEach((reply: CommentType) => {
-                if (reply.replyId === comment.id) {
-                    comments.push(
-                        <Reply
-                            isAuth={isAuth}
-                            postId={postId}
-                            replyId={reply.id}
-                            typeReply
-                            commentData={reply}
-                            key={reply.id}
-                        />
-                    );
-                }
-            });
-        });
+            if (node.children.length > 0) {
+                node.children.forEach((child: TreeNode) => recurseComments(child));
+            }
+        };
+
+        tree.forEach((node: TreeNode) => recurseComments(node));
         return comments;
     };
 

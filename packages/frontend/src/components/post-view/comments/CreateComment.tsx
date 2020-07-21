@@ -91,14 +91,14 @@ type AppProps = {
     isReply?: boolean;
     postId: number;
     replyId?: number;
-    cancelReply?: (b: boolean) => void;
+    closeReply?: (b: boolean) => void;
 };
 
 export function CreateComment({
     isReply,
     postId,
     replyId,
-    cancelReply,
+    closeReply,
 }: AppProps): JSX.Element | null {
     const { data: meData, loading } = useMeQuery();
     const [createComment] = useCreateCommentMutation();
@@ -136,6 +136,9 @@ export function CreateComment({
                         if (data) {
                             setSubmitting(false);
                             resetForm({});
+                            if (closeReply) {
+                                closeReply(false);
+                            }
                         }
                     }
                 }}
@@ -152,7 +155,7 @@ export function CreateComment({
                             {isReply ? (
                                 <StyledBtn
                                     isReply={isReply}
-                                    onClick={() => cancelReply!(false)}
+                                    onClick={() => closeReply!(false)}
                                 >
                                     Cancel
                                 </StyledBtn>

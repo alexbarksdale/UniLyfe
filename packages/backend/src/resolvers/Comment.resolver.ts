@@ -17,6 +17,10 @@ export class CommentResolver {
         return CommentEntity.find({
             where: { postId },
             relations: ['author'],
+            order: {
+                // THIS IS A BUG
+                createdAt: 'ASC',
+            },
         });
     }
 

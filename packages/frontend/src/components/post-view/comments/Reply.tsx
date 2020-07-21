@@ -121,7 +121,7 @@ export function Reply({
                             isReply={isReply}
                             postId={postId}
                             replyId={replyId}
-                            cancelReply={(cancel: boolean) => setReply(cancel)}
+                            closeReply={(cancel: boolean) => setReply(cancel)}
                         />
                     ) : (
                         <ReplyBtn type='button' onClick={() => setReply(!isReply)}>
