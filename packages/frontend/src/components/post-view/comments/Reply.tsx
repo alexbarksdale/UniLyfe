@@ -82,6 +82,7 @@ type AppProps = {
     isAuth: boolean;
     postId: number;
     replyId?: number;
+    author?: string;
     typeReply?: boolean;
     commentData: CommentType;
 };
@@ -90,6 +91,7 @@ export function Reply({
     isAuth,
     postId,
     replyId,
+    author,
     typeReply,
     commentData,
 }: AppProps): JSX.Element {
@@ -113,6 +115,7 @@ export function Reply({
                 <span style={{ margin: '0px 4px' }}>•</span>
                 <span>{date}</span>
             </UserInfoDate>
+            {typeReply && <span>To: {author}</span>}
             <p>{commentData.content}</p>
             {isAuth ? (
                 <>

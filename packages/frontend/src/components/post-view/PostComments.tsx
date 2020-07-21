@@ -86,12 +86,20 @@ export function PostComments({ isAuth, postId }: AppProps): JSX.Element | null {
 
         tree = tree.sort(compareNodes);
         const recurseComments = (node: TreeNode) => {
+            const {
+                value: {
+                    postId,
+                    id,
+                    author: { username },
+                },
+            } = node;
             if (node.value.replyId) {
                 comments.push(
                     <Reply
                         isAuth={isAuth}
-                        postId={node.value.postId}
-                        replyId={node.value.id}
+                        postId={postId}
+                        replyId={id}
+                        author={username}
                         typeReply
                         commentData={node.value}
                         key={node.value.id}
@@ -101,10 +109,10 @@ export function PostComments({ isAuth, postId }: AppProps): JSX.Element | null {
                 comments.push(
                     <Reply
                         isAuth={isAuth}
-                        postId={node.value.postId}
-                        replyId={node.value.id}
+                        postId={postId}
+                        replyId={id}
                         commentData={node.value}
-                        key={node.value.id}
+                        key={id}
                     />
                 );
             }
