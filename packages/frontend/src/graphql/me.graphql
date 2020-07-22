@@ -4,5 +4,9 @@ query Me {
         email
         username
         universityName
+        likes {
+            id
+            title
+        }
     }
 }

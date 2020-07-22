@@ -1,8 +1,11 @@
 mutation UpdatePostStats($postId: Int!, $userId: Int, $views: Int) {
     updatePostStats(postId: $postId, userId: $userId, views: $views) {
-        likes {
-            id
-            username
+        post {
+            likes {
+                id
+                username
+            }
         }
+        liked
     }
 }

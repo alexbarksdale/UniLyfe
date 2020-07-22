@@ -18,7 +18,7 @@ import { logger } from '../utils/logger.util';
 import { checkAuthor, AuthorError } from '../utils/checkAuthor.util';
 import { CategoryEntity } from '../entity/Category.entity';
 import { PostType } from '../entity/types/post.type';
-import { PostStatPayload, PostTopics } from './types/post.types';
+import { PostStatPayload, PostTopics, UpdateResponse } from './types/post.types';
 
 // TODO: Secure the queries and mutations after testing
 @Resolver()
@@ -96,14 +96,14 @@ export class PostResolver {
         return post;
     }
 
-    @Mutation(() => PostEntity)
+    @Mutation(() => UpdateResponse)
     // TODO: Apply auth middleware
     async updatePostStats(
         @PubSub(PostTopics.NEW_STATS) publish: Publisher<PostStatPayload>,
         @Arg('postId', () => Int) postId: number,
         @Arg('userId', () => Int, { nullable: true }) userId: number,
         @Arg('views', () => Int, { nullable: true }) views: number
-    ): Promise<PostEntity> {
+    ): Promise<UpdateResponse> {
         if (!postId) throw new Error('You must provide a postId!');
 
         const post = await PostEntity.findOne({
@@ -129,7 +129,10 @@ export class PostResolver {
                         );
                         await post.save();
                         await publish({ postId });
-                        return post;
+                        return {
+                            post,
+                            liked: false,
+                        };
                     }
                 }
 
@@ -156,7 +159,10 @@ export class PostResolver {
 
         // Publish new information to our subscribers.
         await publish({ postId });
-        return post;
+        return {
+            post,
+            liked: true,
+        };
     }
 
     @Mutation(() => Boolean)

@@ -49,7 +49,7 @@ export class AuthResolver {
 
         const user = await UserEntity.findOne({
             where: { id: payload.userId },
-            relations: ['comments', 'posts'],
+            relations: ['comments', 'posts', 'likes'],
         });
         if (!user) return null;
 
@@ -113,7 +113,7 @@ export class AuthResolver {
     ): Promise<LoginResponse | ApolloError> {
         if (!email || !password) return handleError(AuthError.MISSING_CREDENTIALS);
 
-        const user = await UserEntity.findOne({ where: { email } });
+        const user = await UserEntity.findOne({ where: { email }, relations: ['likes'] });
         if (!user) return handleError(AuthError.INVALID_CREDENTIALS);
 
         const validPassword = await compare(password, user.password);

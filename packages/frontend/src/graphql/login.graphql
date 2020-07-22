@@ -5,6 +5,10 @@ mutation Login($email: String!, $password: String!) {
             email
             username
             universityName
+            likes {
+                id
+                title
+            }
         }
         accessToken
     }

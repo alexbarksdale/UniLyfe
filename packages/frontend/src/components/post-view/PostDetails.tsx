@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { FaRegThumbsUp, FaRegEye } from 'react-icons/fa';
+import { FaThumbsUp, FaRegThumbsUp, FaRegEye } from 'react-icons/fa';
 
 import { PostStats } from '../shared-styles/post.styles';
 import {
@@ -10,6 +10,12 @@ import {
     usePostStatsSubSubscription,
     useMeQuery,
 } from '../../generated/graphql';
+import { Theme } from '../../utils/theme.util';
+
+type StyleProps = {
+    theme: Theme;
+    liked: boolean;
+};
 
 const PostDetailContainer = styled.div`
     div {
@@ -50,19 +56,24 @@ const Divider = styled.hr`
     background-color: ${(props) => props.theme.divider};
 `;
 
+const LikeBtn = styled.button`
+    color: ${({ theme, liked }: StyleProps) =>
+        liked ? theme.primary : theme.gray600} !important;
+`;
+
 type AppProps = {
     postData: GetPostQuery;
 };
 
 export function PostDetails({ postData }: AppProps): JSX.Element | null {
-    const { data: meData } = useMeQuery();
+    const history = useHistory();
+    const [liked, setLiked] = useState(false);
+
+    const { data: meData, loading } = useMeQuery();
     const [updatePost] = useUpdatePostStatsMutation();
     const { data: postSub } = usePostStatsSubSubscription();
 
-    const history = useHistory();
-
     const { getPost } = postData;
-
     let postViews = getPost.views;
     const postLikes = getPost.likes.length;
 
@@ -71,24 +82,37 @@ export function PostDetails({ postData }: AppProps): JSX.Element | null {
         postViews = postSub.postStatsSub.views;
     }
 
-    // Update view count when loaded.
+    // Update view count and check if the post is liked when loaded.
     useEffect(() => {
+        if (meData && meData.me) {
+            for (const like of meData.me.likes) {
+                if (like.id === getPost.id) {
+                    setLiked(true);
+                    break;
+                }
+            }
+        }
         updatePost({
             variables: {
                 postId: getPost.id,
                 views: postViews + 1,
             },
         });
-    }, []);
+    }, [loading]);
 
-    const handleLike = () => {
+    const handleLike = async () => {
         if (meData && meData.me) {
-            updatePost({
+            const res = await updatePost({
                 variables: {
                     postId: getPost.id,
                     userId: meData.me.id,
                 },
             });
+            if (res.data && res.data.updatePostStats.liked) {
+                setLiked(true);
+            } else {
+                setLiked(false);
+            }
         } else {
             // Must be signed in to like a post.
             history.push('/login');
@@ -97,7 +121,7 @@ export function PostDetails({ postData }: AppProps): JSX.Element | null {
 
     return (
         <PostDetailContainer>
-            {postData.getPost.thumbnail && <PostImg src={postData.getPost.thumbnail} />}
+            {getPost.thumbnail && <PostImg src={getPost.thumbnail} />}
             <div>
                 <h2>{getPost.title}</h2>
                 <p>
@@ -108,10 +132,10 @@ export function PostDetails({ postData }: AppProps): JSX.Element | null {
             <PostDescription>{getPost.content}</PostDescription>
             <PostStats postView>
                 <li>
-                    <button type='button' onClick={() => handleLike()}>
-                        <FaRegThumbsUp />
+                    <LikeBtn liked={liked} type='button' onClick={() => handleLike()}>
+                        {liked ? <FaThumbsUp /> : <FaRegThumbsUp />}
                         {postLikes}
-                    </button>
+                    </LikeBtn>
                 </li>
                 <li>
                     <span>
