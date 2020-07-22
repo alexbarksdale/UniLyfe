@@ -3,7 +3,7 @@ import { ObjectType, Field } from 'type-graphql';
 @ObjectType()
 export class University {
     @Field(() => [String])
-    webPages!: Array<string>;
+    webPages!: string[];
 
     @Field()
     name!: string;
@@ -15,7 +15,7 @@ export class University {
     stateProvince?: string | null;
 
     @Field(() => [String])
-    domains!: Array<string>;
+    domains!: string[];
 
     @Field()
     country!: string;

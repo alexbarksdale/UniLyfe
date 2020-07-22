@@ -47,19 +47,19 @@ export class UserEntity extends BaseEntity {
         cascade: true,
     })
     @JoinTable()
-    likes!: Array<PostEntity>;
+    likes!: PostEntity[];
 
     @Field(() => [PostEntity])
     @OneToMany(() => PostEntity, (post: PostEntity) => post.author, {
         cascade: true,
     })
-    posts!: Array<PostEntity>;
+    posts!: PostEntity[];
 
     @Field(() => [CommentEntity])
     @OneToMany(() => CommentEntity, (comment: CommentEntity) => comment.author, {
         cascade: true,
     })
-    comments!: Array<CommentEntity>;
+    comments!: CommentEntity[];
 
     @Column('int', { default: 0 })
     tokenVersion!: number;

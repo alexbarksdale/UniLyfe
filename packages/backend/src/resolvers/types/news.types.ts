@@ -51,7 +51,7 @@ export class NewsData {
     totalResults!: number;
 
     @Field(() => [NewsArticle])
-    articles?: Array<NewsArticle>;
+    articles?: NewsArticle[];
 }
 
 @ObjectType({
@@ -65,5 +65,5 @@ export class NewsResponse {
     totalResults!: number;
 
     @Field(() => [NewsArticle])
-    articles?: Array<NewsArticle>;
+    articles?: NewsArticle[];
 }

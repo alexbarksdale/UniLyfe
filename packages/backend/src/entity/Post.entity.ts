@@ -39,7 +39,7 @@ export class PostEntity extends BaseEntity {
 
     @Field(() => [UserEntity])
     @ManyToMany(() => UserEntity, (user: UserEntity) => user.likes)
-    likes!: Array<UserEntity>;
+    likes!: UserEntity[];
 
     @Field(() => Int)
     @Column('int', { default: 0 })

@@ -9,14 +9,3 @@ export type PostStatPayload = {
     postId: number;
 };
 
-// @ObjectType()
-// export class PostStat {
-//     @Field(() => Int)
-//     postId!: number;
-
-//     @Field(() => Int, { nullable: true })
-//     likes?: number;
-
-//     @Field(() => Int, { nullable: true })
-//     views?: number;
-// }
