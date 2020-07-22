@@ -18,7 +18,9 @@ export class AuthResolver {
     // REMINDER: Remove this before production. This is only for testing.
     @Query(() => [UserEntity])
     users(): Promise<UserEntity[]> {
-        return UserEntity.find();
+        return UserEntity.find({
+            relations: ['posts', 'likes'],
+        });
     }
 
     // TODO: Remove, this is just for testing
@@ -26,7 +28,10 @@ export class AuthResolver {
     async getUser(@Arg('email') email: string): Promise<UserEntity> {
         if (!email) throw new Error("You must provide the user's email!");
 
-        const user = await UserEntity.findOne({ where: { email } });
+        const user = await UserEntity.findOne({
+            where: { email },
+            relations: ['comments', 'posts', 'likes'],
+        });
         if (!user) throw new Error('Unable to find user!');
 
         return user;
@@ -42,7 +47,10 @@ export class AuthResolver {
 
         const payload: any = verify(token, process.env.ACCESS_TOKEN_SECRET!);
 
-        const user = await UserEntity.findOne({ where: { id: payload.userId } });
+        const user = await UserEntity.findOne({
+            where: { id: payload.userId },
+            relations: ['comments', 'posts'],
+        });
         if (!user) return null;
 
         return user;

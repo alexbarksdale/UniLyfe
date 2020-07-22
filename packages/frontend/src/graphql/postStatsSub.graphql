@@ -1,7 +1,10 @@
 subscription PostStatsSub {
     postStatsSub {
         id
-        likes
+        likes {
+            id
+            username
+        }
         views
     }
 }

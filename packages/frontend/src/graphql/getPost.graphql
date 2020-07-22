@@ -4,9 +4,12 @@ query GetPost($postId: Int!) {
         thumbnail
         title
         content
-        likes
         views
         createdAt
+        likes {
+            id
+            username
+        }
         category {
             id
             name

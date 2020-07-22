@@ -29,9 +29,9 @@ export class PostResolver {
         let posts: PostEntity[];
         try {
             posts = await PostEntity.find({
-                relations: ['author', 'category'],
+                relations: ['author', 'category', 'likes'],
                 order: {
-                    likes: 'DESC',
+                    createdAt: 'DESC',
                 },
             });
         } catch (err) {
@@ -47,7 +47,7 @@ export class PostResolver {
         if (!postId) throw new Error('You must provide a postId!');
 
         const post = await PostEntity.findOne(postId, {
-            relations: ['author', 'category'],
+            relations: ['author', 'category', 'likes'],
         });
         if (!post) throw new Error(`Unable to find post with postId: ${postId}`);
 
@@ -96,18 +96,56 @@ export class PostResolver {
         return post;
     }
 
-    @Mutation(() => Boolean)
+    @Mutation(() => PostEntity)
     // TODO: Apply auth middleware
     async updatePostStats(
         @PubSub(PostTopics.NEW_STATS) publish: Publisher<PostStatPayload>,
         @Arg('postId', () => Int) postId: number,
-        @Arg('likes', () => Int, { nullable: true }) likes: number,
+        @Arg('userId', () => Int, { nullable: true }) userId: number,
         @Arg('views', () => Int, { nullable: true }) views: number
-    ): Promise<boolean> {
+    ): Promise<PostEntity> {
         if (!postId) throw new Error('You must provide a postId!');
 
+        const post = await PostEntity.findOne({
+            where: { id: postId },
+            relations: ['likes'],
+        });
+        if (!post) throw new Error('Unable to find post!');
+
         try {
-            await PostEntity.update({ id: postId }, { likes, views });
+            // If a userId is passed then we're liking a post.
+            if (userId) {
+                const user = await UserEntity.findOne({
+                    where: { id: userId },
+                    relations: ['likes'],
+                });
+                if (!user) throw new Error('Unable to find user!');
+
+                // Check if the user has already liked the post.
+                for await (const like of user.likes) {
+                    if (like.id === post.id) {
+                        post.likes = post.likes.filter(
+                            (postLike) => postLike.id !== user.id
+                        );
+                        await post.save();
+                        await publish({ postId });
+                        return post;
+                    }
+                }
+
+                // The user hasn't liked the post before.
+                // Add to user's liked posts.
+                user.likes.push(post);
+                await user.save();
+
+                // Add like to post.
+                post.likes.push(user);
+                await post.save();
+                // If we're not liking the post, then just update the view count.
+            } else {
+                post.views = views;
+                await post.save();
+            }
         } catch (err) {
             logger.error(
                 `Failed to update post stats with postId: ${postId}! Error: `,
@@ -116,9 +154,9 @@ export class PostResolver {
             throw new Error('Unable to update post stats!');
         }
 
-        // Publish new information to our subscribers
+        // Publish new information to our subscribers.
         await publish({ postId });
-        return true;
+        return post;
     }
 
     @Mutation(() => Boolean)
@@ -171,7 +209,7 @@ export class PostResolver {
 
     @Subscription(() => PostEntity, { topics: PostTopics.NEW_STATS })
     async postStatsSub(@Root() { postId }: PostStatPayload): Promise<PostEntity> {
-        const post = await PostEntity.findOne(postId);
+        const post = await PostEntity.findOne(postId, { relations: ['likes'] });
         if (!post) throw new Error(`Unable to find post with postId: ${postId}`);
         return post;
     }

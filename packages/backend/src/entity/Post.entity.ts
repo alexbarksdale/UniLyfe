@@ -8,6 +8,7 @@ import {
     UpdateDateColumn,
     ManyToOne,
     JoinColumn,
+    ManyToMany,
 } from 'typeorm';
 import { UserEntity } from './User.entity';
 import { CategoryEntity } from './Category.entity';
@@ -36,9 +37,9 @@ export class PostEntity extends BaseEntity {
     @Column('text')
     content!: string;
 
-    @Field(() => Int)
-    @Column('int', { default: 0 })
-    likes!: number;
+    @Field(() => [UserEntity])
+    @ManyToMany(() => UserEntity, (user: UserEntity) => user.likes)
+    likes!: Array<UserEntity>;
 
     @Field(() => Int)
     @Column('int', { default: 0 })
@@ -46,7 +47,6 @@ export class PostEntity extends BaseEntity {
 
     @Field(() => UserEntity)
     @ManyToOne(() => UserEntity, (user: UserEntity) => user.posts)
-    @JoinColumn()
     author!: UserEntity;
 
     @Field(() => CategoryEntity)

@@ -1,3 +1,8 @@
+type LikeType = {
+    id: number;
+    username: string;
+};
+
 export type FeedDataType = {
     author: {
         email: string;
@@ -13,7 +18,7 @@ export type FeedDataType = {
     createdAt: Date;
     thumbnail?: string | null;
     id: number;
-    likes: number;
+    likes: LikeType[];
     title: string;
     views: number;
 };

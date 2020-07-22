@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaRegThumbsUp, FaRegEye } from 'react-icons/fa';
 
@@ -7,6 +8,7 @@ import {
     GetPostQuery,
     useUpdatePostStatsMutation,
     usePostStatsSubSubscription,
+    useMeQuery,
 } from '../../generated/graphql';
 
 const PostDetailContainer = styled.div`
@@ -52,29 +54,46 @@ type AppProps = {
     postData: GetPostQuery;
 };
 
-export function PostDetails({ postData }: AppProps): JSX.Element {
+export function PostDetails({ postData }: AppProps): JSX.Element | null {
+    const { data: meData } = useMeQuery();
     const [updatePost] = useUpdatePostStatsMutation();
     const { data: postSub } = usePostStatsSubSubscription();
 
+    const history = useHistory();
+
     const { getPost } = postData;
 
-    // Get the current post views
-    let postViews = postData.getPost.views;
+    let postViews = getPost.views;
+    const postLikes = getPost.likes.length;
 
     // If we get our subscription, then we update the current views.
     if (postSub) {
         postViews = postSub.postStatsSub.views;
     }
 
+    // Update view count when loaded.
     useEffect(() => {
         updatePost({
             variables: {
                 postId: getPost.id,
-                likes: getPost.likes,
                 views: postViews + 1,
             },
         });
     }, []);
+
+    const handleLike = () => {
+        if (meData && meData.me) {
+            updatePost({
+                variables: {
+                    postId: getPost.id,
+                    userId: meData.me.id,
+                },
+            });
+        } else {
+            // Must be signed in to like a post.
+            history.push('/login');
+        }
+    };
 
     return (
         <PostDetailContainer>
@@ -89,15 +108,15 @@ export function PostDetails({ postData }: AppProps): JSX.Element {
             <PostDescription>{getPost.content}</PostDescription>
             <PostStats postView>
                 <li>
-                    <button type='button'>
+                    <button type='button' onClick={() => handleLike()}>
                         <FaRegThumbsUp />
-                        {getPost.likes}
+                        {postLikes}
                     </button>
                 </li>
                 <li>
                     <span>
                         <FaRegEye />
-                        {getPost.views}
+                        {postViews}
                     </span>
                 </li>
             </PostStats>

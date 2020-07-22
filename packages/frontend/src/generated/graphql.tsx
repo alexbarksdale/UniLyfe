@@ -28,7 +28,7 @@ export type PostEntity = {
     thumbnail?: Maybe<Scalars['String']>;
     title: Scalars['String'];
     content: Scalars['String'];
-    likes: Scalars['Int'];
+    likes: Array<UserEntity>;
     views: Scalars['Int'];
     author: UserEntity;
     category: CategoryEntity;
@@ -64,6 +64,7 @@ export type UserEntity = {
     email: Scalars['String'];
     university: University;
     universityName: Scalars['String'];
+    likes: Array<PostEntity>;
     posts: Array<PostEntity>;
     comments: Array<CommentEntity>;
     createdAt: Scalars['DateTime'];
@@ -105,18 +106,19 @@ export type NewsArticle = {
 };
 
 /** Response from NewsApi.org */
-export type NewsResponse = {
-    __typename?: 'NewsResponse';
+export type NewsData = {
+    __typename?: 'NewsData';
     status: Scalars['String'];
     totalResults: Scalars['Int'];
     articles: Array<NewsArticle>;
 };
 
-export type PostStat = {
-    __typename?: 'PostStat';
-    postId: Scalars['Int'];
-    likes?: Maybe<Scalars['Int']>;
-    views?: Maybe<Scalars['Int']>;
+/** Axios response for NewsApi.org */
+export type NewsResponse = {
+    __typename?: 'NewsResponse';
+    status: Scalars['String'];
+    totalResults: Scalars['Int'];
+    articles: Array<NewsArticle>;
 };
 
 export type Query = {
@@ -158,7 +160,7 @@ export type Mutation = {
     updateComment: Scalars['Boolean'];
     deleteComment: Scalars['Boolean'];
     createTextPost: PostEntity;
-    updatePostStats: Scalars['Boolean'];
+    updatePostStats: PostEntity;
     updatePost: Scalars['Boolean'];
     deletePost: Scalars['Boolean'];
 };
@@ -206,7 +208,7 @@ export type MutationCreateTextPostArgs = {
 
 export type MutationUpdatePostStatsArgs = {
     views?: Maybe<Scalars['Int']>;
-    likes?: Maybe<Scalars['Int']>;
+    userId?: Maybe<Scalars['Int']>;
     postId: Scalars['Int'];
 };
 
@@ -258,15 +260,11 @@ export type CreateTextPostMutationVariables = Exact<{
 export type CreateTextPostMutation = { __typename?: 'Mutation' } & {
     createTextPost: { __typename?: 'PostEntity' } & Pick<
         PostEntity,
-        | 'id'
-        | 'thumbnail'
-        | 'title'
-        | 'type'
-        | 'content'
-        | 'likes'
-        | 'views'
-        | 'createdAt'
+        'id' | 'thumbnail' | 'title' | 'type' | 'content' | 'views' | 'createdAt'
     > & {
+            likes: Array<
+                { __typename?: 'UserEntity' } & Pick<UserEntity, 'id' | 'username'>
+            >;
             category: { __typename?: 'CategoryEntity' } & Pick<
                 CategoryEntity,
                 'id' | 'name'
@@ -297,14 +295,14 @@ export type GetCategoryPostsQuery = { __typename?: 'Query' } & {
                 Array<
                     { __typename?: 'PostEntity' } & Pick<
                         PostEntity,
-                        | 'id'
-                        | 'thumbnail'
-                        | 'title'
-                        | 'content'
-                        | 'likes'
-                        | 'views'
-                        | 'createdAt'
+                        'id' | 'thumbnail' | 'title' | 'content' | 'views' | 'createdAt'
                     > & {
+                            likes: Array<
+                                { __typename?: 'UserEntity' } & Pick<
+                                    UserEntity,
+                                    'id' | 'username'
+                                >
+                            >;
                             category: { __typename?: 'CategoryEntity' } & Pick<
                                 CategoryEntity,
                                 'id' | 'name'
@@ -327,8 +325,11 @@ export type GetPostQueryVariables = Exact<{
 export type GetPostQuery = { __typename?: 'Query' } & {
     getPost: { __typename?: 'PostEntity' } & Pick<
         PostEntity,
-        'id' | 'thumbnail' | 'title' | 'content' | 'likes' | 'views' | 'createdAt'
+        'id' | 'thumbnail' | 'title' | 'content' | 'views' | 'createdAt'
     > & {
+            likes: Array<
+                { __typename?: 'UserEntity' } & Pick<UserEntity, 'id' | 'username'>
+            >;
             category: { __typename?: 'CategoryEntity' } & Pick<
                 CategoryEntity,
                 'id' | 'name'
@@ -364,8 +365,11 @@ export type GetPostsQuery = { __typename?: 'Query' } & {
     getPosts: Array<
         { __typename?: 'PostEntity' } & Pick<
             PostEntity,
-            'id' | 'thumbnail' | 'title' | 'content' | 'likes' | 'views' | 'createdAt'
+            'id' | 'thumbnail' | 'title' | 'content' | 'views' | 'createdAt'
         > & {
+                likes: Array<
+                    { __typename?: 'UserEntity' } & Pick<UserEntity, 'id' | 'username'>
+                >;
                 category: { __typename?: 'CategoryEntity' } & Pick<
                     CategoryEntity,
                     'id' | 'name'
@@ -437,10 +441,11 @@ export type MeQuery = { __typename?: 'Query' } & {
 export type PostStatsSubSubscriptionVariables = Exact<{ [key: string]: never }>;
 
 export type PostStatsSubSubscription = { __typename?: 'Subscription' } & {
-    postStatsSub: { __typename?: 'PostEntity' } & Pick<
-        PostEntity,
-        'id' | 'likes' | 'views'
-    >;
+    postStatsSub: { __typename?: 'PostEntity' } & Pick<PostEntity, 'id' | 'views'> & {
+            likes: Array<
+                { __typename?: 'UserEntity' } & Pick<UserEntity, 'id' | 'username'>
+            >;
+        };
 };
 
 export type RegisterMutationVariables = Exact<{
@@ -457,14 +462,15 @@ export type RegisterMutation = { __typename?: 'Mutation' } & {
 
 export type UpdatePostStatsMutationVariables = Exact<{
     postId: Scalars['Int'];
-    likes?: Maybe<Scalars['Int']>;
+    userId?: Maybe<Scalars['Int']>;
     views?: Maybe<Scalars['Int']>;
 }>;
 
-export type UpdatePostStatsMutation = { __typename?: 'Mutation' } & Pick<
-    Mutation,
-    'updatePostStats'
->;
+export type UpdatePostStatsMutation = { __typename?: 'Mutation' } & {
+    updatePostStats: { __typename?: 'PostEntity' } & {
+        likes: Array<{ __typename?: 'UserEntity' } & Pick<UserEntity, 'id' | 'username'>>;
+    };
+};
 
 export const CreateCommentDocument = gql`
     mutation CreateComment(
@@ -557,7 +563,10 @@ export const CreateTextPostDocument = gql`
             title
             type
             content
-            likes
+            likes {
+                id
+                username
+            }
             views
             createdAt
             category {
@@ -683,7 +692,10 @@ export const GetCategoryPostsDocument = gql`
                 thumbnail
                 title
                 content
-                likes
+                likes {
+                    id
+                    username
+                }
                 views
                 createdAt
                 category {
@@ -754,9 +766,12 @@ export const GetPostDocument = gql`
             thumbnail
             title
             content
-            likes
             views
             createdAt
+            likes {
+                id
+                username
+            }
             category {
                 id
                 name
@@ -882,9 +897,12 @@ export const GetPostsDocument = gql`
             thumbnail
             title
             content
-            likes
             views
             createdAt
+            likes {
+                id
+                username
+            }
             category {
                 id
                 name
@@ -1146,7 +1164,10 @@ export const PostStatsSubDocument = gql`
     subscription PostStatsSub {
         postStatsSub {
             id
-            likes
+            likes {
+                id
+                username
+            }
             views
         }
     }
@@ -1233,8 +1254,13 @@ export type RegisterMutationOptions = ApolloReactCommon.BaseMutationOptions<
     RegisterMutationVariables
 >;
 export const UpdatePostStatsDocument = gql`
-    mutation UpdatePostStats($postId: Int!, $likes: Int, $views: Int) {
-        updatePostStats(postId: $postId, likes: $likes, views: $views)
+    mutation UpdatePostStats($postId: Int!, $userId: Int, $views: Int) {
+        updatePostStats(postId: $postId, userId: $userId, views: $views) {
+            likes {
+                id
+                username
+            }
+        }
     }
 `;
 export type UpdatePostStatsMutationFn = ApolloReactCommon.MutationFunction<
@@ -1256,7 +1282,7 @@ export type UpdatePostStatsMutationFn = ApolloReactCommon.MutationFunction<
  * const [updatePostStatsMutation, { data, loading, error }] = useUpdatePostStatsMutation({
  *   variables: {
  *      postId: // value for 'postId'
- *      likes: // value for 'likes'
+ *      userId: // value for 'userId'
  *      views: // value for 'views'
  *   },
  * });

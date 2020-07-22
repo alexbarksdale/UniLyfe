@@ -24,7 +24,7 @@ export class CategoryResolver {
 
         const posts = await CategoryEntity.find({
             where: { name: categoryName },
-            relations: ['posts', 'posts.author', 'posts.category'],
+            relations: ['posts', 'posts.author', 'posts.category', 'posts.likes'],
         });
 
         return posts;

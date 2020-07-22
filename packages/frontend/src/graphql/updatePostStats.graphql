@@ -1,3 +1,8 @@
-mutation UpdatePostStats($postId: Int!, $likes: Int, $views: Int) {
-    updatePostStats(postId: $postId, likes: $likes, views: $views)
+mutation UpdatePostStats($postId: Int!, $userId: Int, $views: Int) {
+    updatePostStats(postId: $postId, userId: $userId, views: $views) {
+        likes {
+            id
+            username
+        }
+    }
 }

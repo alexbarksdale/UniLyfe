@@ -7,6 +7,8 @@ import {
     OneToMany,
     CreateDateColumn,
     UpdateDateColumn,
+    ManyToMany,
+    JoinTable,
 } from 'typeorm';
 
 import { PostEntity } from './Post.entity';
@@ -41,7 +43,16 @@ export class UserEntity extends BaseEntity {
     universityName!: string;
 
     @Field(() => [PostEntity])
-    @OneToMany(() => PostEntity, (post: PostEntity) => post.author, { cascade: true })
+    @ManyToMany(() => PostEntity, (post: PostEntity) => post.likes, {
+        cascade: true,
+    })
+    @JoinTable()
+    likes!: Array<PostEntity>;
+
+    @Field(() => [PostEntity])
+    @OneToMany(() => PostEntity, (post: PostEntity) => post.author, {
+        cascade: true,
+    })
     posts!: Array<PostEntity>;
 
     @Field(() => [CommentEntity])

@@ -28,7 +28,7 @@ const FeedContent = styled.div`
 `;
 
 export function MainFeed({ feedData }: AppProps): JSX.Element | null {
-    const { data: postSub } = usePostStatsSubSubscription();
+    const { data: subData } = usePostStatsSubSubscription();
 
     const forum = useSelector(
         (state: StoreState) => state.navigationReducer.category.forum
@@ -55,15 +55,15 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
             const date = `${rawDate.toLocaleDateString('en-us', options)}`;
 
             // STATS
-            postLikes = item.likes;
+            postLikes = item.likes.length;
             postViews = item.views;
 
             // Check if we got a subscription
-            if (postSub) {
-                const { id, likes, views } = postSub.postStatsSub;
+            if (subData) {
+                const { id, likes, views } = subData.postStatsSub;
                 // See if the subscription data belongs to this post
                 if (id === item.id) {
-                    postLikes = likes;
+                    postLikes = likes.length;
                     postViews = views;
                 }
             }

@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int } from 'type-graphql';
+// import { ObjectType, Field, Int } from 'type-graphql';
 
 // Used to dictate what subscription topic to talk to
 export enum PostTopics {
@@ -7,18 +7,16 @@ export enum PostTopics {
 
 export type PostStatPayload = {
     postId: number;
-    likes?: number;
-    views?: number;
 };
 
-@ObjectType()
-export class PostStat {
-    @Field(() => Int)
-    postId!: number;
+// @ObjectType()
+// export class PostStat {
+//     @Field(() => Int)
+//     postId!: number;
 
-    @Field(() => Int, { nullable: true })
-    likes?: number;
+//     @Field(() => Int, { nullable: true })
+//     likes?: number;
 
-    @Field(() => Int, { nullable: true })
-    views?: number;
-}
+//     @Field(() => Int, { nullable: true })
+//     views?: number;
+// }

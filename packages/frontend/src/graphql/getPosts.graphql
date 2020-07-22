@@ -4,9 +4,12 @@ query GetPosts {
         thumbnail
         title
         content
-        likes
         views
         createdAt
+        likes {
+            id
+            username
+        }
         category {
             id
             name

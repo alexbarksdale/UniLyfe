@@ -5,7 +5,10 @@ query GetCategoryPosts($categoryName: String!) {
             thumbnail
             title
             content
-            likes
+            likes {
+                id
+                username
+            }
             views
             createdAt
             category {
