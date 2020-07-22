@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaCalendarAlt } from 'react-icons/fa';
 
@@ -176,7 +175,7 @@ export function UniNews(): JSX.Element | null {
             </Container>
             <GNContainer>
                 <MainItem bgUrl={main.urlToImage}>
-                    <Link to={main.url}>
+                    <a href={main.url} rel='noopener noreferrer' target='_blank'>
                         <NewsContent>
                             <NewsTag>{main.source.name}</NewsTag>
                             <NewsTitle>{main.title}</NewsTitle>
@@ -185,10 +184,10 @@ export function UniNews(): JSX.Element | null {
                                 {formatDate(main.publishedAt)}
                             </NewsDate>
                         </NewsContent>
-                    </Link>
+                    </a>
                 </MainItem>
                 <SecondaryItem bgUrl={second.urlToImage}>
-                    <Link to={second.url}>
+                    <a href={second.url} rel='noopener noreferrer' target='_blank'>
                         <NewsContent>
                             <NewsTag>{second.source.name}</NewsTag>
                             <NewsTitle>{second.title}</NewsTitle>
@@ -197,10 +196,10 @@ export function UniNews(): JSX.Element | null {
                                 {formatDate(second.publishedAt)}
                             </NewsDate>
                         </NewsContent>
-                    </Link>
+                    </a>
                 </SecondaryItem>
                 <ThirdItem bgUrl={third.urlToImage}>
-                    <Link to={third.url}>
+                    <a href={third.url} rel='noopener noreferrer' target='_blank'>
                         <NewsContent>
                             <NewsTag>{third.source.name}</NewsTag>
                             <NewsTitle>{third.title}</NewsTitle>
@@ -209,10 +208,10 @@ export function UniNews(): JSX.Element | null {
                                 {formatDate(third.publishedAt)}
                             </NewsDate>
                         </NewsContent>
-                    </Link>
+                    </a>
                 </ThirdItem>
                 <FourthItem bgUrl={fourth.urlToImage}>
-                    <Link to={fourth.url}>
+                    <a href={fourth.url} rel='noopener noreferrer' target='_blank'>
                         <NewsContent>
                             <NewsTag>{fourth.source.name}</NewsTag>
                             <NewsTitle>{fourth.title}</NewsTitle>
@@ -221,7 +220,7 @@ export function UniNews(): JSX.Element | null {
                                 {formatDate(fourth.publishedAt)}
                             </NewsDate>
                         </NewsContent>
-                    </Link>
+                    </a>
                 </FourthItem>
             </GNContainer>
         </>
