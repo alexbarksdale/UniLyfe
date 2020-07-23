@@ -102,9 +102,9 @@ export function OurPicks(): JSX.Element | null {
                     <MainItem key={id}>
                         <Link to='/'>
                             {thumbnail ? (
-                                <PostHeader big bgUrl={thumbnail} />
+                                <PostHeader big='true' bgUrl={thumbnail} />
                             ) : (
-                                <PostHeader big>
+                                <PostHeader big='true'>
                                     <FaCommentAlt />
                                 </PostHeader>
                             )}
@@ -116,7 +116,7 @@ export function OurPicks(): JSX.Element | null {
                                 <p>{content}</p>
                             </Link>
                             <PostInfoBar>
-                                <UserLink to='/' big>
+                                <UserLink to='/' big='true'>
                                     XXX | {username}
                                 </UserLink>
                                 <PostDate>{date}</PostDate>
@@ -143,7 +143,7 @@ export function OurPicks(): JSX.Element | null {
                                 <p>{content}</p>
                             </Link>
                             <PostInfoBar>
-                                <UserLink to='/' big>
+                                <UserLink to='/' big='true'>
                                     XXX | {username}
                                 </UserLink>
                                 <PostDate>{date}</PostDate>
@@ -170,7 +170,7 @@ export function OurPicks(): JSX.Element | null {
                                 <p>{content}</p>
                             </Link>
                             <PostInfoBar>
-                                <UserLink to='/' big>
+                                <UserLink to='/' big='true'>
                                     XXX | {username}
                                 </UserLink>
                                 <PostDate>{date}</PostDate>

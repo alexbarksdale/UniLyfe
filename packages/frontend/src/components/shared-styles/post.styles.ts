@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { device } from '../../utils/theme.util';
 
 type StyleProps = {
-    big?: boolean; // Used to position elements in OurPicks.tsx
+    big?: string; // Used to position elements in OurPicks.tsx
     responsive?: boolean; // Used to make PostHeader responsive adjustments.
     postView?: boolean; // Changes properties when the component is in PostView.tsx
     bgUrl?: string; // Determines if a background url was passed in.

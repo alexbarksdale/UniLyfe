@@ -37,7 +37,7 @@ export class PostEntity extends BaseEntity {
     @Column('text')
     content!: string;
 
-    @Field(() => [UserEntity])
+    @Field(() => [UserEntity], { nullable: true })
     @ManyToMany(() => UserEntity, (user: UserEntity) => user.likes)
     likes!: UserEntity[];
 
