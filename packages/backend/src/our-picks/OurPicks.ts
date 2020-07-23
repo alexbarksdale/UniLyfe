@@ -20,6 +20,7 @@ export class OurPicks {
         }
     }
 
+    // TODO: Finalize schedule before shipping.
     private startQuerySchedule(): void {
         new cron.CronJob('1 * * * * *', async () => {
             this.posts = await this.queryPosts();

@@ -24,9 +24,9 @@ const LargeContainer = styled.div`
 
 const Divider = styled.hr`
     border: none;
-    height: 1.5px;
+    height: 2px;
     margin: 19px 0px;
-    background-color: ${(props) => props.theme.gray300};
+    background-color: ${(props) => props.theme.gray200};
 `;
 
 export function Home(): JSX.Element | null {

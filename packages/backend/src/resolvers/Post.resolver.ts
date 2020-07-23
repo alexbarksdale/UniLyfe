@@ -31,13 +31,11 @@ export class PostResolver {
     }
 
     @Query(() => [PostEntity])
-    // TODO: Apply auth middleware
     ourPicks(): PostEntity[] {
         return this.op.posts;
     }
 
     @Query(() => [PostEntity])
-    // TODO: Apply auth middleware
     async getPosts(): Promise<PostEntity[]> {
         let posts: PostEntity[];
         try {
@@ -55,7 +53,6 @@ export class PostResolver {
     }
 
     @Query(() => PostEntity)
-    // TODO: Apply auth middleware
     async getPost(@Arg('postId', () => Int) postId: number): Promise<PostEntity> {
         if (!postId) throw new Error('You must provide a postId!');
 

@@ -18,13 +18,30 @@ import { CategoryTitle } from '../../shared-styles/global.styles';
 import { AppProps, FeedDataType } from '../types/types';
 import { StoreState } from '../../../store/reducers/main.reducer';
 import { usePostStatsSubSubscription } from '../../../generated/graphql';
+import { device } from '../../../utils/theme.util';
 
 const FeedContainer = styled.div`
     flex-direction: column;
 `;
 const FeedContent = styled.div`
     display: flex;
-    margin-bottom: 9px;
+
+    &::after {
+        content: '';
+        width: 50px;
+    }
+`;
+
+const Divider = styled.hr`
+    height: 0px;
+    border: none;
+    background-color: ${(props) => props.theme.gray200};
+    margin: 8px 0px;
+
+    @media ${device.mobileL} {
+        height: 1px;
+        margin: 16px 0px;
+    }
 `;
 
 export function MainFeed({ feedData }: AppProps): JSX.Element | null {
@@ -69,50 +86,53 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
             }
 
             return (
-                <FeedContent key={item.id}>
-                    <Link to={postUrl}>
-                        {item.thumbnail ? (
-                            <PostHeader responsive bgUrl={item.thumbnail} />
-                        ) : (
-                            <PostHeader responsive>
-                                <FaCommentAlt />
-                            </PostHeader>
-                        )}
-                    </Link>
-                    <PostContent>
-                        <CategoryLink to='/'>{item.category.name}</CategoryLink>
+                <>
+                    <FeedContent key={item.id}>
                         <Link to={postUrl}>
-                            <h1>{item.title}</h1>
-                            <p>{item.content}</p>
+                            {item.thumbnail ? (
+                                <PostHeader responsive bgUrl={item.thumbnail} />
+                            ) : (
+                                <PostHeader responsive>
+                                    <FaCommentAlt />
+                                </PostHeader>
+                            )}
                         </Link>
-                        <PostInfoBar>
-                            <UserLink to='/'>
-                                {item.author.universityName} | {item.author.username}
-                            </UserLink>
-                            <span>•</span>
-                            <PostStats>
-                                <li>
-                                    <Link to={postUrl}>
-                                        <FaRegThumbsUp />
-                                        {postLikes}
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to={postUrl}>
-                                        <FaRegCommentAlt />0
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to={postUrl}>
-                                        <FaRegEye />
-                                        {postViews}
-                                    </Link>
-                                </li>
-                            </PostStats>
-                            <PostDate>{date}</PostDate>
-                        </PostInfoBar>
-                    </PostContent>
-                </FeedContent>
+                        <PostContent>
+                            <CategoryLink to='/'>{item.category.name}</CategoryLink>
+                            <Link to={postUrl}>
+                                <h1>{item.title}</h1>
+                                <p>{item.content}</p>
+                            </Link>
+                            <PostInfoBar>
+                                <UserLink to='/'>
+                                    {item.author.universityName} | {item.author.username}
+                                </UserLink>
+                                <span>•</span>
+                                <PostStats>
+                                    <li>
+                                        <Link to={postUrl}>
+                                            <FaRegThumbsUp />
+                                            {postLikes}
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to={postUrl}>
+                                            <FaRegCommentAlt />0
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to={postUrl}>
+                                            <FaRegEye />
+                                            {postViews}
+                                        </Link>
+                                    </li>
+                                </PostStats>
+                                <PostDate>{date}</PostDate>
+                            </PostInfoBar>
+                        </PostContent>
+                    </FeedContent>
+                    <Divider />
+                </>
             );
         });
     };

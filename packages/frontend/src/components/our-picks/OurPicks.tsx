@@ -64,6 +64,7 @@ type PickResults = {
     };
 };
 
+// NOTE: This will probably be refactored in the future.
 export function OurPicks(): JSX.Element | null {
     const { data, loading } = useOurPicksQuery();
 
