@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaCommentAlt } from 'react-icons/fa';
+import cron from 'cron';
 
 import {
     PostHeader,
@@ -11,6 +12,7 @@ import {
     PostInfoBar,
     UserLink,
 } from '../shared-styles/post.styles';
+import { useOurPicksQuery } from '../../generated/graphql';
 import { CategoryTitle } from '../shared-styles/global.styles';
 
 const PicksContainer = styled.div`
@@ -47,84 +49,149 @@ const ThirdItem = styled.div`
     grid-area: Third;
 `;
 
-export function OurPicks(): JSX.Element {
+type PickResults = {
+    id: number;
+    title: string;
+    content: string;
+    thumbnail?: string | null | undefined;
+    createdAt: Date;
+    author: {
+        id: number;
+        username: string;
+    };
+    category: {
+        id: number;
+        name: string;
+    };
+};
+
+export function OurPicks(): JSX.Element | null {
+    const { data, loading, refetch } = useOurPicksQuery();
+
+    if (typeof data === 'undefined' || loading) return null;
+
+    // Our scheduler
+    new cron.CronJob('1 * * * * *', () => {
+        refetch();
+    }).start();
+
+    // Due to the way the grid is setup we need to render items this way.
+    // I will probably come back to this component and change the UI which will allow a cleaner look
+    // when rendering these items. Currently each component belongs to a grid-area, so that's why
+    // it's checking which iteration we're on and pushing a certain styled component
+    // to correspond to the correct grid layout.
+    const renderPick = (data: PickResults[]): JSX.Element[] => {
+        const items: Array<ReactElement> = [];
+
+        for (let i = 0; i < data.length; i += 1) {
+            const {
+                id,
+                title,
+                category: { name },
+                author: { username },
+                content,
+                thumbnail,
+                createdAt,
+            } = data[i];
+
+            const rawDate = new Date(createdAt);
+            const options = {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+            };
+            const date = `${rawDate.toLocaleDateString('en-us', options)}`;
+
+            if (i === 0) {
+                items.push(
+                    <MainItem key={id}>
+                        <Link to='/'>
+                            {thumbnail ? (
+                                <PostHeader big bgUrl={thumbnail} />
+                            ) : (
+                                <PostHeader big>
+                                    <FaCommentAlt />
+                                </PostHeader>
+                            )}
+                        </Link>
+                        <PostContent>
+                            <CategoryLink to='/'>{name}</CategoryLink>
+                            <Link to='/'>
+                                <h1>{title}</h1>
+                                <p>{content}</p>
+                            </Link>
+                            <PostInfoBar>
+                                <UserLink to='/' big>
+                                    XXX | {username}
+                                </UserLink>
+                                <PostDate>{date}</PostDate>
+                            </PostInfoBar>
+                        </PostContent>
+                    </MainItem>
+                );
+            } else if (i === 1) {
+                items.push(
+                    <SecondItem key={id}>
+                        <Link to='/'>
+                            {thumbnail ? (
+                                <PostHeader bgUrl={thumbnail} />
+                            ) : (
+                                <PostHeader>
+                                    <FaCommentAlt />
+                                </PostHeader>
+                            )}
+                        </Link>
+                        <PostContent>
+                            <CategoryLink to='/'>{name}</CategoryLink>
+                            <Link to='/'>
+                                <h1>{title}</h1>
+                                <p>{content}</p>
+                            </Link>
+                            <PostInfoBar>
+                                <UserLink to='/' big>
+                                    XXX | {username}
+                                </UserLink>
+                                <PostDate>{date}</PostDate>
+                            </PostInfoBar>
+                        </PostContent>
+                    </SecondItem>
+                );
+            } else {
+                items.push(
+                    <ThirdItem key={id}>
+                        <Link to='/'>
+                            {thumbnail ? (
+                                <PostHeader bgUrl={thumbnail} />
+                            ) : (
+                                <PostHeader>
+                                    <FaCommentAlt />
+                                </PostHeader>
+                            )}
+                        </Link>
+                        <PostContent>
+                            <CategoryLink to='/'>{name}</CategoryLink>
+                            <Link to='/'>
+                                <h1>{title}</h1>
+                                <p>{content}</p>
+                            </Link>
+                            <PostInfoBar>
+                                <UserLink to='/' big>
+                                    XXX | {username}
+                                </UserLink>
+                                <PostDate>{date}</PostDate>
+                            </PostInfoBar>
+                        </PostContent>
+                    </ThirdItem>
+                );
+            }
+        }
+        return items;
+    };
+
     return (
         <>
             <CategoryTitle>Our Picks</CategoryTitle>
-            <PicksContainer>
-                <MainItem>
-                    <Link to='/'>
-                        <PostHeader big='true'>
-                            <FaCommentAlt />
-                        </PostHeader>
-                    </Link>
-                    <PostContent>
-                        <CategoryLink to='/'>Category</CategoryLink>
-                        <Link to='/'>
-                            <h1>Filler title</h1>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                sed do eiusmod tempor incididunt ut labore et dolore magna
-                                aliqua.
-                            </p>
-                        </Link>
-                        <PostInfoBar>
-                            <UserLink to='/' big='true'>
-                                XXX | User
-                            </UserLink>
-                            <PostDate>June 20, 2020</PostDate>
-                        </PostInfoBar>
-                    </PostContent>
-                </MainItem>
-                <SecondItem>
-                    <Link to='/'>
-                        <PostHeader>
-                            <FaCommentAlt />
-                        </PostHeader>
-                    </Link>
-                    <PostContent>
-                        <CategoryLink to='/'>Category</CategoryLink>
-                        <Link to='/'>
-                            <h1>Filler title</h1>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                sed do eiusmod tempor incididunt ut labore et dolore magna
-                                aliqua.
-                            </p>
-                        </Link>
-                        <PostInfoBar>
-                            <UserLink to='/' big='true'>
-                                XXX | User
-                            </UserLink>
-                            <PostDate>June 20, 2020</PostDate>
-                        </PostInfoBar>
-                    </PostContent>
-                </SecondItem>
-                <ThirdItem>
-                    <Link to='/'>
-                        <PostHeader>
-                            <FaCommentAlt />
-                        </PostHeader>
-                    </Link>
-                    <PostContent>
-                        <CategoryLink to='/'>Category</CategoryLink>
-                        <Link to='/'>
-                            <h1>Filler title</h1>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                sed do eiusmod tempor incididunt ut labore et dolore magna
-                                aliqua.
-                            </p>
-                        </Link>
-                        <PostInfoBar>
-                            <UserLink to='/' big='true'>
-                                XXX | User
-                            </UserLink>
-                            <PostDate>June 20, 2020</PostDate>
-                        </PostInfoBar>
-                    </PostContent>
-                </ThirdItem>
-            </PicksContainer>
+            <PicksContainer>{renderPick(data.ourPicks)}</PicksContainer>
         </>
     );
 }

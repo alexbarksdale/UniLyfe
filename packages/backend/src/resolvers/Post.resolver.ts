@@ -25,6 +25,25 @@ import { PostStatPayload, PostTopics, UpdateResponse } from './types/post.types'
 export class PostResolver {
     @Query(() => [PostEntity])
     // TODO: Apply auth middleware
+    async ourPicks(): Promise<PostEntity[]> {
+        let posts: PostEntity[];
+        try {
+            posts = await PostEntity.createQueryBuilder('posts')
+                .leftJoinAndSelect('posts.author', 'author')
+                .leftJoinAndSelect('posts.category', 'category')
+                .leftJoinAndSelect('posts.likes', 'likes')
+                .orderBy('RANDOM()')
+                .limit(3)
+                .getMany();
+        } catch (err) {
+            logger.error('Unable to query posts', err);
+            throw new Error('Unable to query posts');
+        }
+        return posts;
+    }
+
+    @Query(() => [PostEntity])
+    // TODO: Apply auth middleware
     async getPosts(): Promise<PostEntity[]> {
         let posts: PostEntity[];
         try {

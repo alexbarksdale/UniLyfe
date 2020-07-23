@@ -1,0 +1,17 @@
+query OurPicks {
+    ourPicks {
+        id
+        title
+        content
+        thumbnail
+        author {
+            id
+            username
+        }
+        category {
+            id
+            name
+        }
+        createdAt
+    }
+}
