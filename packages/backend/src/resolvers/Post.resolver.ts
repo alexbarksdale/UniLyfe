@@ -19,27 +19,21 @@ import { checkAuthor, AuthorError } from '../utils/checkAuthor.util';
 import { CategoryEntity } from '../entity/Category.entity';
 import { PostType } from '../entity/types/post.type';
 import { PostStatPayload, PostTopics, UpdateResponse } from './types/post.types';
+import { OurPicks } from '../our-picks/OurPicks';
 
 // TODO: Secure the queries and mutations after testing
 @Resolver()
 export class PostResolver {
+    op: OurPicks;
+
+    constructor() {
+        this.op = new OurPicks();
+    }
+
     @Query(() => [PostEntity])
     // TODO: Apply auth middleware
-    async ourPicks(): Promise<PostEntity[]> {
-        let posts: PostEntity[];
-        try {
-            posts = await PostEntity.createQueryBuilder('posts')
-                .leftJoinAndSelect('posts.author', 'author')
-                .leftJoinAndSelect('posts.category', 'category')
-                .leftJoinAndSelect('posts.likes', 'likes')
-                .orderBy('RANDOM()')
-                .limit(3)
-                .getMany();
-        } catch (err) {
-            logger.error('Unable to query posts', err);
-            throw new Error('Unable to query posts');
-        }
-        return posts;
+    ourPicks(): PostEntity[] {
+        return this.op.posts;
     }
 
     @Query(() => [PostEntity])

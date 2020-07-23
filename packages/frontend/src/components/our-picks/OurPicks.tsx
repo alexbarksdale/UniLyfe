@@ -2,7 +2,6 @@ import React, { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaCommentAlt } from 'react-icons/fa';
-import cron from 'cron';
 
 import {
     PostHeader,
@@ -66,14 +65,9 @@ type PickResults = {
 };
 
 export function OurPicks(): JSX.Element | null {
-    const { data, loading, refetch } = useOurPicksQuery();
+    const { data, loading } = useOurPicksQuery();
 
     if (typeof data === 'undefined' || loading) return null;
-
-    // Our scheduler
-    new cron.CronJob('1 * * * * *', () => {
-        refetch();
-    }).start();
 
     // Due to the way the grid is setup we need to render items this way.
     // I will probably come back to this component and change the UI which will allow a cleaner look
