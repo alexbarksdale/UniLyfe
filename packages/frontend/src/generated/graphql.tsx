@@ -28,7 +28,7 @@ export type PostEntity = {
     thumbnail?: Maybe<Scalars['String']>;
     title: Scalars['String'];
     content: Scalars['String'];
-    likes: Array<UserEntity>;
+    likes?: Maybe<Array<UserEntity>>;
     views: Scalars['Int'];
     author: UserEntity;
     category: CategoryEntity;
@@ -83,6 +83,13 @@ export type LoginResponse = {
     __typename?: 'LoginResponse';
     user: UserEntity;
     accessToken: Scalars['String'];
+};
+
+/** Response for comment subscription. */
+export type CommentResponse = {
+    __typename?: 'CommentResponse';
+    comment: CommentEntity;
+    post: PostEntity;
 };
 
 /** NewsArticle 'source' types */
@@ -234,6 +241,7 @@ export type MutationDeletePostArgs = {
 
 export type Subscription = {
     __typename?: 'Subscription';
+    recentCommentSub: CommentResponse;
     postStatsSub: PostEntity;
 };
 
@@ -270,8 +278,8 @@ export type CreateTextPostMutation = { __typename?: 'Mutation' } & {
         PostEntity,
         'id' | 'thumbnail' | 'title' | 'type' | 'content' | 'views' | 'createdAt'
     > & {
-            likes: Array<
-                { __typename?: 'UserEntity' } & Pick<UserEntity, 'id' | 'username'>
+            likes?: Maybe<
+                Array<{ __typename?: 'UserEntity' } & Pick<UserEntity, 'id' | 'username'>>
             >;
             category: { __typename?: 'CategoryEntity' } & Pick<
                 CategoryEntity,
@@ -305,10 +313,12 @@ export type GetCategoryPostsQuery = { __typename?: 'Query' } & {
                         PostEntity,
                         'id' | 'thumbnail' | 'title' | 'content' | 'views' | 'createdAt'
                     > & {
-                            likes: Array<
-                                { __typename?: 'UserEntity' } & Pick<
-                                    UserEntity,
-                                    'id' | 'username'
+                            likes?: Maybe<
+                                Array<
+                                    { __typename?: 'UserEntity' } & Pick<
+                                        UserEntity,
+                                        'id' | 'username'
+                                    >
                                 >
                             >;
                             category: { __typename?: 'CategoryEntity' } & Pick<
@@ -335,8 +345,8 @@ export type GetPostQuery = { __typename?: 'Query' } & {
         PostEntity,
         'id' | 'thumbnail' | 'title' | 'content' | 'views' | 'createdAt'
     > & {
-            likes: Array<
-                { __typename?: 'UserEntity' } & Pick<UserEntity, 'id' | 'username'>
+            likes?: Maybe<
+                Array<{ __typename?: 'UserEntity' } & Pick<UserEntity, 'id' | 'username'>>
             >;
             category: { __typename?: 'CategoryEntity' } & Pick<
                 CategoryEntity,
@@ -375,8 +385,13 @@ export type GetPostsQuery = { __typename?: 'Query' } & {
             PostEntity,
             'id' | 'thumbnail' | 'title' | 'content' | 'views' | 'createdAt'
         > & {
-                likes: Array<
-                    { __typename?: 'UserEntity' } & Pick<UserEntity, 'id' | 'username'>
+                likes?: Maybe<
+                    Array<
+                        { __typename?: 'UserEntity' } & Pick<
+                            UserEntity,
+                            'id' | 'username'
+                        >
+                    >
                 >;
                 category: { __typename?: 'CategoryEntity' } & Pick<
                     CategoryEntity,
@@ -478,10 +493,32 @@ export type PostStatsSubSubscriptionVariables = Exact<{ [key: string]: never }>;
 
 export type PostStatsSubSubscription = { __typename?: 'Subscription' } & {
     postStatsSub: { __typename?: 'PostEntity' } & Pick<PostEntity, 'id' | 'views'> & {
-            likes: Array<
-                { __typename?: 'UserEntity' } & Pick<UserEntity, 'id' | 'username'>
+            likes?: Maybe<
+                Array<{ __typename?: 'UserEntity' } & Pick<UserEntity, 'id' | 'username'>>
             >;
         };
+};
+
+export type RecentCommentSubSubscriptionVariables = Exact<{ [key: string]: never }>;
+
+export type RecentCommentSubSubscription = { __typename?: 'Subscription' } & {
+    recentCommentSub: { __typename?: 'CommentResponse' } & {
+        comment: { __typename?: 'CommentEntity' } & Pick<
+            CommentEntity,
+            'id' | 'content' | 'createdAt'
+        > & {
+                author: { __typename?: 'UserEntity' } & Pick<
+                    UserEntity,
+                    'id' | 'username'
+                >;
+            };
+        post: { __typename?: 'PostEntity' } & Pick<PostEntity, 'id' | 'title'> & {
+                category: { __typename?: 'CategoryEntity' } & Pick<
+                    CategoryEntity,
+                    'id' | 'name'
+                >;
+            };
+    };
 };
 
 export type RegisterMutationVariables = Exact<{
@@ -505,8 +542,13 @@ export type UpdatePostStatsMutationVariables = Exact<{
 export type UpdatePostStatsMutation = { __typename?: 'Mutation' } & {
     updatePostStats: { __typename?: 'UpdateResponse' } & Pick<UpdateResponse, 'liked'> & {
             post: { __typename?: 'PostEntity' } & {
-                likes: Array<
-                    { __typename?: 'UserEntity' } & Pick<UserEntity, 'id' | 'username'>
+                likes?: Maybe<
+                    Array<
+                        { __typename?: 'UserEntity' } & Pick<
+                            UserEntity,
+                            'id' | 'username'
+                        >
+                    >
                 >;
             };
         };
@@ -1312,6 +1354,62 @@ export type PostStatsSubSubscriptionHookResult = ReturnType<
 >;
 export type PostStatsSubSubscriptionResult = ApolloReactCommon.SubscriptionResult<
     PostStatsSubSubscription
+>;
+export const RecentCommentSubDocument = gql`
+    subscription RecentCommentSub {
+        recentCommentSub {
+            comment {
+                id
+                content
+                author {
+                    id
+                    username
+                }
+                createdAt
+            }
+            post {
+                id
+                title
+                category {
+                    id
+                    name
+                }
+            }
+        }
+    }
+`;
+
+/**
+ * __useRecentCommentSubSubscription__
+ *
+ * To run a query within a React component, call `useRecentCommentSubSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useRecentCommentSubSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRecentCommentSubSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useRecentCommentSubSubscription(
+    baseOptions?: ApolloReactHooks.SubscriptionHookOptions<
+        RecentCommentSubSubscription,
+        RecentCommentSubSubscriptionVariables
+    >
+) {
+    return ApolloReactHooks.useSubscription<
+        RecentCommentSubSubscription,
+        RecentCommentSubSubscriptionVariables
+    >(RecentCommentSubDocument, baseOptions);
+}
+export type RecentCommentSubSubscriptionHookResult = ReturnType<
+    typeof useRecentCommentSubSubscription
+>;
+export type RecentCommentSubSubscriptionResult = ApolloReactCommon.SubscriptionResult<
+    RecentCommentSubSubscription
 >;
 export const RegisterDocument = gql`
     mutation Register($email: String!, $password: String!) {

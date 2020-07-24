@@ -72,7 +72,7 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
             const date = `${rawDate.toLocaleDateString('en-us', options)}`;
 
             // STATS
-            postLikes = item.likes.length;
+            postLikes = item.likes!.length;
             postViews = item.views;
 
             // Check if we got a subscription
@@ -80,7 +80,7 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
                 const { id, likes, views } = subData.postStatsSub;
                 // See if the subscription data belongs to this post
                 if (id === item.id) {
-                    postLikes = likes.length;
+                    postLikes = likes!.length;
                     postViews = views;
                 }
             }

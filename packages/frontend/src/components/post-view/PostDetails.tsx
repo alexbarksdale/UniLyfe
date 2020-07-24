@@ -75,7 +75,7 @@ export function PostDetails({ postData }: AppProps): JSX.Element | null {
 
     const { getPost } = postData;
     let postViews = getPost.views;
-    const postLikes = getPost.likes.length;
+    const postLikes = getPost.likes!.length;
 
     // If we get our subscription, then we update the current views.
     if (postSub) {

@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { NewsFeed } from './NewsFeed';
+import { RecentComment } from './RecentComment';
 
 export function FixedFeed(): JSX.Element {
     return (
         <div>
-            <NewsFeed />
+            <RecentComment />
         </div>
     );
 }

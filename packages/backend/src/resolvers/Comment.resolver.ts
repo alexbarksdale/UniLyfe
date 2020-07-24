@@ -1,10 +1,23 @@
-import { Resolver, Query, Mutation, Arg, Int, Ctx } from 'type-graphql';
+import {
+    Resolver,
+    Query,
+    Mutation,
+    Root,
+    Subscription,
+    Arg,
+    Int,
+    Ctx,
+    PubSub,
+    Publisher,
+} from 'type-graphql';
 
 import { CommentEntity } from '../entity/Comment.entity';
 import { UserEntity } from '../entity/User.entity';
 import { Context } from '../context/context';
 import { logger } from '../utils/logger.util';
 import { checkAuthor, AuthorError } from '../utils/checkAuthor.util';
+import { CommentPayload, CommentTopics, CommentResponse } from './types/comment.types';
+import { PostEntity } from '../entity/Post.entity';
 
 // TODO: Secure the queries and mutations after testing
 @Resolver()
@@ -27,6 +40,7 @@ export class CommentResolver {
     @Mutation(() => CommentEntity)
     // TODO: Apply auth middleware
     async createComment(
+        @PubSub(CommentTopics.NEW_COMMENT) publish: Publisher<CommentPayload>,
         @Arg('postId', () => Int) postId: number,
         @Arg('authorId') authorId: number,
         @Arg('content') content: string,
@@ -56,6 +70,7 @@ export class CommentResolver {
             throw new Error('Unable to save comment!');
         }
 
+        await publish({ comment, postId });
         return comment;
     }
 
@@ -103,5 +118,20 @@ export class CommentResolver {
         }
 
         return true;
+    }
+
+    @Subscription(() => CommentResponse, { topics: CommentTopics.NEW_COMMENT })
+    async recentCommentSub(
+        @Root() { comment, postId }: CommentPayload
+    ): Promise<CommentResponse> {
+        const post = await PostEntity.findOne({
+            where: { id: postId },
+            relations: ['category'],
+        });
+        if (!post) throw new Error(`Unable to find post with postId: ${postId}`);
+        return {
+            comment,
+            post,
+        };
     }
 }

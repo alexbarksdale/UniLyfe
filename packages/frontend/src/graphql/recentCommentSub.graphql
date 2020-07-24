@@ -1,0 +1,22 @@
+subscription RecentCommentSub {
+    recentCommentSub {
+        comment {
+            id
+            content
+            author {
+                id
+                username
+            }
+            createdAt
+        }
+
+        post {
+            id
+            title
+            category {
+                id
+                name
+            }
+        }
+    }
+}
