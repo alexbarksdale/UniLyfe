@@ -1,10 +1,17 @@
-import React, { useState, useEffect, ReactElement } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import slugify from 'slugify';
 
 import { CategoryTitle } from '../../shared-styles/global.styles';
-import { useRecentCommentSubSubscription } from '../../../generated/graphql';
+import {
+    useRecentCommentsQuery,
+    useRecentCommentsSubSubscription,
+} from '../../../generated/graphql';
+import { storeComments } from '../../../store/actions/comment.action';
+import { StoreState } from '../../../store/reducers/main.reducer';
+import { CommentState, CommentsRes } from '../../../store/types/comment.types';
 
 const CardContainer = styled.div``;
 
@@ -61,98 +68,79 @@ const Divider = styled.hr`
     background-color: ${(props) => props.theme.gray200};
 `;
 
-type CommentType = {
-    comment: {
-        id: number;
-        content: string;
-        author: {
-            id: number;
-            username: string;
-        };
-        createdAt: Date;
-    };
+export function RecentComment(): JSX.Element | null {
+    const dispatch = useDispatch();
+    const commentStore = useSelector((state: StoreState) => state.commentReducer);
 
-    post: {
-        id: number;
-        title: string;
-        category: {
-            id: number;
-            name: string;
-        };
-    };
-};
+    const { data: recentData, loading } = useRecentCommentsQuery();
+    const { data: subData } = useRecentCommentsSubSubscription();
 
-export function RecentComment(): JSX.Element {
-    const [comments, setComments] = useState<CommentType[]>([]);
-    const { data } = useRecentCommentSubSubscription();
-
+    // Fetches for initial recent comments.
     useEffect(() => {
-        if (data) {
-            setComments([data.recentCommentSub, ...comments]);
+        if (recentData && commentStore.fetch) {
+            dispatch(storeComments({ ...recentData.recentComments, fetch: false }));
         }
-    }, [data]);
+    }, [loading]);
 
-    const renderComments = (comments: CommentType[]) => {
-        const commentItems: ReactElement<CommentType>[] = [];
-        // Only render 5 recent comments
-        for (let i = 0; i < 5; i += 1) {
-            if (comments[i]) {
-                const {
-                    comment: {
-                        id: commentId,
-                        author: { username },
-                        createdAt,
-                        content,
-                    },
-                } = comments[i];
-
-                const rawDate = new Date(createdAt);
-                const options = {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric',
-                    hour: 'numeric',
-                    minute: 'numeric',
-                };
-                const date = `${rawDate.toLocaleDateString('en-us', options)}`;
-
-                const {
-                    post: {
-                        id: postId,
-                        category: { name },
-                        title,
-                    },
-                } = comments[i];
-
-                const slugTitle = slugify(title, '_').toLowerCase();
-                const postUrl = `/category/${name}/${postId}/${slugTitle}`;
-
-                commentItems.push(
-                    <React.Fragment key={commentId}>
-                        <li>
-                            <Link to={postUrl} key={commentId}>
-                                <ReplyContent>
-                                    <UserInfoDate>
-                                        <h5>TTU | {username}</h5>
-                                        <span style={{ margin: '0px 4px' }}>•</span>
-                                        <span>{date}</span>
-                                    </UserInfoDate>
-                                    <p>{content}</p>
-                                </ReplyContent>
-                            </Link>
-                        </li>
-                        <Divider />
-                    </React.Fragment>
-                );
-            }
+    // Updates recent comments from our subscription.
+    useEffect(() => {
+        if (subData) {
+            dispatch(storeComments(subData.recentComments));
         }
-        return commentItems;
+    }, [subData]);
+
+    const renderComments = (data: CommentState) => {
+        return data.comments.map((comment: CommentsRes, i: number) => {
+            const {
+                id: commentId,
+                content,
+                author: { username },
+                createdAt,
+            } = comment;
+
+            const {
+                id: postId,
+                category: { name },
+                title,
+            } = data.posts[i];
+
+            const rawDate = new Date(createdAt);
+            const options = {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+            };
+            const date = `${rawDate.toLocaleDateString('en-us', options)}`;
+
+            const slugTitle = slugify(title, '_').toLowerCase();
+            const postUrl = `/category/${name}/${postId}/${slugTitle}`;
+
+            return (
+                <React.Fragment key={commentId}>
+                    <li>
+                        <Link to={postUrl} key={commentId}>
+                            <ReplyContent>
+                                <UserInfoDate>
+                                    <h5>TTU | {username}</h5>
+                                    <span style={{ margin: '0px 4px' }}>•</span>
+                                    <span>{date}</span>
+                                </UserInfoDate>
+                                <p>{content}</p>
+                            </ReplyContent>
+                        </Link>
+                    </li>
+                    <Divider />
+                </React.Fragment>
+            );
+        });
     };
 
     return (
         <CardContainer>
             <CategoryTitle>Recent Chatter</CategoryTitle>
-            <CommentList>{renderComments(comments)}</CommentList>
+            <CommentList>{renderComments(commentStore)}</CommentList>
         </CardContainer>
     );
 }

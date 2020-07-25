@@ -85,9 +85,16 @@ export type LoginResponse = {
     accessToken: Scalars['String'];
 };
 
-/** Response for comment subscription. */
+/** Response for recent comments query. */
 export type CommentResponse = {
     __typename?: 'CommentResponse';
+    comments: Array<CommentEntity>;
+    posts: Array<PostEntity>;
+};
+
+/** Response for comment subscription. */
+export type CommentSubResponse = {
+    __typename?: 'CommentSubResponse';
     comment: CommentEntity;
     post: PostEntity;
 };
@@ -142,6 +149,7 @@ export type Query = {
     me?: Maybe<UserEntity>;
     getCategories: Array<CategoryEntity>;
     getCategoryPosts: Array<CategoryEntity>;
+    recentComments: CommentResponse;
     getPostComments: Array<CommentEntity>;
     getUniNews: NewsResponse;
     ourPicks: Array<PostEntity>;
@@ -241,7 +249,7 @@ export type MutationDeletePostArgs = {
 
 export type Subscription = {
     __typename?: 'Subscription';
-    recentCommentSub: CommentResponse;
+    recentComments: CommentResponse;
     postStatsSub: PostEntity;
 };
 
@@ -499,25 +507,55 @@ export type PostStatsSubSubscription = { __typename?: 'Subscription' } & {
         };
 };
 
-export type RecentCommentSubSubscriptionVariables = Exact<{ [key: string]: never }>;
+export type RecentCommentsSubSubscriptionVariables = Exact<{ [key: string]: never }>;
 
-export type RecentCommentSubSubscription = { __typename?: 'Subscription' } & {
-    recentCommentSub: { __typename?: 'CommentResponse' } & {
-        comment: { __typename?: 'CommentEntity' } & Pick<
-            CommentEntity,
-            'id' | 'content' | 'createdAt'
-        > & {
-                author: { __typename?: 'UserEntity' } & Pick<
-                    UserEntity,
-                    'id' | 'username'
-                >;
-            };
-        post: { __typename?: 'PostEntity' } & Pick<PostEntity, 'id' | 'title'> & {
-                category: { __typename?: 'CategoryEntity' } & Pick<
-                    CategoryEntity,
-                    'id' | 'name'
-                >;
-            };
+export type RecentCommentsSubSubscription = { __typename?: 'Subscription' } & {
+    recentComments: { __typename?: 'CommentResponse' } & {
+        comments: Array<
+            { __typename?: 'CommentEntity' } & Pick<
+                CommentEntity,
+                'id' | 'content' | 'createdAt'
+            > & {
+                    author: { __typename?: 'UserEntity' } & Pick<
+                        UserEntity,
+                        'id' | 'username'
+                    >;
+                }
+        >;
+        posts: Array<
+            { __typename?: 'PostEntity' } & Pick<PostEntity, 'id' | 'title'> & {
+                    category: { __typename?: 'CategoryEntity' } & Pick<
+                        CategoryEntity,
+                        'id' | 'name'
+                    >;
+                }
+        >;
+    };
+};
+
+export type RecentCommentsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type RecentCommentsQuery = { __typename?: 'Query' } & {
+    recentComments: { __typename?: 'CommentResponse' } & {
+        comments: Array<
+            { __typename?: 'CommentEntity' } & Pick<
+                CommentEntity,
+                'id' | 'content' | 'createdAt'
+            > & {
+                    author: { __typename?: 'UserEntity' } & Pick<
+                        UserEntity,
+                        'id' | 'username'
+                    >;
+                }
+        >;
+        posts: Array<
+            { __typename?: 'PostEntity' } & Pick<PostEntity, 'id' | 'title'> & {
+                    category: { __typename?: 'CategoryEntity' } & Pick<
+                        CategoryEntity,
+                        'id' | 'name'
+                    >;
+                }
+        >;
     };
 };
 
@@ -1355,10 +1393,10 @@ export type PostStatsSubSubscriptionHookResult = ReturnType<
 export type PostStatsSubSubscriptionResult = ApolloReactCommon.SubscriptionResult<
     PostStatsSubSubscription
 >;
-export const RecentCommentSubDocument = gql`
-    subscription RecentCommentSub {
-        recentCommentSub {
-            comment {
+export const RecentCommentsSubDocument = gql`
+    subscription RecentCommentsSub {
+        recentComments {
+            comments {
                 id
                 content
                 author {
@@ -1367,7 +1405,7 @@ export const RecentCommentSubDocument = gql`
                 }
                 createdAt
             }
-            post {
+            posts {
                 id
                 title
                 category {
@@ -1380,36 +1418,105 @@ export const RecentCommentSubDocument = gql`
 `;
 
 /**
- * __useRecentCommentSubSubscription__
+ * __useRecentCommentsSubSubscription__
  *
- * To run a query within a React component, call `useRecentCommentSubSubscription` and pass it any options that fit your needs.
- * When your component renders, `useRecentCommentSubSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useRecentCommentsSubSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useRecentCommentsSubSubscription` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useRecentCommentSubSubscription({
+ * const { data, loading, error } = useRecentCommentsSubSubscription({
  *   variables: {
  *   },
  * });
  */
-export function useRecentCommentSubSubscription(
+export function useRecentCommentsSubSubscription(
     baseOptions?: ApolloReactHooks.SubscriptionHookOptions<
-        RecentCommentSubSubscription,
-        RecentCommentSubSubscriptionVariables
+        RecentCommentsSubSubscription,
+        RecentCommentsSubSubscriptionVariables
     >
 ) {
     return ApolloReactHooks.useSubscription<
-        RecentCommentSubSubscription,
-        RecentCommentSubSubscriptionVariables
-    >(RecentCommentSubDocument, baseOptions);
+        RecentCommentsSubSubscription,
+        RecentCommentsSubSubscriptionVariables
+    >(RecentCommentsSubDocument, baseOptions);
 }
-export type RecentCommentSubSubscriptionHookResult = ReturnType<
-    typeof useRecentCommentSubSubscription
+export type RecentCommentsSubSubscriptionHookResult = ReturnType<
+    typeof useRecentCommentsSubSubscription
 >;
-export type RecentCommentSubSubscriptionResult = ApolloReactCommon.SubscriptionResult<
-    RecentCommentSubSubscription
+export type RecentCommentsSubSubscriptionResult = ApolloReactCommon.SubscriptionResult<
+    RecentCommentsSubSubscription
+>;
+export const RecentCommentsDocument = gql`
+    query RecentComments {
+        recentComments {
+            comments {
+                id
+                content
+                author {
+                    id
+                    username
+                }
+                createdAt
+            }
+            posts {
+                id
+                title
+                category {
+                    id
+                    name
+                }
+            }
+        }
+    }
+`;
+
+/**
+ * __useRecentCommentsQuery__
+ *
+ * To run a query within a React component, call `useRecentCommentsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRecentCommentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRecentCommentsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useRecentCommentsQuery(
+    baseOptions?: ApolloReactHooks.QueryHookOptions<
+        RecentCommentsQuery,
+        RecentCommentsQueryVariables
+    >
+) {
+    return ApolloReactHooks.useQuery<RecentCommentsQuery, RecentCommentsQueryVariables>(
+        RecentCommentsDocument,
+        baseOptions
+    );
+}
+export function useRecentCommentsLazyQuery(
+    baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+        RecentCommentsQuery,
+        RecentCommentsQueryVariables
+    >
+) {
+    return ApolloReactHooks.useLazyQuery<
+        RecentCommentsQuery,
+        RecentCommentsQueryVariables
+    >(RecentCommentsDocument, baseOptions);
+}
+export type RecentCommentsQueryHookResult = ReturnType<typeof useRecentCommentsQuery>;
+export type RecentCommentsLazyQueryHookResult = ReturnType<
+    typeof useRecentCommentsLazyQuery
+>;
+export type RecentCommentsQueryResult = ApolloReactCommon.QueryResult<
+    RecentCommentsQuery,
+    RecentCommentsQueryVariables
 >;
 export const RegisterDocument = gql`
     mutation Register($email: String!, $password: String!) {

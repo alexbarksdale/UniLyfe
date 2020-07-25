@@ -86,8 +86,8 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
             }
 
             return (
-                <>
-                    <FeedContent key={item.id}>
+                <React.Fragment key={item.id}>
+                    <FeedContent>
                         <Link to={postUrl}>
                             {item.thumbnail ? (
                                 <PostHeader responsive bgUrl={item.thumbnail} />
@@ -132,7 +132,7 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
                         </PostContent>
                     </FeedContent>
                     <Divider />
-                </>
+                </React.Fragment>
             );
         });
     };
