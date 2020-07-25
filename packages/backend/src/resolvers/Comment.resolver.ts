@@ -2,7 +2,6 @@ import {
     Resolver,
     Query,
     Mutation,
-    Root,
     Subscription,
     Arg,
     Int,
@@ -22,6 +21,36 @@ import { PostEntity } from '../entity/Post.entity';
 // TODO: Secure the queries and mutations after testing
 @Resolver()
 export class CommentResolver {
+    @Query(() => CommentResponse)
+    @Subscription(() => CommentResponse, { topics: CommentTopics.NEW_COMMENT })
+    async recentComments(): Promise<CommentResponse> {
+        const comments = await CommentEntity.find({
+            take: 5,
+            order: {
+                createdAt: 'DESC',
+            },
+            relations: ['author'],
+        });
+        if (!comments) throw new Error('Unable to find comments!');
+
+        // Find posts associated with the comment so we can route the user to it on the web app.
+        const posts = comments.map(async (comment) => {
+            const post = await PostEntity.findOne({
+                where: { id: comment.postId },
+                relations: ['category'],
+            });
+            if (!post || typeof post === 'undefined') {
+                throw new Error('Unable to find post!');
+            }
+            return post;
+        });
+
+        return {
+            comments,
+            posts,
+        };
+    }
+
     @Query(() => [CommentEntity])
     async getPostComments(
         @Arg('postId', () => Int) postId: number
@@ -118,20 +147,5 @@ export class CommentResolver {
         }
 
         return true;
-    }
-
-    @Subscription(() => CommentResponse, { topics: CommentTopics.NEW_COMMENT })
-    async recentCommentSub(
-        @Root() { comment, postId }: CommentPayload
-    ): Promise<CommentResponse> {
-        const post = await PostEntity.findOne({
-            where: { id: postId },
-            relations: ['category'],
-        });
-        if (!post) throw new Error(`Unable to find post with postId: ${postId}`);
-        return {
-            comment,
-            post,
-        };
     }
 }

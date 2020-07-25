@@ -14,9 +14,20 @@ export type CommentPayload = {
 };
 
 @ObjectType({
-    description: 'Response for comment subscription.',
+    description: 'Response for recent comments query.',
 })
 export class CommentResponse {
+    @Field(() => [CommentEntity])
+    comments!: CommentEntity[];
+
+    @Field(() => [PostEntity])
+    posts!: Promise<PostEntity>[];
+}
+
+@ObjectType({
+    description: 'Response for comment subscription.',
+})
+export class CommentSubResponse {
     @Field(() => CommentEntity)
     comment!: CommentEntity;
 
