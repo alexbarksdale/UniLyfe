@@ -8,13 +8,14 @@ import cookieParser from 'cookie-parser';
 import { createConnection } from 'typeorm';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
+import nodemailer from 'nodemailer';
 
 import { logger } from './utils/logger.util';
-import { router as refreshRouter } from './routers/refresh.router';
+import { authRouter } from './routers/auth.router';
 
 (async () => {
     const app = express();
-
+    // Middlewares
     app.use(
         cors({
             origin: 'http://localhost:3000',
@@ -22,8 +23,9 @@ import { router as refreshRouter } from './routers/refresh.router';
         })
     );
     app.use(cookieParser());
-    app.use(refreshRouter);
+    app.use(authRouter);
 
+    // Database
     try {
         // Refer to the ormconfig.ts to change the database settings
         await createConnection();
@@ -33,16 +35,27 @@ import { router as refreshRouter } from './routers/refresh.router';
         logger.error(`Failed to connect to the database: ${err}`);
     }
 
+    // Email service
+    const transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: process.env.EMAIL_LOGIN!,
+            pass: process.env.EMAIL_PASSWORD!,
+        },
+    });
+
+    // Apollo Server
     const apolloServer = new ApolloServer({
         schema: await buildSchema({
             resolvers: [path.join(__dirname, '/resolvers/**/*.{ts,js}')],
         }),
         playground: true,
-        context: ({ req, res }) => ({ req, res }),
+        context: ({ req, res }) => ({ req, res, transporter }),
     });
 
     apolloServer.applyMiddleware({ path: '/api', app, cors: false });
 
+    // HTTP Server
     const httpServer = http.createServer(app);
     apolloServer.installSubscriptionHandlers(httpServer);
 

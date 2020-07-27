@@ -3,10 +3,27 @@ import { verify } from 'jsonwebtoken';
 
 import { UserEntity } from '../entity/User.entity';
 import { genAccessToken, genRefreshToken, sendRefreshToken } from '../utils/jwt.util';
+import { logger } from '../utils/logger.util';
 
-export const router = express.Router();
+export const authRouter = express.Router();
 
-router.post('/auth/refresh', async (req: Request, res: Response) => {
+authRouter.get('/confirmation/:token', async (req: Request, res: Response) => {
+    try {
+        const { userId }: any = verify(req.params.token, process.env.EMAIL_TOKEN_SECRET!);
+
+        const user = await UserEntity.findOne({ where: { id: userId } });
+        if (!user) throw new Error('Unable to find user!');
+
+        user.confirmed = true;
+        await user.save();
+    } catch (err) {
+        logger.error('Unable to confirm token!', err);
+        throw new Error('Unable to confirm token!');
+    }
+    return res.redirect('http://localhost:3000/login');
+});
+
+authRouter.post('/auth/refresh', async (req: Request, res: Response) => {
     const token = req.cookies.trident;
     if (!token) return res.send({ authenticated: false, accessToken: '' });
 

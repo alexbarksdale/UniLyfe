@@ -9,7 +9,7 @@ import { Context } from '../context/context';
 import { RegisterResponse, LoginResponse } from './types/auth.types';
 import { genAccessToken, genRefreshToken, sendRefreshToken } from '../utils/jwt.util';
 import { handleError, AuthError } from '../utils/errors.util';
-import { getAndValidateEmail, UniEmail } from '../utils/validateEmail.util';
+import { getAndValidateEmail, UniEmail, createConfirmation } from '../utils/email.util';
 import { logger } from '../utils/logger.util';
 
 // TODO: Secure the queries and mutations after testing
@@ -59,7 +59,8 @@ export class AuthResolver {
     @Mutation(() => RegisterResponse)
     async register(
         @Arg('email') email: string,
-        @Arg('password') password: string
+        @Arg('password') password: string,
+        @Ctx() { transporter }: Context
     ): Promise<RegisterResponse | ApolloError> {
         if (!email || !password) return handleError(AuthError.MISSING_CREDENTIALS);
 
@@ -99,6 +100,8 @@ export class AuthResolver {
             return handleError(AuthError.REGISTRATION_FAIL);
         }
 
+        createConfirmation(user.id, email, transporter);
+
         return {
             registerMsg: 'Please check your email to confirm your registration.',
             registerSuccess: true,
@@ -118,6 +121,8 @@ export class AuthResolver {
 
         const validPassword = await compare(password, user.password);
         if (!validPassword) return handleError(AuthError.INVALID_CREDENTIALS);
+
+        if (!user.confirmed) throw new Error('You must confirm your email!');
 
         // User is authenticated
         sendRefreshToken(res, genRefreshToken(user));

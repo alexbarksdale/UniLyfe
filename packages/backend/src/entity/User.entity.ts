@@ -13,7 +13,7 @@ import {
 
 import { PostEntity } from './Post.entity';
 import { CommentEntity } from './Comment.entity';
-import { UniEmail } from '../utils/validateEmail.util';
+import { UniEmail } from '../utils/email.util';
 import { University } from './types/University.type';
 
 @ObjectType()
@@ -60,6 +60,9 @@ export class UserEntity extends BaseEntity {
         cascade: true,
     })
     comments!: CommentEntity[];
+
+    @Column('bool', { default: false })
+    confirmed!: boolean;
 
     @Column('int', { default: 0 })
     tokenVersion!: number;
