@@ -113,14 +113,16 @@ export class AuthResolver {
         @Arg('email') email: string,
         @Arg('password') password: string,
         @Ctx() { res }: Context
-    ): Promise<LoginResponse | ApolloError> {
-        if (!email || !password) return handleError(AuthError.MISSING_CREDENTIALS);
+    ): Promise<LoginResponse> {
+        if (!email || !password) {
+            throw new Error('You must provide an email and password!');
+        }
 
         const user = await UserEntity.findOne({ where: { email }, relations: ['likes'] });
-        if (!user) return handleError(AuthError.INVALID_CREDENTIALS);
+        if (!user) throw new Error('Email or password is incorrect!');
 
         const validPassword = await compare(password, user.password);
-        if (!validPassword) return handleError(AuthError.INVALID_CREDENTIALS);
+        if (!validPassword) throw new Error('Email or password is incorrect!');
 
         if (!user.confirmed) throw new Error('You must confirm your email!');
 

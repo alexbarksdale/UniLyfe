@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Formik, useField } from 'formik';
 import * as yup from 'yup';
@@ -41,10 +41,9 @@ type FormValues = {
 };
 
 export function Login({ history }: AppProps): JSX.Element {
-    const [login] = useLoginMutation();
+    const [login, errors] = useLoginMutation();
 
     const dispatch = useDispatch();
-    const [authErrors, setErrors] = useState<Object>();
 
     const initValues: FormValues = {
         email: '',
@@ -84,15 +83,13 @@ export function Login({ history }: AppProps): JSX.Element {
                         dispatch(setBrowsing(true));
                         history.push('/');
                     }
-                } catch (err) {
-                    setErrors(err);
-                }
+                } catch (_) {}
             }}
         >
             {({ handleSubmit, isSubmitting }) => (
                 <>
-                    {authErrors && (
-                        <ErrorMsg>Invalid email or password. Please try again.</ErrorMsg>
+                    {errors.error && (
+                        <ErrorMsg>{errors.error.graphQLErrors[0].message}</ErrorMsg>
                     )}
                     <Form onSubmit={handleSubmit} isSubmitting={isSubmitting}>
                         <TextField

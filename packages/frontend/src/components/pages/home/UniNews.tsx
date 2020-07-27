@@ -48,7 +48,6 @@ const ItemStyles = `
 `;
 
 const MainItem = styled.div`
-    height: 350px;
     grid-area: Main;
     padding: 14px;
     background-image: linear-gradient(
@@ -98,8 +97,8 @@ const FourthItem = styled.div`
     font-size: 12px;
     background-image: linear-gradient(
             356deg,
-            rgba(66, 242, 151, 0.6) 0%,
-            rgba(255, 255, 117, 0.7) 100%
+            rgb(25 184 102 / 60%) 0%,
+            rgb(157 117 255 / 70%) 100%
         ),
         url(${({ bgUrl }: StyleProps) => bgUrl});
     ${ItemStyles}
