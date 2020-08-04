@@ -4,12 +4,11 @@ import { Formik, useField } from 'formik';
 import * as yup from 'yup';
 import { History } from 'history';
 
-import { Form, SubmitBtn, Input, Label } from '../shared-styles/form.styles';
+import { Form, SubmitBtn, Input, Label, ErrorMsg } from '../shared-styles/form.styles';
 import { useLoginMutation, MeDocument, MeQuery } from '../../generated/graphql';
 import { setToken } from '../../utils/accessToken.util';
 import { setAuth } from '../../store/actions/auth.action';
 import { setBrowsing } from '../../store/actions/navigation.action';
-import { ErrorMsg } from './Authentication';
 
 const validationSchema = yup.object().shape({
     email: yup
@@ -83,7 +82,9 @@ export function Login({ history }: AppProps): JSX.Element {
                         dispatch(setBrowsing(true));
                         history.push('/');
                     }
-                } catch (_) {}
+                } catch (err) {
+                    throw new Error('Login failed!');
+                }
             }}
         >
             {({ handleSubmit, isSubmitting }) => (

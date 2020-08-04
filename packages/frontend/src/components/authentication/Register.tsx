@@ -3,8 +3,7 @@ import { Formik, useField } from 'formik';
 import * as yup from 'yup';
 import { History } from 'history';
 
-import { Form, SubmitBtn, Input, Label } from '../shared-styles/form.styles';
-import { WarningMsg } from './Authentication';
+import { Form, SubmitBtn, Input, Label, WarningMsg } from '../shared-styles/form.styles';
 import { useRegisterMutation } from '../../generated/graphql';
 
 const validationSchema = yup.object().shape({

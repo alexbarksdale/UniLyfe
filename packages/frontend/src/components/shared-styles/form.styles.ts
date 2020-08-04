@@ -104,3 +104,23 @@ export const TextArea = styled.textarea`
         border: 1px solid ${(props) => props.theme.gray300};
     }
 `;
+
+const InvalidStyles = `
+    padding: 8px 15px;
+    font-size: 14.5px;
+    border-radius: 8px;
+    line-height: 16px;
+    margin-bottom: 25px;
+`;
+
+export const ErrorMsg = styled.p`
+    color: ${(props) => props.theme.white};
+    background-color: ${(props) => props.theme.error};
+    ${InvalidStyles}
+`;
+
+export const WarningMsg = styled.p`
+    color: ${(props) => props.theme.white};
+    background-color: ${(props) => props.theme.warning};
+    ${InvalidStyles}
+`;

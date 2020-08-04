@@ -7,6 +7,7 @@ import { Navigation } from '../components/navigation/Navigation';
 import { Authentication } from '../components/authentication/Authentication';
 import { PostView } from '../components/post-view/PostView';
 import { CreatePost } from '../components/create-post/CreatePost';
+import { Settings } from '../components/settings/Settings';
 
 export function BaseRouter(): JSX.Element {
     return (
@@ -25,6 +26,7 @@ export function BaseRouter(): JSX.Element {
                     )}
                 />
                 <Route exact path='/signup' component={Authentication} />
+                <Route exact path='/settings' component={Settings} />
                 <Route path='/' render={() => <div>404 - TODO</div>} />
             </Switch>
         </BrowserRouter>

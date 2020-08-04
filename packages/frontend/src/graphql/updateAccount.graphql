@@ -1,0 +1,11 @@
+mutation UpdateAccount(
+    $userId: Float!
+    $currentPassword: String!
+    $newPassword: String!
+) {
+    updateAccount(
+        userId: $userId
+        currentPassword: $currentPassword
+        newPassword: $newPassword
+    )
+}

@@ -177,6 +177,7 @@ export type Mutation = {
     __typename?: 'Mutation';
     register: RegisterResponse;
     login: LoginResponse;
+    updateAccount: Scalars['Boolean'];
     logout: Scalars['Boolean'];
     createCategory: Scalars['Boolean'];
     createComment: CommentEntity;
@@ -196,6 +197,12 @@ export type MutationRegisterArgs = {
 export type MutationLoginArgs = {
     password: Scalars['String'];
     email: Scalars['String'];
+};
+
+export type MutationUpdateAccountArgs = {
+    newPassword: Scalars['String'];
+    currentPassword: Scalars['String'];
+    userId: Scalars['Float'];
 };
 
 export type MutationCreateCategoryArgs = {
@@ -570,6 +577,17 @@ export type RegisterMutation = { __typename?: 'Mutation' } & {
         'registerMsg' | 'registerSuccess'
     >;
 };
+
+export type UpdateAccountMutationVariables = Exact<{
+    userId: Scalars['Float'];
+    currentPassword: Scalars['String'];
+    newPassword: Scalars['String'];
+}>;
+
+export type UpdateAccountMutation = { __typename?: 'Mutation' } & Pick<
+    Mutation,
+    'updateAccount'
+>;
 
 export type UpdatePostStatsMutationVariables = Exact<{
     postId: Scalars['Int'];
@@ -1565,6 +1583,62 @@ export type RegisterMutationResult = ApolloReactCommon.MutationResult<RegisterMu
 export type RegisterMutationOptions = ApolloReactCommon.BaseMutationOptions<
     RegisterMutation,
     RegisterMutationVariables
+>;
+export const UpdateAccountDocument = gql`
+    mutation UpdateAccount(
+        $userId: Float!
+        $currentPassword: String!
+        $newPassword: String!
+    ) {
+        updateAccount(
+            userId: $userId
+            currentPassword: $currentPassword
+            newPassword: $newPassword
+        )
+    }
+`;
+export type UpdateAccountMutationFn = ApolloReactCommon.MutationFunction<
+    UpdateAccountMutation,
+    UpdateAccountMutationVariables
+>;
+
+/**
+ * __useUpdateAccountMutation__
+ *
+ * To run a mutation, you first call `useUpdateAccountMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateAccountMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateAccountMutation, { data, loading, error }] = useUpdateAccountMutation({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      currentPassword: // value for 'currentPassword'
+ *      newPassword: // value for 'newPassword'
+ *   },
+ * });
+ */
+export function useUpdateAccountMutation(
+    baseOptions?: ApolloReactHooks.MutationHookOptions<
+        UpdateAccountMutation,
+        UpdateAccountMutationVariables
+    >
+) {
+    return ApolloReactHooks.useMutation<
+        UpdateAccountMutation,
+        UpdateAccountMutationVariables
+    >(UpdateAccountDocument, baseOptions);
+}
+export type UpdateAccountMutationHookResult = ReturnType<typeof useUpdateAccountMutation>;
+export type UpdateAccountMutationResult = ApolloReactCommon.MutationResult<
+    UpdateAccountMutation
+>;
+export type UpdateAccountMutationOptions = ApolloReactCommon.BaseMutationOptions<
+    UpdateAccountMutation,
+    UpdateAccountMutationVariables
 >;
 export const UpdatePostStatsDocument = gql`
     mutation UpdatePostStats($postId: Int!, $userId: Int, $views: Int) {

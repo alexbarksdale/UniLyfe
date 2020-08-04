@@ -49,6 +49,16 @@ const PostDescription = styled.p`
     margin-bottom: 15px;
 `;
 
+const PostControls = styled.div`
+    display: flex;
+`;
+
+const EditBtn = styled.button`
+    font-size: 15px;
+    color: ${(props) => props.theme.gray400};
+    background-color: transparent;
+`;
+
 const Divider = styled.hr`
     height: 2px;
     border: none;
@@ -68,6 +78,7 @@ type AppProps = {
 export function PostDetails({ postData }: AppProps): JSX.Element | null {
     const history = useHistory();
     const [liked, setLiked] = useState(false);
+    const [isAuthor, setAuthor] = useState(false);
 
     const { data: meData, loading } = useMeQuery();
     const [updatePost] = useUpdatePostStatsMutation();
@@ -85,6 +96,9 @@ export function PostDetails({ postData }: AppProps): JSX.Element | null {
     // Update view count and check if the post is liked when loaded.
     useEffect(() => {
         if (meData && meData.me) {
+            // Check if this post belongs to the user logged in.
+            if (meData.me.id === postData.getPost.author.id) setAuthor(true);
+
             for (const like of meData.me.likes) {
                 if (like.id === getPost.id) {
                     setLiked(true);
@@ -130,20 +144,23 @@ export function PostDetails({ postData }: AppProps): JSX.Element | null {
                 </p>
             </div>
             <PostDescription>{getPost.content}</PostDescription>
-            <PostStats postView>
-                <li>
-                    <LikeBtn liked={liked} type='button' onClick={() => handleLike()}>
-                        {liked ? <FaThumbsUp /> : <FaRegThumbsUp />}
-                        {postLikes}
-                    </LikeBtn>
-                </li>
-                <li>
-                    <span>
-                        <FaRegEye />
-                        {postViews}
-                    </span>
-                </li>
-            </PostStats>
+            <PostControls>
+                <PostStats postView>
+                    <li>
+                        <LikeBtn liked={liked} type='button' onClick={() => handleLike()}>
+                            {liked ? <FaThumbsUp /> : <FaRegThumbsUp />}
+                            {postLikes}
+                        </LikeBtn>
+                    </li>
+                    <li>
+                        <span>
+                            <FaRegEye />
+                            {postViews}
+                        </span>
+                    </li>
+                </PostStats>
+                {isAuthor && <EditBtn type='button'>Edit</EditBtn>}
+            </PostControls>
             <Divider />
         </PostDetailContainer>
     );
