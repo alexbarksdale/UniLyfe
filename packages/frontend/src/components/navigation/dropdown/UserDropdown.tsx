@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaChevronDown, FaCog, FaSignOutAlt } from 'react-icons/fa';
 
-import { useLogoutMutation } from '../../../generated/graphql';
+import { useLogoutMutation, useMeQuery } from '../../../generated/graphql';
 import { device } from '../../../utils/theme.util';
 import { setToken } from '../../../utils/accessToken.util';
 import defaultAvatar from '../../../assets/images/default-avatar.png';
@@ -125,11 +125,12 @@ type AppProps = {
     username: string;
 };
 
-export function UserDropdown({ username }: AppProps): JSX.Element {
+export function UserDropdown({ username }: AppProps): JSX.Element | null {
     const node = useRef<HTMLDivElement>(null);
     const [dropdown, setDropdown] = useState(false);
     const dispatch = useDispatch();
 
+    const { data, loading } = useMeQuery();
     const [logout, { client }] = useLogoutMutation();
 
     const handleClick = (e: any) => {
@@ -142,10 +143,14 @@ export function UserDropdown({ username }: AppProps): JSX.Element {
         return () => document.removeEventListener('mousedown', handleClick);
     }, []);
 
+    if (loading || !data || !data.me || typeof data.me === 'undefined') return null;
+
+    const userAvatar = data.me.profileImg ? data.me.profileImg : defaultAvatar;
+
     return (
         <Dropdown ref={node}>
             <UserProfileBtn onClick={() => setDropdown(!dropdown)}>
-                <UserImg src={defaultAvatar} />
+                <UserImg src={userAvatar} />
                 <span>
                     <StyledIcon dropdown={dropdown ? 1 : 0} />
                 </span>
@@ -155,7 +160,7 @@ export function UserDropdown({ username }: AppProps): JSX.Element {
                     <StyledLink to='/'>
                         <li>
                             <UserImg
-                                src={defaultAvatar}
+                                src={userAvatar}
                                 alt='Avatar'
                                 style={{ marginRight: '8px' }}
                             />

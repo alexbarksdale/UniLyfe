@@ -51,11 +51,11 @@ const SettingsHeader = styled.div`
     h2 {
         font-weight: 600;
         color: ${(props) => props.theme.gray800};
-        margin-bottom: 8px;
     }
 
     p {
         text-align: center;
+        margin-top: 8px;
         letter-spacing: 0.2px;
         font-size: 15px;
         font-weight: 500;
