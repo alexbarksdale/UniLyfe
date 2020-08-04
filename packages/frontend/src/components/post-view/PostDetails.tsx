@@ -47,6 +47,7 @@ const PostDescription = styled.p`
     letter-spacing: 0.4px;
     color: ${(props) => props.theme.gray600};
     margin-bottom: 15px;
+    word-break: break-word;
 `;
 
 const PostControls = styled.div`

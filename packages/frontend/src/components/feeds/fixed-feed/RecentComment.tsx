@@ -12,6 +12,7 @@ import {
 import { storeComments } from '../../../store/actions/comment.action';
 import { StoreState } from '../../../store/reducers/main.reducer';
 import { CommentState, CommentsRes } from '../../../store/types/comment.types';
+import { limitText } from '../../../utils/general.util';
 
 const CardContainer = styled.div``;
 
@@ -52,6 +53,7 @@ const ReplyContent = styled.div`
     }
     p {
         margin-top: 7px;
+        word-break: break-word;
         font-weight: 500;
         color: ${(props) => props.theme.gray500};
     }
@@ -127,7 +129,7 @@ export function RecentComment(): JSX.Element | null {
                                     <span style={{ margin: '0px 4px' }}>•</span>
                                     <span>{date}</span>
                                 </UserInfoDate>
-                                <p>{content}</p>
+                                <p>{limitText(content, 150)}</p>
                             </ReplyContent>
                         </Link>
                     </li>

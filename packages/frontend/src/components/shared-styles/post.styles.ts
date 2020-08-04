@@ -145,6 +145,8 @@ export const CategoryLink = styled(Link)`
 `;
 
 export const UserLink = styled(Link)`
+    pointer-events: none;
+
     font-weight: 500;
     text-decoration: none;
     flex: ${(props: StyleProps) => (props.big ? 1 : 'none')};

@@ -34,6 +34,7 @@ const CommentsContainer = styled.div`
             }
             p {
                 margin-top: 7px;
+                word-break: break-word;
                 font-weight: 500;
                 color: ${(props) => props.theme.gray500};
             }
