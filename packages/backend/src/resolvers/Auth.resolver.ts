@@ -121,7 +121,7 @@ export class AuthResolver {
         const user = await UserEntity.findOne({ where: { email }, relations: ['likes'] });
         if (!user) throw new Error('Email or password is incorrect!');
 
-        const validPassword = await compare(password, user.password);
+        const validPassword: boolean = await compare(password, user.password);
         if (!validPassword) throw new Error('Email or password is incorrect!');
 
         if (!user.confirmed) throw new Error('You must confirm your email!');
@@ -133,6 +133,41 @@ export class AuthResolver {
             user,
             accessToken: genAccessToken(user),
         };
+    }
+
+    @Mutation(() => Boolean)
+    async updateAccount(
+        @Arg('userId') userId: number,
+        @Arg('currentPassword') currentPassword: string,
+        @Arg('newPassword') newPassword: string
+    ) {
+        if (!userId || !currentPassword || !newPassword) {
+            throw new Error(
+                "You must include a userId, the user's current password, and new password!"
+            );
+        }
+
+        const user = await UserEntity.findOne({ where: { id: userId } });
+        if (!user) throw new Error('Unable to find user!');
+
+        const validPassword: boolean = await compare(currentPassword, user.password);
+        if (!validPassword) throw new Error('Password is incorrect!');
+
+        let hashedPassword;
+        try {
+            hashedPassword = await hash(newPassword, 12);
+        } catch (err) {
+            logger.error('Failed to hash password', err);
+            throw new Error('Failed to hash password');
+        }
+
+        try {
+            await UserEntity.update(userId, { password: hashedPassword });
+        } catch (err) {
+            logger.error('Unable to update account!', err);
+            throw new Error('Unable to update account!');
+        }
+        return true;
     }
 
     @Mutation(() => Boolean)
