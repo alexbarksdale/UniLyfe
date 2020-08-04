@@ -1,18 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Formik, useField } from 'formik';
 import * as yup from 'yup';
+import { FaTimes } from 'react-icons/fa';
 
-import { Form, SubmitBtn, Input, Label, ErrorMsg } from '../shared-styles/form.styles';
+import {
+    Form,
+    SubmitBtn,
+    Input,
+    Label,
+    ErrorMsg,
+    ThumbnailTitle,
+    ThumbnailContent,
+    DeleteBtn,
+} from '../shared-styles/form.styles';
 import { CardContainer } from '../shared-styles/global.styles';
 import { setToken } from '../../utils/accessToken.util';
 import { setAuth } from '../../store/actions/auth.action';
+import { Filestack } from '../../utils/Filestack.util';
+import defaultAvatar from '../../assets/images/default-avatar.png';
 import {
     useMeQuery,
     useUpdateAccountMutation,
     useLogoutMutation,
+    MeDocument,
 } from '../../generated/graphql';
 
 const SettingsContainer = styled.div`
@@ -27,16 +40,6 @@ const SettingsContent = styled.div`
     justify-content: center;
     ${CardContainer}
 `;
-
-/* const SettingsHeader = styled.div` */
-/*     height: 80px; */
-
-/*     h1, */
-/*     h2 { */
-/*         font-weight: 600; */
-/*         color: ${(props) => props.theme.gray800}; */
-/*     } */
-/* `; */
 
 const SettingsHeader = styled.div`
     display: flex;
@@ -60,6 +63,15 @@ const SettingsHeader = styled.div`
     }
 `;
 
+const ProfileAvatar = styled.img`
+    height: 50px;
+    width: 50px;
+    border: none;
+    border-radius: 8px;
+    background-color: ${(props) => props.theme.gray300};
+    margin: 7px 8px 8px 0px;
+`;
+
 const NoAccess = styled.div`
     cursor: not-allowed;
     opacity: 0.7;
@@ -68,7 +80,8 @@ const NoAccess = styled.div`
     }
 `;
 
-const LimitedMsg = styled.h4`
+const SubTitle = styled.h4`
+    font-size: 14px !important;
     font-weight: 500;
     margin-top: 8px;
     color: ${(props) => props.theme.gray400};
@@ -78,13 +91,11 @@ const validationSchema = yup.object().shape({
     password: yup
         .string()
         .min(6, 'Password must be at least 6 characters.')
-        .max(100, 'Password cannot exceed 100 characters.')
-        .required('Password is required.'),
+        .max(100, 'Password cannot exceed 100 characters.'),
     newPassword: yup
         .string()
         .min(6, 'Password must be at least 6 characters.')
-        .max(100, 'Password cannot exceed 100 characters.')
-        .required('Password is required.'),
+        .max(100, 'Password cannot exceed 100 characters.'),
 });
 
 const TextField = ({ placeholder, label, limited, ...props }: any) => {
@@ -95,7 +106,7 @@ const TextField = ({ placeholder, label, limited, ...props }: any) => {
         <Label error={err} htmlFor={field.name}>
             {err ? meta.error : label}
             <br />
-            {limited ? <LimitedMsg>Unable to change.</LimitedMsg> : null}
+            {limited ? <SubTitle>Unable to change.</SubTitle> : null}
             <Input {...field} {...props} placeholder={placeholder} />
         </Label>
     );
@@ -107,16 +118,19 @@ type FormValues = {
 };
 
 export function Settings(): JSX.Element | null {
+    const [avatarSrc, setAvatar] = useState<string | null>(null);
+    const dispatch = useDispatch();
+    const history = useHistory();
+
     const { data, loading } = useMeQuery();
     const [updateAccount, { error }] = useUpdateAccountMutation();
     const [logout, { client }] = useLogoutMutation();
 
-    const dispatch = useDispatch();
-    const history = useHistory();
-
     const initValues: FormValues = { password: '', newPassword: '' };
 
     if (loading || !data || !data.me || typeof data.me === 'undefined') return null;
+
+    const userAvatar = data.me.profileImg ? data.me.profileImg : defaultAvatar;
 
     return (
         <SettingsContainer>
@@ -134,9 +148,15 @@ export function Settings(): JSX.Element | null {
                             const success = await updateAccount({
                                 variables: {
                                     userId: data.me!.id,
+                                    profileImg: avatarSrc,
                                     currentPassword: values.password,
                                     newPassword: values.newPassword,
                                 },
+                                refetchQueries: [
+                                    {
+                                        query: MeDocument,
+                                    },
+                                ],
                             });
 
                             if (typeof success.data === 'undefined' || !success.data) {
@@ -144,20 +164,45 @@ export function Settings(): JSX.Element | null {
                             }
 
                             if (success.data.updateAccount) {
-                                dispatch(setAuth(false));
-                                setSubmitting(false);
-                                await logout();
-                                setToken('');
-                                await client!.resetStore();
-                                history.push('/login');
+                                if (values.password && values.newPassword) {
+                                    dispatch(setAuth(false));
+                                    setSubmitting(false);
+                                    await logout();
+                                    setToken('');
+                                    await client!.resetStore();
+                                    history.push('/login');
+                                }
+
+                                setAvatar(null);
                             }
                         } catch (err) {
                             throw new Error('Failed to update account!');
                         }
                     }}
                 >
-                    {({ handleSubmit, isSubmitting }) => (
+                    {({ values, handleSubmit, isSubmitting }) => (
                         <Form onSubmit={handleSubmit} isSubmitting={isSubmitting}>
+                            <ThumbnailTitle>Change your avatar</ThumbnailTitle>
+                            {avatarSrc && <SubTitle>Be sure to save changes.</SubTitle>}
+                            <ThumbnailContent>
+                                <ProfileAvatar
+                                    src={avatarSrc ?? userAvatar}
+                                    alt='Avatar'
+                                />
+                                <Filestack
+                                    getThumbnail={(link: string | null) =>
+                                        setAvatar(link)
+                                    }
+                                />
+                                {avatarSrc && (
+                                    <DeleteBtn
+                                        type='button'
+                                        onClick={() => setAvatar(null)}
+                                    >
+                                        <FaTimes />
+                                    </DeleteBtn>
+                                )}
+                            </ThumbnailContent>
                             <NoAccess>
                                 <div>
                                     <TextField
@@ -183,19 +228,21 @@ export function Settings(): JSX.Element | null {
                                 </div>
                             </NoAccess>
                             <TextField
-                                name='password'
-                                id='password'
-                                type='password'
-                                placeholder='**********'
-                                label='Enter your current password'
-                            />
-                            <TextField
                                 name='newPassword'
                                 id='newPassword'
                                 type='password'
                                 placeholder='Enter a new password'
                                 label='Enter a new password'
                             />
+                            {values.newPassword && (
+                                <TextField
+                                    name='password'
+                                    id='password'
+                                    type='password'
+                                    placeholder='**********'
+                                    label='Enter your current password'
+                                />
+                            )}
                             <SubmitBtn type='submit'>Update</SubmitBtn>
                         </Form>
                     )}

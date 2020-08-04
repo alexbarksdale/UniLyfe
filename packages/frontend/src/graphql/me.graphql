@@ -1,6 +1,7 @@
 query Me {
     me {
         id
+        profileImg
         email
         username
         universityName

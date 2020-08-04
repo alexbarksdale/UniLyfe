@@ -62,6 +62,7 @@ export type UserEntity = {
     id: Scalars['Int'];
     username: Scalars['String'];
     email: Scalars['String'];
+    profileImg?: Maybe<Scalars['String']>;
     university: University;
     universityName: Scalars['String'];
     likes: Array<PostEntity>;
@@ -202,6 +203,7 @@ export type MutationLoginArgs = {
 export type MutationUpdateAccountArgs = {
     newPassword: Scalars['String'];
     currentPassword: Scalars['String'];
+    profileImg?: Maybe<Scalars['String']>;
     userId: Scalars['Float'];
 };
 
@@ -475,7 +477,7 @@ export type MeQuery = { __typename?: 'Query' } & {
     me?: Maybe<
         { __typename?: 'UserEntity' } & Pick<
             UserEntity,
-            'id' | 'email' | 'username' | 'universityName'
+            'id' | 'profileImg' | 'email' | 'username' | 'universityName'
         > & {
                 likes: Array<
                     { __typename?: 'PostEntity' } & Pick<PostEntity, 'id' | 'title'>
@@ -580,6 +582,7 @@ export type RegisterMutation = { __typename?: 'Mutation' } & {
 
 export type UpdateAccountMutationVariables = Exact<{
     userId: Scalars['Float'];
+    profileImg?: Maybe<Scalars['String']>;
     currentPassword: Scalars['String'];
     newPassword: Scalars['String'];
 }>;
@@ -1264,6 +1267,7 @@ export const MeDocument = gql`
     query Me {
         me {
             id
+            profileImg
             email
             username
             universityName
@@ -1587,11 +1591,13 @@ export type RegisterMutationOptions = ApolloReactCommon.BaseMutationOptions<
 export const UpdateAccountDocument = gql`
     mutation UpdateAccount(
         $userId: Float!
+        $profileImg: String
         $currentPassword: String!
         $newPassword: String!
     ) {
         updateAccount(
             userId: $userId
+            profileImg: $profileImg
             currentPassword: $currentPassword
             newPassword: $newPassword
         )
@@ -1616,6 +1622,7 @@ export type UpdateAccountMutationFn = ApolloReactCommon.MutationFunction<
  * const [updateAccountMutation, { data, loading, error }] = useUpdateAccountMutation({
  *   variables: {
  *      userId: // value for 'userId'
+ *      profileImg: // value for 'profileImg'
  *      currentPassword: // value for 'currentPassword'
  *      newPassword: // value for 'newPassword'
  *   },

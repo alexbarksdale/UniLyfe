@@ -124,3 +124,30 @@ export const WarningMsg = styled.p`
     background-color: ${(props) => props.theme.warning};
     ${InvalidStyles}
 `;
+
+export const ThumbnailContent = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
+export const DeleteBtn = styled.button`
+    margin-left: 8px;
+    font-size: 16px;
+    outline: none;
+    color: ${(props) => props.theme.gray600};
+    background-color: transparent;
+    transition: all 0.3s ease 0s;
+    &:hover {
+        color: ${(props) => props.theme.error};
+    }
+`;
+
+export const ThumbnailTitle = styled.p`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: ${(props) => props.theme.gray500};
+`;

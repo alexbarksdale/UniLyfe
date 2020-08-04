@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import styled from 'styled-components';
 import { Formik, useField } from 'formik';
 import * as yup from 'yup';
 import slugify from 'slugify';
@@ -21,36 +20,12 @@ import {
     Label,
     Select,
     TextArea,
+    ThumbnailContent,
+    ThumbnailTitle,
+    DeleteBtn,
 } from '../shared-styles/form.styles';
 import { PostType } from './CreatePost';
-import { Filestack } from './Filestack';
-
-const ThumbnailContent = styled.div`
-    display: flex;
-    align-items: center;
-`;
-
-const DeleteBtn = styled.button`
-    margin-left: 8px;
-    font-size: 16px;
-    outline: none;
-    color: ${(props) => props.theme.gray600};
-    background-color: transparent;
-    transition: all 0.3s ease 0s;
-    &:hover {
-        color: ${(props) => props.theme.error};
-    }
-`;
-
-const ThumbnailTitle = styled.p`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.3px;
-    color: ${(props) => props.theme.gray500};
-`;
+import { Filestack } from '../../utils/Filestack.util';
 
 type initialValues = {
     category: string;

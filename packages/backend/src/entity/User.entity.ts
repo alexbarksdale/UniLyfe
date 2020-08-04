@@ -34,6 +34,10 @@ export class UserEntity extends BaseEntity {
     @Column('text')
     password!: string;
 
+    @Field({ nullable: true })
+    @Column('text', { nullable: true })
+    profileImg?: string;
+
     @Field(() => University)
     @Column('json')
     university!: UniEmail;

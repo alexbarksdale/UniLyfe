@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import ReactFilestack from 'filestack-react';
-import { device } from '../../utils/theme.util';
+import { device } from './theme.util';
 
 const UploadContainer = styled.div`
     display: flex;

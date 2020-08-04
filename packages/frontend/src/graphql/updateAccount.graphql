@@ -1,10 +1,12 @@
 mutation UpdateAccount(
     $userId: Float!
+    $profileImg: String
     $currentPassword: String!
     $newPassword: String!
 ) {
     updateAccount(
         userId: $userId
+        profileImg: $profileImg
         currentPassword: $currentPassword
         newPassword: $newPassword
     )
