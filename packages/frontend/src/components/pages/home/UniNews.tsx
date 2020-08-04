@@ -5,6 +5,7 @@ import { FaCalendarAlt } from 'react-icons/fa';
 import { Container, CategoryTitle } from '../../shared-styles/global.styles';
 import { useGetUniNewsQuery } from '../../../generated/graphql';
 import { device, Theme } from '../../../utils/theme.util';
+import { limitText } from '../../../utils/general.util';
 
 // MESSSAGE:
 // I tried my best to keep this component as DRY as possible without
@@ -36,6 +37,7 @@ const ItemStyles = `
     background-position: center;
     background-size: cover;
     transition: all .3s ease 0s;
+    max-height: 350px;
 
     a {
         text-decoration: none;
@@ -81,7 +83,7 @@ const SecondaryItem = styled.div`
 const ThirdItem = styled.div`
     grid-area: Third;
     padding: 14px;
-    font-size: 12px;
+    font-size: 11px;
     background-image: linear-gradient(
             356deg,
             rgba(242, 66, 66, 0.7) 0%,
@@ -94,7 +96,7 @@ const ThirdItem = styled.div`
 const FourthItem = styled.div`
     grid-area: Fourth;
     padding: 14px;
-    font-size: 12px;
+    font-size: 11px;
     background-image: linear-gradient(
             356deg,
             rgb(25 184 102 / 60%) 0%,
@@ -201,7 +203,7 @@ export function UniNews(): JSX.Element | null {
                     <a href={third.url} rel='noopener noreferrer' target='_blank'>
                         <NewsContent>
                             <NewsTag>{third.source.name}</NewsTag>
-                            <NewsTitle>{third.title}</NewsTitle>
+                            <NewsTitle>{limitText(third.title, 75)}</NewsTitle>
                             <NewsDate>
                                 <FaCalendarAlt />
                                 {formatDate(third.publishedAt)}
@@ -213,7 +215,7 @@ export function UniNews(): JSX.Element | null {
                     <a href={fourth.url} rel='noopener noreferrer' target='_blank'>
                         <NewsContent>
                             <NewsTag>{fourth.source.name}</NewsTag>
-                            <NewsTitle>{fourth.title}</NewsTitle>
+                            <NewsTitle>{limitText(fourth.title, 75)}</NewsTitle>
                             <NewsDate>
                                 <FaCalendarAlt />
                                 {formatDate(fourth.publishedAt)}

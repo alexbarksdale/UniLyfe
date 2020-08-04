@@ -19,6 +19,7 @@ import { AppProps, FeedDataType } from '../types/types';
 import { StoreState } from '../../../store/reducers/main.reducer';
 import { usePostStatsSubSubscription } from '../../../generated/graphql';
 import { device } from '../../../utils/theme.util';
+import { limitText } from '../../../utils/general.util';
 
 const FeedContainer = styled.div`
     flex-direction: column;
@@ -103,7 +104,7 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
                             </CategoryLink>
                             <Link to={postUrl}>
                                 <h1>{item.title}</h1>
-                                <p>{item.content}</p>
+                                <p>{limitText(item.content, 300)}</p>
                             </Link>
                             <PostInfoBar>
                                 <UserLink to='/'>

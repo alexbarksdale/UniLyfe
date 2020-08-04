@@ -13,6 +13,7 @@ import {
 } from '../shared-styles/post.styles';
 import { useOurPicksQuery } from '../../generated/graphql';
 import { CategoryTitle } from '../shared-styles/global.styles';
+import { limitText } from '../../utils/general.util';
 
 const PicksContainer = styled.div`
     display: grid;
@@ -113,7 +114,7 @@ export function OurPicks(): JSX.Element | null {
                             <CategoryLink to='/'>{name}</CategoryLink>
                             <Link to='/'>
                                 <h1>{title}</h1>
-                                <p>{content}</p>
+                                <p>{limitText(content, 300)}</p>
                             </Link>
                             <PostInfoBar>
                                 <UserLink to='/' big='true'>

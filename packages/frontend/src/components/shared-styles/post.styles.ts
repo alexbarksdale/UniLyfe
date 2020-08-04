@@ -57,6 +57,7 @@ export const PostContent = styled.div`
             opacity: 0.8;
         }
         p {
+            word-break: break-word;
             font-size: 16px;
             font-weight: 500;
             color: ${(props) => props.theme.gray500};

@@ -11,7 +11,8 @@ import defaultAvatar from '../../../assets/images/default-avatar.png';
 import { setAuth } from '../../../store/actions/auth.action';
 
 type StyleProps = {
-    dropdown: number;
+    dropdown?: number;
+    disable?: boolean;
 };
 
 const Dropdown = styled.div`
@@ -104,6 +105,7 @@ const StyledLink = styled(Link)`
     text-decoration: none;
     border-radius: 8px;
     transition: all 0.3s ease 0s;
+    pointer-events: ${({ disable }: StyleProps) => (disable ? 'none' : null)};
 
     li {
         display: flex;
@@ -157,7 +159,7 @@ export function UserDropdown({ username }: AppProps): JSX.Element | null {
             </UserProfileBtn>
             {dropdown ? (
                 <ProfileList onClick={() => setDropdown(!dropdown)}>
-                    <StyledLink to='/'>
+                    <StyledLink to='/' disable>
                         <li>
                             <UserImg
                                 src={userAvatar}
