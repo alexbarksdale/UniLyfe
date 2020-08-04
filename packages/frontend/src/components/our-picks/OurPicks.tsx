@@ -14,6 +14,7 @@ import {
 import { useOurPicksQuery } from '../../generated/graphql';
 import { CategoryTitle } from '../shared-styles/global.styles';
 import { limitText } from '../../utils/general.util';
+import slugify from 'slugify';
 
 const PicksContainer = styled.div`
     display: grid;
@@ -90,6 +91,9 @@ export function OurPicks(): JSX.Element | null {
                 createdAt,
             } = data[i];
 
+            const slugTitle = slugify(title, '_').toLowerCase();
+            const postUrl = `/category/${name}/${id}/${slugTitle}`;
+
             const rawDate = new Date(createdAt);
             const options = {
                 year: 'numeric',
@@ -101,7 +105,7 @@ export function OurPicks(): JSX.Element | null {
             if (i === 0) {
                 items.push(
                     <MainItem key={id}>
-                        <Link to='/'>
+                        <Link to={postUrl}>
                             {thumbnail ? (
                                 <PostHeader big='true' bgUrl={thumbnail} />
                             ) : (
@@ -111,8 +115,8 @@ export function OurPicks(): JSX.Element | null {
                             )}
                         </Link>
                         <PostContent>
-                            <CategoryLink to='/'>{name}</CategoryLink>
-                            <Link to='/'>
+                            <CategoryLink to={`/category/${name}`}>{name}</CategoryLink>
+                            <Link to={postUrl}>
                                 <h1>{title}</h1>
                                 <p>{limitText(content, 300)}</p>
                             </Link>
@@ -128,7 +132,7 @@ export function OurPicks(): JSX.Element | null {
             } else if (i === 1) {
                 items.push(
                     <SecondItem key={id}>
-                        <Link to='/'>
+                        <Link to={postUrl}>
                             {thumbnail ? (
                                 <PostHeader bgUrl={thumbnail} />
                             ) : (
@@ -138,8 +142,8 @@ export function OurPicks(): JSX.Element | null {
                             )}
                         </Link>
                         <PostContent>
-                            <CategoryLink to='/'>{name}</CategoryLink>
-                            <Link to='/'>
+                            <CategoryLink to={`/category/${name}`}>{name}</CategoryLink>
+                            <Link to={postUrl}>
                                 <h1>{title}</h1>
                                 <p>{content}</p>
                             </Link>
@@ -155,7 +159,7 @@ export function OurPicks(): JSX.Element | null {
             } else {
                 items.push(
                     <ThirdItem key={id}>
-                        <Link to='/'>
+                        <Link to={postUrl}>
                             {thumbnail ? (
                                 <PostHeader bgUrl={thumbnail} />
                             ) : (
@@ -165,8 +169,8 @@ export function OurPicks(): JSX.Element | null {
                             )}
                         </Link>
                         <PostContent>
-                            <CategoryLink to='/'>{name}</CategoryLink>
-                            <Link to='/'>
+                            <CategoryLink to={`/category/${name}`}>{name}</CategoryLink>
+                            <Link to={postUrl}>
                                 <h1>{title}</h1>
                                 <p>{content}</p>
                             </Link>
