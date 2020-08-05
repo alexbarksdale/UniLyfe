@@ -9,16 +9,12 @@ import { useGetPostsQuery } from '../../../generated/graphql';
 import { UniNews } from './UniNews';
 
 const LargeContainer = styled.div`
-    height: 440px;
     width: 1205px;
     margin: auto;
+    margin-bottom: 15px;
 
     @media ${device.laptopM} {
         width: 100%;
-    }
-
-    @media ${device.tabletL} {
-        height: 508px;
     }
 `;
 

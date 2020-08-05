@@ -7,7 +7,7 @@ import { useGetUniNewsQuery } from '../../../generated/graphql';
 import { device, Theme } from '../../../utils/theme.util';
 import { limitText } from '../../../utils/general.util';
 
-// MESSSAGE:
+// READ ME:
 // I tried my best to keep this component as DRY as possible without
 // going insane over the grid situtation and the small differences between them.
 // Iterating over the news data would be slightly more annoying because of the different
@@ -22,7 +22,6 @@ type StyleProps = {
 const GNContainer = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
     gap: 10px 10px;
     grid-template-areas: 'Secondary Main Main Third' 'Secondary Main Main Fourth' '. . . .';
 
@@ -63,7 +62,6 @@ const MainItem = styled.div`
 
     @media ${device.tabletL} {
         font-size: 12px;
-        height: 200px;
     }
 `;
 
