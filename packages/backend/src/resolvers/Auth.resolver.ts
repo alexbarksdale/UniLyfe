@@ -85,13 +85,30 @@ export class AuthResolver {
             throw new Error('Failed to hash password');
         }
 
+        // This RegEx expression looks for two '.' in a domain.
+        // Some schools use longer emails (i.e something.school.edu) and I need to grab
+        // the school abbreviation. This isn't the best system to do this, but it's
+        // the best I can do with limited resources regarding building a university email
+        // checker from a json file. This is necessary because the site displays the school name
+        // in a abbreviated way. i.e example@ttu.edu (Texas Tech University) = TTU
+        // I know there will a problem if there is an even longer email, but that's a problem for another day.
+        const checkLongDomain = /^(?:.*?\.){2}(.*)$/gm;
+        const found = userUni.domains[0].match(checkLongDomain);
+
+        let uniName: string;
+        if (found) {
+            uniName = userUni.domains[0].split('.')[1].toUpperCase();
+        } else {
+            uniName = userUni.domains[0].split('.')[0].toUpperCase();
+        }
+
         // Create a new user
         const user = UserEntity.create({
             email,
             username: shortUid(),
             password: hashedPassword,
             university: userUni,
-            universityName: userUni.domains[0].split('.')[0].toUpperCase(),
+            universityName: uniName,
         });
 
         try {
