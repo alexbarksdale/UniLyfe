@@ -12,7 +12,7 @@ import { setAuth } from '../../../store/actions/auth.action';
 
 type StyleProps = {
     dropdown?: number;
-    disable?: boolean;
+    disable?: string;
 };
 
 const Dropdown = styled.div`
@@ -159,7 +159,7 @@ export function UserDropdown({ username }: AppProps): JSX.Element | null {
             </UserProfileBtn>
             {dropdown ? (
                 <ProfileList onClick={() => setDropdown(!dropdown)}>
-                    <StyledLink to='/' disable>
+                    <StyledLink to='/' disable='true'>
                         <li>
                             <UserImg
                                 src={userAvatar}
