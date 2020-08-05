@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 
+import { PrivateRoute } from './private.router';
 import { Home } from '../components/pages/home/Home';
 import { Category } from '../components/pages/category/Category';
 import { Navigation } from '../components/navigation/Navigation';
@@ -9,7 +10,11 @@ import { PostView } from '../components/post-view/PostView';
 import { CreatePost } from '../components/create-post/CreatePost';
 import { Settings } from '../components/settings/Settings';
 
-export function BaseRouter(): JSX.Element {
+type AppProps = {
+    isAuth: boolean;
+};
+
+export function BaseRouter({ isAuth }: AppProps): JSX.Element {
     return (
         <BrowserRouter>
             <Navigation />
@@ -17,7 +22,12 @@ export function BaseRouter(): JSX.Element {
                 <Route exact path='/' component={Home} />
                 <Route exact path='/category/:category' component={Category} />
                 <Route exact path='/category/:category/:id/:slug' component={PostView} />
-                <Route exact path='/create' component={CreatePost} />
+                <PrivateRoute
+                    exact
+                    path='/create'
+                    component={CreatePost}
+                    isAuth={isAuth}
+                />
                 <Route
                     exact
                     path='/login'
@@ -26,7 +36,12 @@ export function BaseRouter(): JSX.Element {
                     )}
                 />
                 <Route exact path='/signup' component={Authentication} />
-                <Route exact path='/settings' component={Settings} />
+                <PrivateRoute
+                    exact
+                    path='/settings'
+                    component={Settings}
+                    isAuth={isAuth}
+                />
                 <Route path='/' render={() => <div>404 - TODO</div>} />
             </Switch>
         </BrowserRouter>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
 
 import { BaseRouter } from '../routers/base.router';
@@ -7,10 +7,12 @@ import { theme } from '../utils/theme.util';
 import { GlobalStyle } from './shared-styles/global.styles';
 import { setToken } from '../utils/accessToken.util';
 import { setAuth } from '../store/actions/auth.action';
+import { StoreState } from '../store/reducers/main.reducer';
 
 export function App(): JSX.Element | null {
     const [loading, setLoading] = useState(true);
     const dispatch = useDispatch();
+    const isAuth = useSelector((state: StoreState) => state.authReducer.isAuth);
 
     useEffect(() => {
         fetch('http://localhost:4000/auth/refresh', {
@@ -35,7 +37,7 @@ export function App(): JSX.Element | null {
     return (
         <ThemeProvider theme={theme}>
             <GlobalStyle />
-            <BaseRouter />
+            <BaseRouter isAuth={isAuth} />
         </ThemeProvider>
     );
 }

@@ -3,12 +3,12 @@ import { Route, Redirect, RouteProps, RouteComponentProps } from 'react-router-d
 
 interface ProtectedRouteProps extends RouteProps {
     isAuth: boolean;
-    Component: React.FC<RouteComponentProps>;
+    component: React.FC<RouteComponentProps>;
 }
 
 export function PrivateRoute({
     isAuth,
-    Component,
+    component,
     ...rest
 }: ProtectedRouteProps): JSX.Element {
     return (
@@ -17,7 +17,7 @@ export function PrivateRoute({
                 {...rest}
                 render={(props) =>
                     isAuth ? (
-                        <Component {...props} />
+                        <Route {...props} component={component} />
                     ) : (
                         <Redirect to={{ pathname: '/login' }} />
                     )
