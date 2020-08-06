@@ -3,6 +3,9 @@ import styled from 'styled-components';
 
 import { CreateComment } from './CreateComment';
 import { Theme } from '../../../utils/theme.util';
+import { CommentType } from '../types/comment.type';
+import { ProfileAvatar } from '../../shared-styles/post.styles';
+import defaultAvatar from '../../../assets/images/default-avatar.png';
 
 type StyleProps = {
     theme: Theme;
@@ -26,15 +29,11 @@ const ReplyContent = styled.div`
     border-bottom-left-radius: 0px;
 
     h5 {
+        display: flex;
+        align-items: center;
         font-size: 15px;
         font-weight: 500;
-        margin-bottom: 5px;
         color: ${(props) => props.theme.gray800};
-    }
-    span {
-        font-weight: 500;
-        font-size: 14px;
-        color: ${(props) => props.theme.gray400};
     }
     p {
         margin-top: 7px;
@@ -43,8 +42,16 @@ const ReplyContent = styled.div`
     }
 `;
 
+const ReplyTo = styled.p`
+    font-weight: 500;
+    margin-top: 5px;
+    font-size: 14px;
+    color: ${(props) => props.theme.gray400};
+`;
+
 const UserInfoDate = styled.div`
     display: flex;
+    align-items: center;
 `;
 
 const ReplyBtn = styled.button`
@@ -64,19 +71,6 @@ const ReplyBtn = styled.button`
         color: ${(props) => props.theme.primary};
     }
 `;
-
-type CommentType = {
-    id: number;
-    postId: number;
-    content: string;
-    replyId?: number | null | undefined;
-    author: {
-        id: number;
-        username: string;
-        universityName: string;
-    };
-    createdAt: Date;
-};
 
 type AppProps = {
     isAuth: boolean;
@@ -107,16 +101,19 @@ export function Reply({
     };
     const date = `${rawDate.toLocaleTimeString('en-us', options)}`;
 
+    const userAvatar = commentData.author.profileImg ?? defaultAvatar;
+
     return (
         <ReplyContent isAuth={isAuth} typeReply={typeReply}>
             <UserInfoDate>
                 <h5>
+                    <ProfileAvatar src={userAvatar} alt='Avatar' />
                     {commentData.author.universityName} | {commentData.author.username}
                 </h5>
                 <span style={{ margin: '0px 4px' }}>•</span>
                 <span>{date}</span>
             </UserInfoDate>
-            {typeReply && <span>To: {parentAuthor}</span>}
+            {typeReply && <ReplyTo>To: {parentAuthor}</ReplyTo>}
             <p>{commentData.content}</p>
             {isAuth ? (
                 <>

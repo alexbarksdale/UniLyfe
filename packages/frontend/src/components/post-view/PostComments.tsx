@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { useGetPostCommentsQuery } from '../../generated/graphql';
 import { Reply } from './comments/Reply';
 import { TreeNode, findNodeInParentArray, compareNodes } from '../../assets/tree';
+import { CommentType } from './types/comment.type';
 
 const CommentsContainer = styled.div`
     margin-top: 15px;
@@ -24,7 +25,6 @@ const CommentsContainer = styled.div`
             h5 {
                 font-size: 15px;
                 font-weight: 500;
-                margin-bottom: 5px;
                 color: ${(props) => props.theme.gray800};
             }
             span {
@@ -41,19 +41,6 @@ const CommentsContainer = styled.div`
         }
     }
 `;
-
-export type CommentType = {
-    id: number;
-    postId: number;
-    content: string;
-    replyId?: number | null | undefined;
-    author: {
-        id: number;
-        username: string;
-        universityName: string;
-    };
-    createdAt: Date;
-};
 
 type AppProps = {
     postId: number;

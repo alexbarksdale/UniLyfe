@@ -1,4 +1,4 @@
-import { CommentType } from '../components/post-view/PostComments';
+import { CommentType } from '../components/post-view/types/comment.type';
 
 export const compareNodes = (a: TreeNode, b: TreeNode) => {
     const commentA: CommentType = a.value;
