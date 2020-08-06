@@ -5,6 +5,7 @@ query RecentComments {
             content
             author {
                 id
+                profileImg
                 username
             }
             createdAt

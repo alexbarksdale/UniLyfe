@@ -13,6 +13,8 @@ import { storeComments } from '../../../store/actions/comment.action';
 import { StoreState } from '../../../store/reducers/main.reducer';
 import { CommentState, CommentsRes } from '../../../store/types/comment.types';
 import { limitText } from '../../../utils/general.util';
+import defaultAvatar from '../../../assets/images/default-avatar.png';
+import { ProfileAvatar } from '../../shared-styles/post.styles';
 
 const CardContainer = styled.div``;
 
@@ -43,7 +45,6 @@ const ReplyContent = styled.div`
     h5 {
         font-size: 15px;
         font-weight: 500;
-        margin-bottom: 5px;
         color: ${(props) => props.theme.gray800};
     }
     span {
@@ -61,6 +62,7 @@ const ReplyContent = styled.div`
 
 const UserInfoDate = styled.div`
     display: flex;
+    align-items: center;
 `;
 
 const Divider = styled.hr`
@@ -96,7 +98,7 @@ export function RecentComment(): JSX.Element | null {
             const {
                 id: commentId,
                 content,
-                author: { username },
+                author: { username, profileImg },
                 createdAt,
             } = comment;
 
@@ -119,12 +121,15 @@ export function RecentComment(): JSX.Element | null {
             const slugTitle = slugify(title, '_').toLowerCase();
             const postUrl = `/category/${name}/${postId}/${slugTitle}`;
 
+            const userAvatar = profileImg ?? defaultAvatar;
+
             return (
                 <React.Fragment key={commentId}>
                     <li>
                         <Link to={postUrl} key={commentId}>
                             <ReplyContent>
                                 <UserInfoDate>
+                                    <ProfileAvatar src={userAvatar} alt='Avatar' />
                                     <h5>TTU | {username}</h5>
                                     <span style={{ margin: '0px 4px' }}>•</span>
                                     <span>{date}</span>

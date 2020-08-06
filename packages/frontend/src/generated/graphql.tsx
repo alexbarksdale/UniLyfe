@@ -557,7 +557,7 @@ export type RecentCommentsQuery = { __typename?: 'Query' } & {
             > & {
                     author: { __typename?: 'UserEntity' } & Pick<
                         UserEntity,
-                        'id' | 'username'
+                        'id' | 'profileImg' | 'username'
                     >;
                 }
         >;
@@ -1487,6 +1487,7 @@ export const RecentCommentsDocument = gql`
                 content
                 author {
                     id
+                    profileImg
                     username
                 }
                 createdAt

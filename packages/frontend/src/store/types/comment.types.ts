@@ -3,6 +3,7 @@ export type CommentsRes = {
     content: string;
     author: {
         id: number;
+        profileImg?: string | null | undefined;
         username: string;
     };
     createdAt: Date;
