@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaThumbsUp, FaRegThumbsUp, FaRegEye } from 'react-icons/fa';
 
-import { PostStats } from '../shared-styles/post.styles';
+import { PostStats, ProfileAvatar } from '../shared-styles/post.styles';
 import {
     GetPostQuery,
     useUpdatePostStatsMutation,
@@ -11,6 +11,7 @@ import {
     useMeQuery,
 } from '../../generated/graphql';
 import { Theme } from '../../utils/theme.util';
+import defaultAvatar from '../../assets/images/default-avatar.png';
 
 type StyleProps = {
     theme: Theme;
@@ -25,10 +26,17 @@ const PostDetailContainer = styled.div`
         }
 
         p {
+            display: flex;
+            align-items: center;
+
             font-size: 15px;
             font-weight: 500;
             margin: 9px 0px 15px 0px;
             color: ${(props) => props.theme.gray500};
+
+            span {
+                margin-right: 6px;
+            }
         }
     }
 `;
@@ -134,14 +142,17 @@ export function PostDetails({ postData }: AppProps): JSX.Element | null {
         }
     };
 
+    const userAvatar = getPost.author.profileImg ?? defaultAvatar;
+
     return (
         <PostDetailContainer>
             {getPost.thumbnail && <PostImg src={getPost.thumbnail} />}
             <div>
                 <h2>{getPost.title}</h2>
                 <p>
-                    Created by: {getPost.author.universityName} |{' '}
-                    {getPost.author.username}
+                    <span>Created by:</span>
+                    <ProfileAvatar src={userAvatar} alt='Avatar' />
+                    {getPost.author.universityName} | {getPost.author.username}
                 </p>
             </div>
             <PostDescription>{getPost.content}</PostDescription>

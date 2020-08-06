@@ -16,6 +16,7 @@ query GetPost($postId: Int!) {
         }
         author {
             id
+            profileImg
             username
             email
             universityName
