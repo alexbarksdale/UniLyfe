@@ -5,6 +5,7 @@ type LikeType = {
 
 export type FeedDataType = {
     author: {
+        profileImg?: string | undefined | null;
         email: string;
         id: number;
         universityName: string;

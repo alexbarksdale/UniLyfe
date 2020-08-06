@@ -357,7 +357,7 @@ export type GetCategoryPostsQuery = (
         & Pick<CategoryEntity, 'id' | 'name'>
       ), author: (
         { __typename?: 'UserEntity' }
-        & Pick<UserEntity, 'id' | 'username' | 'email' | 'universityName'>
+        & Pick<UserEntity, 'id' | 'profileImg' | 'username' | 'email' | 'universityName'>
       ) }
     )>> }
   )> }
@@ -419,7 +419,7 @@ export type GetPostsQuery = (
       & Pick<CategoryEntity, 'id' | 'name'>
     ), author: (
       { __typename?: 'UserEntity' }
-      & Pick<UserEntity, 'id' | 'username' | 'email' | 'universityName'>
+      & Pick<UserEntity, 'id' | 'username' | 'profileImg' | 'email' | 'universityName'>
     ) }
   )> }
 );
@@ -774,6 +774,7 @@ export const GetCategoryPostsDocument = gql`
       }
       author {
         id
+        profileImg
         username
         email
         universityName
@@ -922,6 +923,7 @@ export const GetPostsDocument = gql`
     author {
       id
       username
+      profileImg
       email
       universityName
     }

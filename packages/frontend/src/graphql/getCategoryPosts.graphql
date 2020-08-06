@@ -17,6 +17,7 @@ query GetCategoryPosts($categoryName: String!) {
             }
             author {
                 id
+                profileImg
                 username
                 email
                 universityName

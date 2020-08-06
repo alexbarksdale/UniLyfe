@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaCommentAlt } from 'react-icons/fa';
+import slugify from 'slugify';
 
 import {
     PostHeader,
@@ -10,11 +11,12 @@ import {
     CategoryLink,
     PostInfoBar,
     UserLink,
+    ProfileAvatar,
 } from '../shared-styles/post.styles';
 import { useOurPicksQuery } from '../../generated/graphql';
 import { CategoryTitle } from '../shared-styles/global.styles';
 import { limitText } from '../../utils/general.util';
-import slugify from 'slugify';
+import defaultAvatar from '../../assets/images/default-avatar.png';
 
 const PicksContainer = styled.div`
     display: grid;
@@ -58,6 +60,7 @@ type PickResults = {
     createdAt: Date;
     author: {
         id: number;
+        profileImg?: string | null | undefined;
         username: string;
     };
     category: {
@@ -85,7 +88,7 @@ export function OurPicks(): JSX.Element | null {
                 id,
                 title,
                 category: { name },
-                author: { username },
+                author: { username, profileImg },
                 content,
                 thumbnail,
                 createdAt,
@@ -101,6 +104,8 @@ export function OurPicks(): JSX.Element | null {
                 day: 'numeric',
             };
             const date = `${rawDate.toLocaleDateString('en-us', options)}`;
+
+            const userAvatar = profileImg ?? defaultAvatar;
 
             if (i === 0) {
                 items.push(
@@ -122,6 +127,7 @@ export function OurPicks(): JSX.Element | null {
                             </Link>
                             <PostInfoBar>
                                 <UserLink to='/' big='true'>
+                                    <ProfileAvatar src={userAvatar} alt='Avatar' />
                                     XXX | {username}
                                 </UserLink>
                                 <PostDate>{date}</PostDate>
@@ -149,6 +155,7 @@ export function OurPicks(): JSX.Element | null {
                             </Link>
                             <PostInfoBar>
                                 <UserLink to='/' big='true'>
+                                    <ProfileAvatar src={userAvatar} alt='Avatar' />
                                     XXX | {username}
                                 </UserLink>
                                 <PostDate>{date}</PostDate>
@@ -176,6 +183,7 @@ export function OurPicks(): JSX.Element | null {
                             </Link>
                             <PostInfoBar>
                                 <UserLink to='/' big='true'>
+                                    <ProfileAvatar src={userAvatar} alt='Avatar' />
                                     XXX | {username}
                                 </UserLink>
                                 <PostDate>{date}</PostDate>

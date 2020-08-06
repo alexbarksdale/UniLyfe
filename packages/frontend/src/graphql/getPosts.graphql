@@ -17,6 +17,7 @@ query GetPosts {
         author {
             id
             username
+            profileImg
             email
             universityName
         }

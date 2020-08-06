@@ -76,6 +76,12 @@ export const PostContent = styled.div`
         font-weight: 500;
         color: ${(props) => props.theme.gray500};
     }
+
+    @media ${device.mobileS} {
+        a {
+            margin-bottom: 6px;
+        }
+    }
 `;
 
 export const PostInfoBar = styled.div`
@@ -91,6 +97,15 @@ export const PostInfoBar = styled.div`
 
     span {
         margin: 0px 8px;
+    }
+
+    @media ${device.mobileS} {
+        align-items: unset;
+        flex-direction: column;
+
+        span {
+            display: none;
+        }
     }
 `;
 
@@ -147,6 +162,8 @@ export const CategoryLink = styled(Link)`
 export const UserLink = styled(Link)`
     pointer-events: none;
 
+    display: flex;
+    align-items: center;
     font-weight: 500;
     text-decoration: none;
     flex: ${(props: StyleProps) => (props.big ? 1 : 'none')};
@@ -156,4 +173,16 @@ export const UserLink = styled(Link)`
         opacity: 0.8;
         text-decoration: underline;
     }
+
+    @media ${device.mobileS} {
+        margin-top: 6px;
+    }
+`;
+
+export const ProfileAvatar = styled.img`
+    height: 25px;
+    width: 25px;
+    border-radius: 8px;
+    margin-right: 6px;
+    background-color: ${(props) => props.theme.gray200};
 `;

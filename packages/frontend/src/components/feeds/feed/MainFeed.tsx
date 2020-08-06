@@ -13,12 +13,14 @@ import {
     PostStats,
     PostDate,
     UserLink,
+    ProfileAvatar,
 } from '../../shared-styles/post.styles';
 import { CategoryTitle } from '../../shared-styles/global.styles';
 import { AppProps, FeedDataType } from '../types/types';
 import { StoreState } from '../../../store/reducers/main.reducer';
 import { usePostStatsSubSubscription } from '../../../generated/graphql';
 import { device } from '../../../utils/theme.util';
+import defaultAvatar from '../../../assets/images/default-avatar.png';
 import { limitText } from '../../../utils/general.util';
 
 const FeedContainer = styled.div`
@@ -86,6 +88,8 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
                 }
             }
 
+            const userAvatar = item.author.profileImg ?? defaultAvatar;
+
             return (
                 <React.Fragment key={item.id}>
                     <FeedContent>
@@ -108,6 +112,7 @@ export function MainFeed({ feedData }: AppProps): JSX.Element | null {
                             </Link>
                             <PostInfoBar>
                                 <UserLink to='/'>
+                                    <ProfileAvatar src={userAvatar} alt='Avatar' />
                                     {item.author.universityName} | {item.author.username}
                                 </UserLink>
                                 <span>•</span>

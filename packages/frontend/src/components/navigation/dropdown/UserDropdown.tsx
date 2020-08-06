@@ -147,7 +147,7 @@ export function UserDropdown({ username }: AppProps): JSX.Element | null {
 
     if (loading || !data || !data.me || typeof data.me === 'undefined') return null;
 
-    const userAvatar = data.me.profileImg ? data.me.profileImg : defaultAvatar;
+    const userAvatar = data.me.profileImg ?? defaultAvatar;
 
     return (
         <Dropdown ref={node}>
