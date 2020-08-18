@@ -20,7 +20,7 @@ authRouter.get('/confirmation/:token', async (req: Request, res: Response) => {
         logger.error('Unable to confirm token!', err);
         throw new Error('Unable to confirm token!');
     }
-    return res.redirect('http://localhost:3000/login');
+    return res.redirect(`${process.env.WEB_IP}/login`);
 });
 
 authRouter.post('/auth/refresh', async (req: Request, res: Response) => {

@@ -10,6 +10,8 @@ import jwtDecode from 'jwt-decode';
 
 import { setToken, getToken } from '../utils/accessToken.util';
 
+const API_IP = process.env.REACT_APP_API_IP;
+
 const wsLink = new WebSocketLink({
     uri: 'ws://localhost:4000/graphql',
     options: {
@@ -67,7 +69,7 @@ const tokenLink = ApolloLink.from([
             }
         },
         fetchAccessToken: () => {
-            return fetch('http://localhost:4000/auth/refresh', {
+            return fetch(`${API_IP}/auth/refresh`, {
                 method: 'POST',
                 credentials: 'include',
             });
@@ -86,7 +88,7 @@ const tokenLink = ApolloLink.from([
     }),
     requestLink,
     new HttpLink({
-        uri: 'http://localhost:4000/api/graphql',
+        uri: `${API_IP}/api/graphql`,
         credentials: 'include',
     }),
 ]);

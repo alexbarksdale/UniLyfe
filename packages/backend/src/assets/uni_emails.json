@@ -77396,38 +77396,6 @@
         "country": "United States"
     },
     {
-        "web_pages": ["http://freeuni.edu.ge/"],
-        "name": "Free University of Tbilisi",
-        "alpha_two_code": "GE",
-        "state_province": null,
-        "domains": ["freeuni.edu.ge"],
-        "country": "Georgia"
-    },
-    {
-        "web_pages": ["https://www.ui1.es/"],
-        "name": "Universidad Internacional Isabel I",
-        "alpha_two_code": "ES",
-        "state_province": "Castilla la mancha",
-        "domains": ["ui1.es", "alumnos.ui1.es"],
-        "country": "Spain"
-    },
-    {
-        "web_pages": ["http://www.dhbw-mannheim.de/"],
-        "name": "Duale Hochschule Baden-Wuerttemberg Mannheim",
-        "alpha_two_code": "DE",
-        "state_province": "null",
-        "domains": ["dhbw-mannheim.de"],
-        "country": "Germany"
-    },
-    {
-        "web_pages": ["https://www.hs-hannover.de/"],
-        "name": "Hochschule Hannover",
-        "alpha_two_code": "DE",
-        "state_province": "null",
-        "domains": ["hs-hannover.de", "stud.hs-hannover.de"],
-        "country": "Germany"
-    },
-    {
         "web_pages": ["https://trinitybiblecollege.edu"],
         "name": "Trinity Bible College & Graduate School",
         "alpha_two_code": "US",
@@ -77444,36 +77412,12 @@
         "country": "United States"
     },
     {
-        "web_pages": ["https://www.torrens.edu.au"],
-        "name": "Torrens University Australia",
-        "alpha_two_code": "AU",
-        "state_province": null,
-        "domains": ["torrens.edu.au", "tua.edu.au"],
-        "country": "Australia"
-    },
-    {
         "web_pages": ["https://www.mmibordeaux.com/"],
         "name": "DUT MMI - Université Bordeaux Montaigne",
         "alpha_two_code": "FR",
         "state_province": null,
         "domains": ["mmibordeaux.com"],
         "country": "France"
-    },
-    {
-        "web_pages": ["http://btu.ge"],
-        "name": "Business and Technology University",
-        "alpha_two_code": "GE",
-        "state_province": null,
-        "domains": ["btu.ge", "btu.edu.ge"],
-        "country": "Georgia"
-    },
-    {
-        "web_pages": ["http://cic-cairo.com/"],
-        "name": "CIC - Canadian International College",
-        "alpha_two_code": "EG",
-        "state_province": null,
-        "domains": ["cic-cairo.com"],
-        "country": "Egypt"
     },
     {
         "web_pages": ["http://www.kpc.alaska.edu"],
@@ -77514,30 +77458,6 @@
         "state_province": null,
         "domains": ["wbu.edu"],
         "country": "United States"
-    },
-    {
-        "web_pages": ["http://hust.edu.vn"],
-        "name": "Hanoi University of Science and Technology",
-        "alpha_two_code": "VN",
-        "state_province": null,
-        "domains": ["hust.edu.vn"],
-        "country": "Vietnam"
-    },
-    {
-        "web_pages": ["http://www.bhtafe.edu.au", "http://www.boxhill.edu.au"],
-        "name": "Box Hill Institute",
-        "alpha_two_code": "AU",
-        "state_province": null,
-        "domains": ["bhtafe.edu.au", "boxhill.edu.au"],
-        "country": "Australia"
-    },
-    {
-        "web_pages": ["http://www.cust.edu.cn", "http://ieec.cust.edu.cn/"],
-        "name": "Changchun University of Science and Technology",
-        "alpha_two_code": "CU",
-        "state_province": "JiLin",
-        "domains": ["cust.edu.cn", "ieec.cust.edu.cn"],
-        "country": "China"
     },
     {
         "web_pages": ["https://www.polk.edu/"],

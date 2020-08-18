@@ -15,7 +15,7 @@ export function App(): JSX.Element | null {
     const isAuth = useSelector((state: StoreState) => state.authReducer.isAuth);
 
     useEffect(() => {
-        fetch('http://localhost:4000/auth/refresh', {
+        fetch(`${process.env.REACT_APP_API_IP}/auth/refresh`, {
             method: 'POST',
             credentials: 'include',
         })

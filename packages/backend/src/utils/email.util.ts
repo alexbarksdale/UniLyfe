@@ -39,7 +39,7 @@ export const createConfirmation = (
             expiresIn: `${EXPIRATION}d`,
         },
         (_, emailToken) => {
-            const url = `http://localhost:4000/confirmation/${emailToken}`;
+            const url = `${process.env.API_IP}/confirmation/${emailToken}`;
 
             transporter.sendMail({
                 to: email,

@@ -18,7 +18,7 @@ import { authRouter } from './routers/auth.router';
     // Middlewares
     app.use(
         cors({
-            origin: 'http://localhost:3000',
+            origin: `${process.env.WEB_IP}`,
             credentials: true,
         })
     );
@@ -61,7 +61,7 @@ import { authRouter } from './routers/auth.router';
 
     const PORT = process.env.PORT || 4000;
     httpServer.listen(PORT, () => {
-        logger.info(`UniLyfe API is running on port: ${PORT}`);
+        logger.info(`UniLyfe API is running on: ${process.env.API_IP}`);
         logger.info(
             `UniLyfe subscriptions running on ws://localhost:${PORT}${apolloServer.subscriptionsPath}`
         );
