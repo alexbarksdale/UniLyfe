@@ -6,7 +6,6 @@ import { FaBars, FaTimes, FaPencilAlt } from 'react-icons/fa';
 
 import { Container } from '../shared-styles/global.styles';
 import { device } from '../../utils/theme.util';
-import { SearchBar } from '../search-bar/SearchBar';
 import { UserDropdown } from './dropdown/UserDropdown';
 import { ForumNavigation } from './ForumNavigation';
 import { NavItems } from './NavItems';
@@ -200,7 +199,7 @@ export function Navigation(): JSX.Element | null {
                             <NavLeft>
                                 <NavItems />
                             </NavLeft>
-                            <SearchBar corpus={['test']} />
+                            {/* <SearchBar corpus={['test']} /> */}
                             <NavRight>
                                 {data && data.me ? (
                                     <>
