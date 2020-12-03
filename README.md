@@ -3,6 +3,8 @@
 
 UniLyfe is a platform for verified university students to network, chat, and share their ideas while remaining anonymous. With peace of mind knowing only verified students can register. The goal was to create an environment where students could openly discuss their opinions or ideas.
 
+View website monitoring [here](https://statuspage.freshping.io/49174-UniLyfe).
+
 ## Table of Contents
 
 * [Technologies - Web App](#tech-frontend)
@@ -33,6 +35,12 @@ UniLyfe is a platform for verified university students to network, chat, and sha
 You must install both the **web app** and **UniLyfe API** to run this project properly.
 
 #### Docker documentation coming soon!
+
+## Docker
+If you are using docker you can get up and running quickly by using docker compose.
+
+1. Navigate to the root directory, you should see a docker-compose.yml file when you run: `$ ls`
+2. Compose the project by running: `$ docker-compose up`
 
 <a name="installation-frontend"></a>
 ## Installation - Web App

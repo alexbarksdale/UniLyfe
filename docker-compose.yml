@@ -13,6 +13,7 @@ services:
     ports:
       - '5432:5432'
   backend:
+    build: ./packages/backend
     image: backend
     command: yarn start
     ports:
@@ -23,6 +24,7 @@ services:
     depends_on:
       - postgres
   frontend:
+    build: ./packages/frontend
     image: frontend
     command: yarn start
     volumes:

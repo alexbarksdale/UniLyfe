@@ -16,7 +16,6 @@ export class NewsResolver {
     async getUniNews(): Promise<NewsResponse> {
         const params = {
             q: 'university',
-            soryBy: 'relevancy',
             langauge: 'en',
             pageSize: '4',
             apiKey: `${process.env.NEWS_API_KEY}`,

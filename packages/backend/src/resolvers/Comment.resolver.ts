@@ -21,6 +21,7 @@ import { PostEntity } from '../entity/Post.entity';
 // TODO: Secure the queries and mutations after testing
 @Resolver()
 export class CommentResolver {
+    /** recentComments handles fetching the most recent comments made. */
     @Query(() => CommentResponse)
     @Subscription(() => CommentResponse, { topics: CommentTopics.NEW_COMMENT })
     async recentComments(): Promise<CommentResponse> {
@@ -51,6 +52,9 @@ export class CommentResolver {
         };
     }
 
+    /** getPostComments handles fetching all comments for a given post.
+     * @param {number} postId The ID of the post.
+     * */
     @Query(() => [CommentEntity])
     async getPostComments(
         @Arg('postId', () => Int) postId: number
@@ -66,6 +70,13 @@ export class CommentResolver {
         });
     }
 
+    /** createComment handles creating a comment.
+     * @param {Publisher} publish A publisher to notify all subscribers.
+     * @param {number}    postId The ID of the post.
+     * @param {number}    authorId The ID of the author.
+     * @param {string}    content The content of the comment.
+     * @param {number}    replyId The reply ID.
+     * */
     @Mutation(() => CommentEntity)
     // TODO: Apply auth middleware
     async createComment(
@@ -103,6 +114,12 @@ export class CommentResolver {
         return comment;
     }
 
+    /** updateComment handles updating a comment.
+     * @param {number}   commentId The comment ID.
+     * @param {number}   authorId The ID of the author.
+     * @param {string}   content The content of the comment.
+     * @param {Context}  req Represents the request made.
+     * */
     @Mutation(() => Boolean)
     // TODO: Apply auth middleware
     async updateComment(
@@ -126,6 +143,11 @@ export class CommentResolver {
         return true;
     }
 
+    /** deleteComment handles deleting a comment.
+     * @param {number}   commentId The comment ID.
+     * @param {number}   authorId The ID of the author.
+     * @param {Context}  req Represents the request made.
+     * */
     @Mutation(() => Boolean)
     // TODO: Apply auth middleware
     async deleteComment(

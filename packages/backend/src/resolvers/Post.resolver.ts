@@ -30,11 +30,13 @@ export class PostResolver {
         this.op = new OurPicks();
     }
 
+    /** ourPicks handles querying our picks posts. */
     @Query(() => [PostEntity])
     ourPicks(): PostEntity[] {
         return this.op.posts;
     }
 
+    /** getPosts handles querying all posts. */
     @Query(() => [PostEntity])
     async getPosts(): Promise<PostEntity[]> {
         let posts: PostEntity[];
@@ -52,6 +54,9 @@ export class PostResolver {
         return posts;
     }
 
+    /** getPost handles querying a post.
+     * @param {number} postId The post ID>
+     * */
     @Query(() => PostEntity)
     async getPost(@Arg('postId', () => Int) postId: number): Promise<PostEntity> {
         if (!postId) throw new Error('You must provide a postId!');
@@ -64,6 +69,14 @@ export class PostResolver {
         return post;
     }
 
+    /** createTextPost handles creating a post.
+     * @param {string}   title        The title of the post.
+     * @param {PostType} type         The type of post.
+     * @param {string}   content      The content of the post.
+     * @param {number}   authorId     The ID of the author.
+     * @param {string?}  thumbnail    A link to the thumbnail upload.
+     * @param {string}   categoryName The name of the category.
+     * */
     @Mutation(() => PostEntity)
     // TODO: Apply auth middleware
     async createTextPost(
@@ -106,6 +119,12 @@ export class PostResolver {
         return post;
     }
 
+    /** updatePostStats handles updating the stats of a post.
+     * @param {Publisher} publish  The publisher to notify subscribers.
+     * @param {number}    postId   The ID of the post.
+     * @param {number?}   userId   The ID of the user.
+     * @param {number?}   views    The number of views a post has.
+     * */
     @Mutation(() => UpdateResponse)
     // TODO: Apply auth middleware
     async updatePostStats(

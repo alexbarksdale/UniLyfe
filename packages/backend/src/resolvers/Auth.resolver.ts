@@ -9,7 +9,7 @@ import { Context } from '../context/context';
 import { RegisterResponse, LoginResponse } from './types/auth.types';
 import { genAccessToken, genRefreshToken, sendRefreshToken } from '../utils/jwt.util';
 import { handleError, AuthError } from '../utils/errors.util';
-import { getAndValidateEmail, UniEmail, createConfirmation } from '../utils/email.util';
+import { getAndValidateEmail, UniEmail } from '../utils/email.util';
 import { logger } from '../utils/logger.util';
 
 // TODO: Secure the queries and mutations after testing
@@ -37,6 +37,9 @@ export class AuthResolver {
         return user;
     }
 
+    /** Me queries for the user making the query.
+     * @param {Context} req Represents the request made.
+     * */
     @Query(() => UserEntity, { nullable: true })
     async me(@Ctx() { req }: Context): Promise<UserEntity | ApolloError | null> {
         const authorized = req.headers.authorization;
@@ -56,11 +59,16 @@ export class AuthResolver {
         return user;
     }
 
+    /** Register handles registering accounts.
+     * @param {string} email        Email to register.
+     * @param {string} password     Password for user's account.
+     * @param {Context} transporter Transporter handles sending an email verification.
+     * */
     @Mutation(() => RegisterResponse)
     async register(
         @Arg('email') email: string,
-        @Arg('password') password: string,
-        @Ctx() { transporter }: Context
+        @Arg('password') password: string
+        // @Ctx() { transporter }: Context
     ): Promise<RegisterResponse | ApolloError> {
         if (!email || !password) return handleError(AuthError.MISSING_CREDENTIALS);
 
@@ -91,7 +99,7 @@ export class AuthResolver {
         // the best I can do with limited resources regarding building a university email
         // checker from a json file. This is necessary because the site displays the school name
         // in a abbreviated way. i.e example@ttu.edu (Texas Tech University) = TTU
-        // I know there will a problem if there is an even longer email, but that's a problem for another day.
+        // I know there will a problem if there is an even longer email.
         const checkLongDomain = /^(?:.*?\.){2}(.*)$/gm;
         const found = userUni.domains[0].match(checkLongDomain);
 
@@ -117,7 +125,7 @@ export class AuthResolver {
             return handleError(AuthError.REGISTRATION_FAIL);
         }
 
-        createConfirmation(user.id, email, transporter);
+        // createConfirmation(user.id, email, transporter);
 
         return {
             registerMsg: 'Please check your email to confirm your registration.',
@@ -125,6 +133,11 @@ export class AuthResolver {
         };
     }
 
+    /** Login handles verifying a user's login.
+     * @param {string} email        Email to register.
+     * @param {string} password     Password for user's account.
+     * @param {Context} res         Represents the response made.
+     * */
     @Mutation(() => LoginResponse)
     async login(
         @Arg('email') email: string,
@@ -141,7 +154,7 @@ export class AuthResolver {
         const validPassword: boolean = await compare(password, user.password);
         if (!validPassword) throw new Error('Email or password is incorrect!');
 
-        if (!user.confirmed) throw new Error('You must confirm your email!');
+        // if (!user.confirmed) throw new Error('You must confirm your email!');
 
         // User is authenticated
         sendRefreshToken(res, genRefreshToken(user));
@@ -152,6 +165,12 @@ export class AuthResolver {
         };
     }
 
+    /** UpdateAccount handles changes made to the user's account.
+     * @param {number} userId          ID of the user.
+     * @param {string} profileImg      URL of the profile image a user uploaded.
+     * @param {string} currentPassword The current password of the user.
+     * @param {string} newPassword     New password to change to.
+     * */
     @Mutation(() => Boolean)
     async updateAccount(
         @Arg('userId') userId: number,
@@ -197,6 +216,9 @@ export class AuthResolver {
         return true;
     }
 
+    /** Logout handles logging out the user.
+     * @param {Context} res Represents the response made.
+     * */
     @Mutation(() => Boolean)
     logout(@Ctx() { res }: Context): boolean {
         res.clearCookie('trident', { path: '/auth/refresh' });

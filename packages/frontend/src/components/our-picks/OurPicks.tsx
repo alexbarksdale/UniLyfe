@@ -62,6 +62,7 @@ type PickResults = {
         id: number;
         profileImg?: string | null | undefined;
         username: string;
+        universityName: string;
     };
     category: {
         id: number;
@@ -88,7 +89,7 @@ export function OurPicks(): JSX.Element | null {
                 id,
                 title,
                 category: { name },
-                author: { username, profileImg },
+                author: { username, universityName, profileImg },
                 content,
                 thumbnail,
                 createdAt,
@@ -123,12 +124,12 @@ export function OurPicks(): JSX.Element | null {
                             <CategoryLink to={`/category/${name}`}>{name}</CategoryLink>
                             <Link to={postUrl}>
                                 <h1>{title}</h1>
-                                <p>{limitText(content, 300)}</p>
+                                <p>{limitText(content, 100)}</p>
                             </Link>
                             <PostInfoBar>
                                 <UserLink to='/' big='true'>
                                     <ProfileAvatar src={userAvatar} alt='Avatar' />
-                                    XXX | {username}
+                                    {universityName} | {username}
                                 </UserLink>
                                 <PostDate>{date}</PostDate>
                             </PostInfoBar>
@@ -151,12 +152,12 @@ export function OurPicks(): JSX.Element | null {
                             <CategoryLink to={`/category/${name}`}>{name}</CategoryLink>
                             <Link to={postUrl}>
                                 <h1>{title}</h1>
-                                <p>{content}</p>
+                                <p>{limitText(content, 100)}</p>
                             </Link>
                             <PostInfoBar>
                                 <UserLink to='/' big='true'>
                                     <ProfileAvatar src={userAvatar} alt='Avatar' />
-                                    XXX | {username}
+                                    {universityName} | {username}
                                 </UserLink>
                                 <PostDate>{date}</PostDate>
                             </PostInfoBar>
@@ -179,12 +180,12 @@ export function OurPicks(): JSX.Element | null {
                             <CategoryLink to={`/category/${name}`}>{name}</CategoryLink>
                             <Link to={postUrl}>
                                 <h1>{title}</h1>
-                                <p>{content}</p>
+                                <p>{limitText(content, 100)}</p>
                             </Link>
                             <PostInfoBar>
                                 <UserLink to='/' big='true'>
                                     <ProfileAvatar src={userAvatar} alt='Avatar' />
-                                    XXX | {username}
+                                    {universityName} | {username}
                                 </UserLink>
                                 <PostDate>{date}</PostDate>
                             </PostInfoBar>

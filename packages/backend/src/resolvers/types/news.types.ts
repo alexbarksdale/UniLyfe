@@ -30,8 +30,8 @@ export class NewsArticle {
     @Field()
     url!: string;
 
-    @Field()
-    urlToImage!: string;
+    @Field({ nullable: true })
+    urlToImage?: string;
 
     @Field()
     publishedAt!: string;

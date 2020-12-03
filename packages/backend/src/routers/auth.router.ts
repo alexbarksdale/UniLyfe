@@ -47,4 +47,3 @@ authRouter.post('/auth/refresh', async (req: Request, res: Response) => {
     sendRefreshToken(res, genRefreshToken(user));
     return res.send({ authenticated: true, accessToken: genAccessToken(user) });
 });
-

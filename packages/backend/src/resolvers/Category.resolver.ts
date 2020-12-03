@@ -4,12 +4,16 @@ import { logger } from '../utils/logger.util';
 
 @Resolver()
 export class CategoryResolver {
+    /** getCategories handles fetching all categories. */
     @Query(() => [CategoryEntity])
     async getCategories(): Promise<CategoryEntity[]> {
         const posts = await CategoryEntity.find({ relations: ['posts'] });
         return posts;
     }
 
+    /** getCategoryPosts handles fetching all posts for a given category.
+     * @param {string} categoryName The name of the category.
+     * */
     @Query(() => [CategoryEntity])
     async getCategoryPosts(
         @Arg('categoryName') categoryName: string
@@ -30,6 +34,9 @@ export class CategoryResolver {
         return posts;
     }
 
+    /** createCategory handles creating a new category.
+     * @param {string} name The name of the category.
+     * */
     @Mutation(() => Boolean)
     async createCategory(@Arg('name') name: string): Promise<Boolean> {
         if (!name) throw new Error('You must provide a category name');

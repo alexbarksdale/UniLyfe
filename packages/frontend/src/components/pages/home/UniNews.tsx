@@ -16,7 +16,7 @@ import { limitText } from '../../../utils/general.util';
 
 type StyleProps = {
     theme: Theme;
-    bgUrl: string;
+    bgUrl?: string;
 };
 
 const GNContainer = styled.div`
@@ -173,6 +173,7 @@ export function UniNews(): JSX.Element | null {
                 <CategoryTitle>University News</CategoryTitle>
             </Container>
             <GNContainer>
+                {/*@ts-ignore*/}
                 <MainItem bgUrl={main.urlToImage}>
                     <a href={main.url} rel='noopener noreferrer' target='_blank'>
                         <NewsContent>
@@ -185,6 +186,7 @@ export function UniNews(): JSX.Element | null {
                         </NewsContent>
                     </a>
                 </MainItem>
+                {/*@ts-ignore*/}
                 <SecondaryItem bgUrl={second.urlToImage}>
                     <a href={second.url} rel='noopener noreferrer' target='_blank'>
                         <NewsContent>
@@ -197,6 +199,7 @@ export function UniNews(): JSX.Element | null {
                         </NewsContent>
                     </a>
                 </SecondaryItem>
+                {/*@ts-ignore*/}
                 <ThirdItem bgUrl={third.urlToImage}>
                     <a href={third.url} rel='noopener noreferrer' target='_blank'>
                         <NewsContent>
@@ -209,6 +212,7 @@ export function UniNews(): JSX.Element | null {
                         </NewsContent>
                     </a>
                 </ThirdItem>
+                {/*@ts-ignore*/}
                 <FourthItem bgUrl={fourth.urlToImage}>
                     <a href={fourth.url} rel='noopener noreferrer' target='_blank'>
                         <NewsContent>
