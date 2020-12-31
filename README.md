@@ -1,11 +1,8 @@
 # UniLyfe
-![](https://img.shields.io/website?url=https%3A%2F%2Funilyfe.alexbarksdale.com%2F) ![](https://img.shields.io/docker/v/alexbarksdale/unilyfe-backend/latest) ![](https://img.shields.io/docker/image-size/alexbarksdale/unilyfe-backend/latest)
 
 ***Documentation is still in early development***
 
 UniLyfe is a platform for verified university students to network, chat, and share their ideas while remaining anonymous. With peace of mind knowing only verified students can register. The goal was to create an environment where students could openly discuss their opinions or ideas.
-
-**View website monitoring** [here](https://statuspage.freshping.io/49174-UniLyfe).
 
 ## Table of Contents
 
